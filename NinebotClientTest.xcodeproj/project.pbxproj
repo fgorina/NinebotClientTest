@@ -1,0 +1,507 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00BCC0921C6102B700202D9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0911C6102B700202D9F /* AppDelegate.swift */; };
+		00BCC0941C6102B700202D9F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0931C6102B700202D9F /* ViewController.swift */; };
+		00BCC0971C6102B700202D9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00BCC0951C6102B700202D9F /* Main.storyboard */; };
+		00BCC0991C6102B700202D9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00BCC0981C6102B700202D9F /* Assets.xcassets */; };
+		00BCC09C1C6102B700202D9F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00BCC09A1C6102B700202D9F /* LaunchScreen.storyboard */; };
+		00BCC0A71C6102B700202D9F /* NinebotClientTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0A61C6102B700202D9F /* NinebotClientTestTests.swift */; };
+		00BCC0B21C6102B700202D9F /* NinebotClientTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0B11C6102B700202D9F /* NinebotClientTestUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00BCC0A31C6102B700202D9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00BCC0861C6102B700202D9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00BCC08D1C6102B700202D9F;
+			remoteInfo = NinebotClientTest;
+		};
+		00BCC0AE1C6102B700202D9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00BCC0861C6102B700202D9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00BCC08D1C6102B700202D9F;
+			remoteInfo = NinebotClientTest;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00BCC08E1C6102B700202D9F /* NinebotClientTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NinebotClientTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00BCC0911C6102B700202D9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		00BCC0931C6102B700202D9F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		00BCC0961C6102B700202D9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		00BCC0981C6102B700202D9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		00BCC09B1C6102B700202D9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		00BCC09D1C6102B700202D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00BCC0A21C6102B700202D9F /* NinebotClientTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NinebotClientTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00BCC0A61C6102B700202D9F /* NinebotClientTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NinebotClientTestTests.swift; sourceTree = "<group>"; };
+		00BCC0A81C6102B700202D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00BCC0AD1C6102B700202D9F /* NinebotClientTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NinebotClientTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00BCC0B11C6102B700202D9F /* NinebotClientTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NinebotClientTestUITests.swift; sourceTree = "<group>"; };
+		00BCC0B31C6102B700202D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		00BCC08B1C6102B700202D9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00BCC09F1C6102B700202D9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00BCC0AA1C6102B700202D9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00BCC0851C6102B600202D9F = {
+			isa = PBXGroup;
+			children = (
+				00BCC0901C6102B700202D9F /* NinebotClientTest */,
+				00BCC0A51C6102B700202D9F /* NinebotClientTestTests */,
+				00BCC0B01C6102B700202D9F /* NinebotClientTestUITests */,
+				00BCC08F1C6102B700202D9F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		00BCC08F1C6102B700202D9F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				00BCC08E1C6102B700202D9F /* NinebotClientTest.app */,
+				00BCC0A21C6102B700202D9F /* NinebotClientTestTests.xctest */,
+				00BCC0AD1C6102B700202D9F /* NinebotClientTestUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		00BCC0901C6102B700202D9F /* NinebotClientTest */ = {
+			isa = PBXGroup;
+			children = (
+				00BCC0911C6102B700202D9F /* AppDelegate.swift */,
+				00BCC0931C6102B700202D9F /* ViewController.swift */,
+				00BCC0951C6102B700202D9F /* Main.storyboard */,
+				00BCC0981C6102B700202D9F /* Assets.xcassets */,
+				00BCC09A1C6102B700202D9F /* LaunchScreen.storyboard */,
+				00BCC09D1C6102B700202D9F /* Info.plist */,
+			);
+			path = NinebotClientTest;
+			sourceTree = "<group>";
+		};
+		00BCC0A51C6102B700202D9F /* NinebotClientTestTests */ = {
+			isa = PBXGroup;
+			children = (
+				00BCC0A61C6102B700202D9F /* NinebotClientTestTests.swift */,
+				00BCC0A81C6102B700202D9F /* Info.plist */,
+			);
+			path = NinebotClientTestTests;
+			sourceTree = "<group>";
+		};
+		00BCC0B01C6102B700202D9F /* NinebotClientTestUITests */ = {
+			isa = PBXGroup;
+			children = (
+				00BCC0B11C6102B700202D9F /* NinebotClientTestUITests.swift */,
+				00BCC0B31C6102B700202D9F /* Info.plist */,
+			);
+			path = NinebotClientTestUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		00BCC08D1C6102B700202D9F /* NinebotClientTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00BCC0B61C6102B700202D9F /* Build configuration list for PBXNativeTarget "NinebotClientTest" */;
+			buildPhases = (
+				00BCC08A1C6102B700202D9F /* Sources */,
+				00BCC08B1C6102B700202D9F /* Frameworks */,
+				00BCC08C1C6102B700202D9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NinebotClientTest;
+			productName = NinebotClientTest;
+			productReference = 00BCC08E1C6102B700202D9F /* NinebotClientTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+		00BCC0A11C6102B700202D9F /* NinebotClientTestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00BCC0B91C6102B700202D9F /* Build configuration list for PBXNativeTarget "NinebotClientTestTests" */;
+			buildPhases = (
+				00BCC09E1C6102B700202D9F /* Sources */,
+				00BCC09F1C6102B700202D9F /* Frameworks */,
+				00BCC0A01C6102B700202D9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00BCC0A41C6102B700202D9F /* PBXTargetDependency */,
+			);
+			name = NinebotClientTestTests;
+			productName = NinebotClientTestTests;
+			productReference = 00BCC0A21C6102B700202D9F /* NinebotClientTestTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		00BCC0AC1C6102B700202D9F /* NinebotClientTestUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00BCC0BC1C6102B700202D9F /* Build configuration list for PBXNativeTarget "NinebotClientTestUITests" */;
+			buildPhases = (
+				00BCC0A91C6102B700202D9F /* Sources */,
+				00BCC0AA1C6102B700202D9F /* Frameworks */,
+				00BCC0AB1C6102B700202D9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00BCC0AF1C6102B700202D9F /* PBXTargetDependency */,
+			);
+			name = NinebotClientTestUITests;
+			productName = NinebotClientTestUITests;
+			productReference = 00BCC0AD1C6102B700202D9F /* NinebotClientTestUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		00BCC0861C6102B700202D9F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Paco Gorina";
+				TargetAttributes = {
+					00BCC08D1C6102B700202D9F = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					00BCC0A11C6102B700202D9F = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = 00BCC08D1C6102B700202D9F;
+					};
+					00BCC0AC1C6102B700202D9F = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = 00BCC08D1C6102B700202D9F;
+					};
+				};
+			};
+			buildConfigurationList = 00BCC0891C6102B700202D9F /* Build configuration list for PBXProject "NinebotClientTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 00BCC0851C6102B600202D9F;
+			productRefGroup = 00BCC08F1C6102B700202D9F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				00BCC08D1C6102B700202D9F /* NinebotClientTest */,
+				00BCC0A11C6102B700202D9F /* NinebotClientTestTests */,
+				00BCC0AC1C6102B700202D9F /* NinebotClientTestUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00BCC08C1C6102B700202D9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00BCC09C1C6102B700202D9F /* LaunchScreen.storyboard in Resources */,
+				00BCC0991C6102B700202D9F /* Assets.xcassets in Resources */,
+				00BCC0971C6102B700202D9F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00BCC0A01C6102B700202D9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00BCC0AB1C6102B700202D9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00BCC08A1C6102B700202D9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00BCC0941C6102B700202D9F /* ViewController.swift in Sources */,
+				00BCC0921C6102B700202D9F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00BCC09E1C6102B700202D9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00BCC0A71C6102B700202D9F /* NinebotClientTestTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00BCC0A91C6102B700202D9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00BCC0B21C6102B700202D9F /* NinebotClientTestUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		00BCC0A41C6102B700202D9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00BCC08D1C6102B700202D9F /* NinebotClientTest */;
+			targetProxy = 00BCC0A31C6102B700202D9F /* PBXContainerItemProxy */;
+		};
+		00BCC0AF1C6102B700202D9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00BCC08D1C6102B700202D9F /* NinebotClientTest */;
+			targetProxy = 00BCC0AE1C6102B700202D9F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		00BCC0951C6102B700202D9F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00BCC0961C6102B700202D9F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		00BCC09A1C6102B700202D9F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00BCC09B1C6102B700202D9F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		00BCC0B41C6102B700202D9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		00BCC0B51C6102B700202D9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		00BCC0B71C6102B700202D9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = NinebotClientTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.NinebotClientTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		00BCC0B81C6102B700202D9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = NinebotClientTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.NinebotClientTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		00BCC0BA1C6102B700202D9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = NinebotClientTestTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.NinebotClientTestTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NinebotClientTest.app/NinebotClientTest";
+			};
+			name = Debug;
+		};
+		00BCC0BB1C6102B700202D9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = NinebotClientTestTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.NinebotClientTestTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NinebotClientTest.app/NinebotClientTest";
+			};
+			name = Release;
+		};
+		00BCC0BD1C6102B700202D9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = NinebotClientTestUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.NinebotClientTestUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = NinebotClientTest;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		00BCC0BE1C6102B700202D9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = NinebotClientTestUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.NinebotClientTestUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = NinebotClientTest;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00BCC0891C6102B700202D9F /* Build configuration list for PBXProject "NinebotClientTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00BCC0B41C6102B700202D9F /* Debug */,
+				00BCC0B51C6102B700202D9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00BCC0B61C6102B700202D9F /* Build configuration list for PBXNativeTarget "NinebotClientTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00BCC0B71C6102B700202D9F /* Debug */,
+				00BCC0B81C6102B700202D9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		00BCC0B91C6102B700202D9F /* Build configuration list for PBXNativeTarget "NinebotClientTestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00BCC0BA1C6102B700202D9F /* Debug */,
+				00BCC0BB1C6102B700202D9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		00BCC0BC1C6102B700202D9F /* Build configuration list for PBXNativeTarget "NinebotClientTestUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00BCC0BD1C6102B700202D9F /* Debug */,
+				00BCC0BE1C6102B700202D9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 00BCC0861C6102B700202D9F /* Project object */;
+}
