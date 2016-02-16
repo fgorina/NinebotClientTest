@@ -217,16 +217,20 @@ class GraphViewController: UIViewController, TMKGraphViewDataSource {
             return  (-1.0, 1.0)
             
         case 4:
-            return (-1.0, 1.0)  // Pitch
+            return (0.0, 100.0) // Battery
             
         case 5:
-            return (-1.0, 1.0)  //  Roll
+            return (-1.0, 1.0)  // Pitch
             
         case 6:
-            return (0.0, 0.5)   // Distance
+            return (-1.0, 1.0)  //  Roll
             
         case 7:
+            return (0.0, 0.5)   // Distance
+            
+        case 8:
             return (-10.0,10.0)   // Altitude
+            
             
         default:
             return (0.0, 0.0)
