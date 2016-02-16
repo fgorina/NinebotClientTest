@@ -11,62 +11,60 @@ import CoreBluetooth
 import CoreMotion
 import WatchConnectivity
 
-class BLESimulatedClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+class BLESimulatedClient: NSObject {
     
+    static internal let kHeaderDataReadyNotification = "headerDataReadyNotification"
+    static internal let kNinebotDataUpdatedNotification = "ninebotDataUpdatedNotification"
+    static internal let kConnectionReadyNotification = "connectionReadyNotification"
+    static internal let kConnectionLostNotification = "connectionLostNotification"
+    static internal let kBluetoothManagerPoweredOnNotification = "bluetoothManagerPoweredOnNotification"
+    static internal let kdevicesDiscoveredNotification = "devicesDiscoveredNotification"
     
-    internal let kUUIDDeviceInfoService = "180A"
-    internal let kUUIDManufacturerNameVariable = "2A29"
-    internal let kUUIDModelNameVariable = "2A24"
-    internal let kUUIDSerialNumberVariable = "2A25"
-    internal let kUUIDHardwareVersion = "2A27"
-    internal let kUUIDFirmwareVersion = "2A26"
-    internal let kUUIDSoftwareVersion = "2A28"
-    internal static let kLast9BDeviceAccessedKey = "9BDEVICE"
+    static internal let kLast9BDeviceAccessedKey = "9BDEVICE"
     
     var serviceId = "FFE0"
     var serviceName = "HMSoft"
     var charId = "FFE1"
     
-    var buffer = [UInt8]()
-
+    // Ninebot control
     
-    var centralManager : CBCentralManager?
-    var discoveredPeripheral : CBPeripheral?
-    var caracteristica : CBCharacteristic?
+    var datos : BLENinebot?
+    var headersOk = false
+    var sendTimer : NSTimer?    // Timer per enviar les dades periodicament
+    var timerStep = 0.01        // Get data every step
+    var contadorOp = 0          // Normal data updated every second
+    var contadorOpFast = 0      // Special data updated every 1/10th of second
+    var listaOp :[(UInt8, UInt8)] = [(34,4), (41, 2), (50,2), (58,5), (71,6), (182, 5)]
+    var listaOpFast :[(UInt8, UInt8)] = [(38,1), (80,1), (97,4)]
+    
+    
+    var buffer = [UInt8]()
+    
+    // Altimeter data
     
     var altimeter : CMAltimeter?
     var altQueue : NSOperationQueue?
+    
+    // General State
     
     var scanning = false
     var connected = false
     var subscribed = false
     
-    // Devide id
-    
-    var manufacturer : String?
-    var model : String?
-    var serial : String?
-    var hardwareVer : String?
-    var firmwareVer : String?
-    var softwareVer : String?
-    
-    var log : [UInt8] = [UInt8]()
+    // Watch control
     
     var timer : NSTimer?
-    var count : Int = 0
-    var rep : Int = 0
-    
-    
     var wcsession : WCSession?
     var sendToWatch = false
-    
     var oldState : Dictionary<String, Double>?
     
-    weak var cntrl : ViewController?
+    var connection : BLEConnection
     
     override init() {
         
+        self.connection = BLEConnection()
         super.init()
+        self.connection.delegate = self
         
         if WCSession.isSupported(){
             
@@ -91,89 +89,105 @@ class BLESimulatedClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelega
                 self.sendToWatch = true
             }
         }
-        
-        
-        
-        
     }
     
-    
-    internal func startScanning()
+    func initNotifications()
     {
-        self.centralManager = CBCentralManager(delegate: self, queue: nil)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTitle:", name: BLESimulatedClient.kHeaderDataReadyNotification, object: nil)
     }
-    internal func stopScanning()
-    {
-        self.scanning = false
-        if let cm = self.centralManager {
-            cm.stopScan()
+    
+    // Connect is the start connection
+    //
+    //  First it recovers if it exists a device and calls 
+    func connect(){
+        
+        // First we recover the last device and try to connect directly
+ 
+        let store = NSUserDefaults.standardUserDefaults()
+        let device = store.stringForKey(BLESimulatedClient.kLast9BDeviceAccessedKey)
+        
+        if let dev = device {
+            self.connection.connectToDeviceWithUUID(dev)
         }
-        if let altm = self.altimeter{
-            altm.stopRelativeAltitudeUpdates()
+    }
+    
+    func stop(){
+        
+        // First we disconnect the device
+        
+        self.connection.stopConnection()
+        
+        // Now we save the file
+        
+        if let nb = self.datos{
+            nb.createTextFile()
         }
-        if let tim = self.timer{
-            tim.invalidate()
-            self.timer = nil
-        }
-        self.cleanup()
-        self.centralManager = nil
+    }
+    
+    //MARK: Auxiliary functions
+    
+    
+    class func sendNotification(notification: String, data:[NSObject : AnyObject]? ){
+        
+        let notification = NSNotification(name:notification, object:self, userInfo: data)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
         
     }
     
     
-    internal func cleanup() {
+    func startAltimeter(){
         
-        // See if we are subscribed to a characteristic on the peripheral
-        
-        if let thePeripheral = self.discoveredPeripheral  {
-            if let theServices = thePeripheral.services {
+        if CMAltimeter.isRelativeAltitudeAvailable(){
+            if self.altimeter == nil{
+                self.altimeter = CMAltimeter()
+            }
+            if self.altQueue == nil{
+                self.altQueue = NSOperationQueue()
+                self.altQueue!.maxConcurrentOperationCount = 1
+            }
+            
+            
+            if let altm = self.altimeter, queue = self.altQueue{
                 
-                for service : CBService in theServices {
-                    
-                    if let theCharacteristics = service.characteristics {
-                        for characteristic : CBCharacteristic in theCharacteristics {
-                            if characteristic.UUID == CBUUID(string:self.charId) {
-                                if characteristic.isNotifying {
-                                    self.discoveredPeripheral!.setNotifyValue(false, forCharacteristic:characteristic)
-                                    //return;
-                                }
-                            }
+                altm.startRelativeAltitudeUpdatesToQueue(queue,
+                    withHandler: { (alts : CMAltitudeData?, error : NSError?) -> Void in
+                        
+                        if let alt = alts, nb = self.datos {
+                            nb.addValue(0, value: Int(floor(alt.relativeAltitude.doubleValue * 10.0)))
                         }
-                    }
-                }
-                
-            }
-            if let peri = self.discoveredPeripheral {
-                if let central = self.centralManager{
-                    central.cancelPeripheralConnection(peri)
-                }
+                })
             }
         }
-        
-        self.connected = false
-        self.discoveredPeripheral = nil;
     }
+    
+
+    
+    //MARK: AppleWatch Support
     
     func getAppState() -> [String : Double]?{
         
+        var dict  = [String : Double]()
         
-        if let cntl = self.cntrl{
-            
-            var dict  = [String : Double]()
-            let nb = cntl.datos
+        if let nb = self.datos{
             
             dict["temps"] = nb.singleRuntime()
             dict["distancia"]  = nb.singleMileage()
             dict["speed"]  =  nb.speed()
             dict["battery"]  =  nb.batteryLevel()
             dict["remaining"]  =  nb.remainingMileage()
-            return dict
+            
+            let v = nb.speed()
+            
+            if v >= 18.0 && v < 20.0{
+                dict["color"] = 1.0
+            }else if v >= 20.0 {
+                dict["color"] = 2.0
+            }
+            else{
+                dict["color"] = 0.0
+            }
         }
-        else{
-            return nil
-        }
-        
+        return dict
     }
     
     func checkState(state_1 :[String : Double]?, state_2:[String : Double]?) -> Bool{
@@ -211,12 +225,13 @@ class BLESimulatedClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelega
     }
     
     func sendStateToWatch(timer: NSTimer){
-        if self.sendToWatch{
+        
+         if self.sendToWatch{
             
             let info = self.getAppState()
             
             if !self.checkState(info, state_2: self.oldState){
-               if let session = wcsession, inf = info {
+                if let session = wcsession, inf = info {
                     NSLog("Sending data to Watch")
                     do {
                         try session.updateApplicationContext(inf)
@@ -231,386 +246,63 @@ class BLESimulatedClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelega
         }
     }
     
-    
-    //MARK: CBCentralManagerDelegate
-    
-    
-    internal func centralManagerDidUpdateState(central : CBCentralManager)
-    {
+    func sendData(timer:NSTimer){
         
-        self.scanning = false;
-        
-        
-        if central.state != CBCentralManagerState.PoweredOn {
-            return;
-        }
-        
-        if central.state == CBCentralManagerState.PoweredOn {
+        if let nb = self.datos {
             
-            // Check to see if we have a device already registered to avoid scanning
-            let store = NSUserDefaults.standardUserDefaults()
-            let device = store.stringForKey(BLESimulatedClient.kLast9BDeviceAccessedKey)
-            
-            if device != nil   // Try to connect to last connected peripheral
-            {
+            if nb.checkHeaders() {  // Get normal data
                 
-                let ids = [NSUUID(UUIDString:device!)!]
-                
-                
-                
-                let devs : [CBPeripheral] = self.centralManager!.retrievePeripheralsWithIdentifiers(ids)
-                if devs.count > 0
-                {
-                    let peri : CBPeripheral = devs[0]
-                    
-                    self.centralManager(central,  didDiscoverPeripheral:peri, advertisementData:["Hello":"Hello"],  RSSI:NSNumber())
-                    return
+                if !self.headersOk {
+                    self.headersOk = true
+                    BLESimulatedClient.sendNotification(BLESimulatedClient.kHeaderDataReadyNotification, data:nil)
+
                 }
                 
-            }
-            
-            // If we are here we may try to look for a connected device known to the central manager
-            
-            let services = [CBUUID(string:self.serviceId)]
-            let moreDevs : [CBPeripheral] = self.centralManager!.retrieveConnectedPeripheralsWithServices(services)
-            
-            if  moreDevs.count > 0
-            {
-                let peri : CBPeripheral = moreDevs[0]
-                
-                self.centralManager(central, didDiscoverPeripheral:peri,  advertisementData:["Hello": "Hello"],  RSSI:NSNumber(double: 0.0))
-                return
-            }
-            
-            // OK, nothing works so we go for the scanning
-            
-            self.doRealScan()
-            
-        }
-        
-    }
-    
-    func doRealScan()
-    {
-        self.scanning = true
-        
-        
-        // Scan for devices    @[[CBUUID UUIDWithString:@"1819"]]
-        self.centralManager!.scanForPeripheralsWithServices([CBUUID(string:self.serviceId)], options:[CBCentralManagerScanOptionAllowDuplicatesKey : false ])
-        
-        NSLog("Scanning started")
-    }
-    
-    
-    internal func centralManager(central: CBCentralManager,
-        didDiscoverPeripheral peripheral: CBPeripheral,
-        advertisementData: [String : AnyObject],
-        RSSI: NSNumber){
-            
-            NSLog("Discovered %@ - %@", peripheral.name!, peripheral.identifier);
-            
-            self.discoveredPeripheral = peripheral;
-            NSLog("Connecting to peripheral %@", peripheral);
-            self.centralManager!.connectPeripheral(peripheral, options:nil)
-            
-    }
-    
-    func connectPeripheral(peripheral : CBPeripheral)
-    {
-        
-        NSLog("Connecting to HR peripheral %@", peripheral);
-        
-        self.centralManager!.stopScan()
-        
-        self.discoveredPeripheral = peripheral;
-        self.centralManager!.connectPeripheral(peripheral, options:nil)
-    }
-    
-    
-    internal func centralManager(central : CBCentralManager, didFailToConnectPeripheral peripheral : CBPeripheral,  error : NSError?)
-    {
-        
-        NSLog("Failed to connect to Ninebot %@", peripheral.identifier);
-        
-        if !self.scanning // If not scanning try to do it
-        {
-            self.doRealScan()
-            
-        }
-        else
-        {
-            
-            self.cleanup()
-        }
-        
-    }
-    
-    
-    internal func centralManager(central : CBCentralManager, didConnectPeripheral peripheral :CBPeripheral){
-        NSLog("Connected");
-        
-        if self.scanning
-        {
-            self.centralManager!.stopScan()
-            self.scanning = false
-            NSLog("Scanning stopped")
-        }
-        
-        peripheral.delegate = self;
-        
-        //[peripheral discoverServices:nil];
-        
-        manufacturer = ""
-        model = ""
-        serial = ""
-        hardwareVer = ""
-        firmwareVer = ""
-        softwareVer = ""
-        
-        
-        peripheral.discoverServices([CBUUID(string:self.serviceId)])
-    }
-    
-    internal func centralManager(central: CBCentralManager,
-        didDisconnectPeripheral peripheral: CBPeripheral,
-        error: NSError?)
-        
-    {
-        let store = NSUserDefaults.standardUserDefaults()
-        let device = store.stringForKey(BLESimulatedClient.kLast9BDeviceAccessedKey)
-        
-        
-        if let dev = device  // Try to connect to last connected peripheral
-        {
-            
-            if let theId = NSUUID(UUIDString:dev){
-                
-                let ids  = [theId]
-                let devs : [CBPeripheral] = self.centralManager!.retrievePeripheralsWithIdentifiers(ids)
-                
-                if devs.count > 0
-                {
-                    let peri : CBPeripheral = devs[0]
-                    
-                    self.centralManager(central,  didDiscoverPeripheral:peri,  advertisementData:["Hello" : "Hello"],  RSSI:NSNumber())
-                    return;
+                let (op, l) = listaOpFast[contadorOpFast++]
+                let message = BLENinebotMessage(com: op, dat:[ l * 2] )
+                if let dat = message?.toNSData(){
+                    self.connection.writeValue(dat)
                 }
-            }
-        }
-        else {
-            if let cn = self.cntrl{
-                cn.toScreen()
-                cn.clientStopped()
-            }
-        }
-        self.discoveredPeripheral = nil;
-    }
-    
-    //MARK: writeValue
-    
-    func writeValue(data : NSData){
-        if let peri = self.discoveredPeripheral {
-            peri.writeValue(data, forCharacteristic: self.caracteristica!, type: .WithoutResponse)
-        }
-    }
-    
-    //MARK: CBPeripheralDelegate
-    
-    internal func peripheral(peripheral: CBPeripheral,didDiscoverServices error: NSError?)
-    {
-        
-        
-        if let serv = peripheral.services{
-            for sr in serv
-            {
-                NSLog("Service %@", sr.UUID.UUIDString)
                 
-                if sr.UUID.UUIDString == self.serviceId
-                {
-                    let charUUIDs = [CBUUID(string:self.charId)]
-                    peripheral.discoverCharacteristics(charUUIDs, forService:sr)
-                }
-            }
-        }
-    }
-    
-    func doSend(command:UInt8, data:[UInt8], peripheral : CBPeripheral, ch : CBCharacteristic){
-        let msg = BLENinebotMessage(com: command, dat: data)
-        
-        if let m = msg {
-            let nsdat = m.toNSData()
-            if let dat = nsdat {
-                peripheral.writeValue(dat, forCharacteristic: ch, type: .WithoutResponse)
-            }
-        }
-    }
-    
-    internal func peripheral(peripheral: CBPeripheral,
-        didDiscoverCharacteristicsForService service: CBService,
-        error: NSError?)
-    {
-        
-        // Sembla una bona conexio, la guardem per mes endavant
-        
-        
-        // Sembla una bona conexio, la guardem per mes endavant
-        let store = NSUserDefaults.standardUserDefaults()
-        let idPeripheral = peripheral.identifier.UUIDString
-        
-        store.setObject(idPeripheral, forKey:BLESimulatedClient.kLast9BDeviceAccessedKey)
-        
-        
-        if let characteristics = service.characteristics {
-            for ch in characteristics {
                 
-                if ch.UUID.UUIDString == self.charId
-                {
-                    self.caracteristica = ch
-                    peripheral.setNotifyValue(true, forCharacteristic:ch)
-                    self.connected = true
+                if contadorOpFast >= listaOpFast.count{
+                    contadorOpFast = 0
+                    let (op, l) = listaOp[contadorOp++]
                     
-                    self.startAltimeter()
-                    
-                    if let ct = self.cntrl {
-                        ct.appendToLog(String(format :"Subscrit a la variable del Ninebot : %@", ch.description))
-                    }
-                    else{
-                        NSLog("Subscrit a la variable del Ninebot : %@", ch.description)
-                    }
-                    if let cn = self.cntrl {
-                        cn.clientStarted()
+                    if contadorOp >= listaOp.count{
+                        contadorOp = 0
                     }
                     
-                    // Start timer for sending info to watch
+                    let message = BLENinebotMessage(com: op, dat:[ l * 2] )
                     
-                    if self.sendToWatch {
-                        self.timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector:"sendStateToWatch:", userInfo: nil, repeats: true)
+                    
+                    if let dat = message?.toNSData(){
+                        self.connection.writeValue(dat)
                     }
-                    //self.count = 0
-                    //self.rep = 0
-                    
-                    
                 }
-                else{
-                    NSLog("Caracteristica desconeguda")
+
+                
+            } else {    // Get One time data (S/N, etc.)
+                
+                
+                let message = BLENinebotMessage(com: UInt8(16), dat: [UInt8(22)])
+                if let dat = message?.toNSData(){
+                    self.connection.writeValue(dat)
                 }
-                
-            }
-        }
-        
-    }
-    
-    func startAltimeter(){
-        
-        if CMAltimeter.isRelativeAltitudeAvailable(){
-            if self.altimeter == nil{
-                self.altimeter = CMAltimeter()
-            }
-            if self.altQueue == nil{
-                self.altQueue = NSOperationQueue()
-                self.altQueue!.maxConcurrentOperationCount = 1
-            }
-            
-            
-            if let altm = self.altimeter, queue = self.altQueue{
-                
-                altm.startRelativeAltitudeUpdatesToQueue(queue,
-                    withHandler: { (alts : CMAltitudeData?, error : NSError?) -> Void in
-                        
-                        if let alt = alts {
-                            
-                            
-                            if let cn = self.cntrl{
-                                cn.datos.addValue(0, value: Int(floor(alt.relativeAltitude.doubleValue * 10.0)))
-                            }
-                        }
-                })
             }
         }
     }
     
-    internal func peripheral(peripheral: CBPeripheral,
-        didUpdateValueForCharacteristic characteristic: CBCharacteristic,
-        error: NSError?){
-            
-            // Primer obtenim el TMKPeripheralObject
-            
-            if characteristic.UUID.UUIDString == self.charId    // Ninebot Char
-            {
-                
-                let data = characteristic.value!
-                
-                if let cn = self.cntrl{
-                    
-                    cn.forwardValue(data)
-                }
-                    
-                else{
-                    NSLog("<<< %@", data)
-                }
-                
-                
-            }
-                
-                
-            else if characteristic.UUID.UUIDString==self.kUUIDManufacturerNameVariable  {
-                
-                if let data = characteristic.value {
-                    self.manufacturer = String(data:data, encoding: NSUTF8StringEncoding)
-                    NSLog("Manufacturer : %@", self.manufacturer!)
-                }
-            }
-            else if characteristic.UUID.UUIDString==self.kUUIDModelNameVariable  {
-                
-                if let data = characteristic.value {
-                    self.model = String(data:data, encoding: NSUTF8StringEncoding)
-                    NSLog("Model : %@", self.model!)
-                }
-            }
-            else if characteristic.UUID.UUIDString==self.kUUIDSerialNumberVariable  {
-                
-                if let data = characteristic.value {
-                    self.serial = String(data:data, encoding: NSUTF8StringEncoding)
-                    NSLog("Serial : %@", self.serial!)
-                }
-            }
-            else if characteristic.UUID.UUIDString==self.kUUIDHardwareVersion  {
-                
-                if let data = characteristic.value {
-                    self.hardwareVer = String(data:data, encoding: NSUTF8StringEncoding)
-                    NSLog("Hardware Version : %@", self.hardwareVer!)
-                }
-            }
-            else if characteristic.UUID.UUIDString==self.kUUIDFirmwareVersion  {
-                
-                if let data = characteristic.value {
-                    self.firmwareVer = String(data:data, encoding: NSUTF8StringEncoding)
-                    NSLog("Firmware Version : %@", self.firmwareVer!)
-                }
-            }
-            else if characteristic.UUID.UUIDString==self.kUUIDSoftwareVersion {
-                
-                if let data = characteristic.value {
-                    self.softwareVer = String(data:data, encoding: NSUTF8StringEncoding)
-                    NSLog("Software Ver : %@", self.softwareVer!)
-                }
-            }
-            
-    }
-    
-    //MARK: Connection management
+    //MARK: Receiving Data
     
     func appendToBuffer(data : NSData){
-        
-        
+
         let count = data.length
         var buf = [UInt8](count: count, repeatedValue: 0)
         data.getBytes(&buf, length:count * sizeof(UInt8))
         
         buffer.appendContentsOf(buf)
-        
-        
-    }
+     }
     
     func procesaBuffer()
     {
@@ -664,39 +356,86 @@ class BLESimulatedClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelega
                 
                 var updated = false
                 
-                for (k, v) in d {
-                    let w = datos.data[k].value
-                    if w != v{
+                if let nb = self.datos{
+                    
+                    for (k, v) in d {
+                        let w = nb.data[k].value
+                        if w != v{
+                            updated = true
+                        }
                         
-                        let name = BLENinebot.labels[k]
-                        self.appendToLog(String(format:"%@[%d] - %d", name, k, v))
-                        updated = true
+                        nb.addValue(k, value: v)
                     }
                     
-                    self.datos.addValue(k, value: v)
-                }
-                
-                if updated{
-                    if let dash = self.dashboard {
-                        dash.update()
+                    if updated{
+                        BLESimulatedClient.sendNotification(BLESimulatedClient.kNinebotDataUpdatedNotification, data: nil)
+                        
+                        //let state = self.getAppState()
+                        
+
+                        
                     }
-                    
                 }
-                
-                // self.appendToLog(String(format:">>> %@", m.interpret()))
             }
-            
             
             buffer.removeFirst(l+6)
             
         } while buffer.count > 6
+    }
+}
+
+//MARK: BLENinebotConnectionDelegate
+
+extension BLESimulatedClient : BLENinebotConnectionDelegate{
+    
+    func deviceConnected(peripheral : CBPeripheral ){
         
+        if let nb = self.datos{
+            self.startAltimeter()
+            nb.clearAll()
+            self.contadorOp = 0
+            self.headersOk = false
+            self.connected = true
+            
+            self.sendTimer = NSTimer.scheduledTimerWithTimeInterval(self.timerStep, target: self, selector: "sendData:", userInfo: nil, repeats: true)
+            
+            
+            // Start timer for sending info to watch
+            
+            if self.sendToWatch {
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector:"sendStateToWatch:", userInfo: nil, repeats: true)
+            }
+        }
         
     }
     
+    func deviceDisconnectedConnected(peripheral : CBPeripheral ){
+        self.connected = false
+        if let tim = self.sendTimer {
+           tim.invalidate()
+            self.sendTimer = nil
+        }
+        
+        if let tim = self.timer {
+            tim.invalidate()
+            self.timer = nil
+        }
+        
+        if let altm = self.altimeter{
+            altm.stopRelativeAltitudeUpdates()
+            self.altimeter = nil
+         }
+    }
     
+    func charUpdated(char : CBCharacteristic, data: NSData){
+        
+        self.appendToBuffer(data)
+        self.procesaBuffer()
+    }
     
 }
+
+//MARK: WCSessionDelegate
 
 extension BLESimulatedClient :  WCSessionDelegate{
     
@@ -705,7 +444,7 @@ extension BLESimulatedClient :  WCSessionDelegate{
         if session.paired && session.watchAppInstalled{
             self.sendToWatch = true
             self.timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector:"sendStateToWatch:", userInfo: nil, repeats: true)
-
+            
         }
         else{
             self.sendToWatch = false
@@ -714,17 +453,17 @@ extension BLESimulatedClient :  WCSessionDelegate{
                 self.timer = nil
             }
         }
-        
     }
     
     func session(session: WCSession, didReceiveMessageData messageData: NSData) {
+        
         
         // For the moment the watch just listens
     }
     
     func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         
-        // Fot the moment the watch just listens 
+        // Fot the moment the watch just listens
         
     }
     
