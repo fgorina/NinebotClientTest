@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-protocol TMKGraphViewDataSource {
+protocol TMKGraphViewDataSource { 
     
     func numberOfSeries() -> Int
     func numberOfPointsForSerie(serie : Int, value : Int) -> Int
