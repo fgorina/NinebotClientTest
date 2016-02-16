@@ -9,11 +9,10 @@
 import Foundation
 import CoreBluetooth
 
-protocol BLENinebotConnectionDelegate {
+@objc protocol BLENinebotConnectionDelegate {
 
     func deviceConnected(peripheral : CBPeripheral )
     func deviceDisconnectedConnected(peripheral : CBPeripheral )
     func charUpdated(char : CBCharacteristic, data: NSData)
-
 
 }
