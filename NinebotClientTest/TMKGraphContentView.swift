@@ -95,7 +95,7 @@ class TMKGraphContentView: UIView {
                     backColor.setFill()
                     backColor.set()
                     
-                    let n = ds.numberOfPointsForSerie(selSerie, value: v.yValue)
+                    let n = ds.numberOfPointsForSerie(selSerie, value: v.yValue) // abans v.yValue
                     
                     if n > 0 {
                         
@@ -104,19 +104,19 @@ class TMKGraphContentView: UIView {
                         
                         // Move to a point minimum
                         
-                        var pt = ds.value(v.yValue , axis:v.xAxis,  forPoint:0,  forSerie:selSerie)
+                        var pt = ds.value(v.yValue , axis:v.xAxis,  forPoint:0,  forSerie:selSerie) // Abans v.yValue
                         pt.y = v.yminH
                         
                         pt = v.heightPointFromTrackPoint(pt)
                         bz.moveToPoint(pt)
                         
                         for i in 0..<n{
-                            pt = ds.value(v.yValue, axis:v.xAxis, forPoint:i, forSerie:selSerie)
+                            pt = ds.value(v.yValue, axis:v.xAxis, forPoint:i, forSerie:selSerie) // Abans v.yValue
                             pt = v.heightPointFromTrackPoint(pt)
                             bz.addLineToPoint(pt)
                         }
                         
-                        pt = ds.value(v.yValue, axis:v.xAxis, forPoint:n-1, forSerie:selSerie)
+                        pt = ds.value(v.yValue, axis:v.xAxis, forPoint:n-1, forSerie:selSerie) // Abans v.yValue
                         pt.y = v.yminH
                         pt = v.heightPointFromTrackPoint(pt)
                         bz.addLineToPoint(pt)
