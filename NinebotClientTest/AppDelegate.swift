@@ -12,6 +12,8 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    var ubiquityUrl : NSURL?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -41,6 +43,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    //MARK : Directory Management
+    
+    func localApplicationDocumentsDirectory() -> NSURL?
+    {
+        let docs = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask).last
+
+        return docs
+    
+    }
+
+
+    func applicationDocumentsDirectory() -> NSURL?{
+    
+        if let url = self.ubiquityUrl{
+            return url.URLByAppendingPathComponent("Documents")
+        }
+        else{
+            return self.localApplicationDocumentsDirectory()
+        }
+    }
 
 }
 
