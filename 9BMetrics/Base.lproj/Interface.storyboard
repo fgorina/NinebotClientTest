@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9532" systemVersion="15E33e" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9515"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="_BMetrics_Extension">
+                    <items>
+                        <group width="1" height="32" alignment="left" id="LEV-Fo-agC">
+                            <items>
+                                <label width="64.5" height="28.5" alignment="left" text="00:10" id="N6J-Qf-CDc">
+                                    <color key="textColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="20"/>
+                                    <variation key="device=watch42mm" width="68.5"/>
+                                </label>
+                                <label width="67.5" height="30.5" alignment="right" text="10,5 km" textAlignment="right" id="dl1-9F-z9q">
+                                    <color key="textColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="20"/>
+                                    <variation key="device=watch42mm" width="75.5"/>
+                                </label>
+                            </items>
+                            <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
+                        </group>
+                        <group width="1" height="100" alignment="center" verticalAlignment="center" layout="vertical" id="ibe-0W-tFo">
+                            <items>
+                                <label width="136" height="65.5" alignment="center" text="15,20" textAlignment="center" id="PFK-mc-JdZ">
+                                    <color key="textColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="49"/>
+                                    <variation key="device=watch42mm" height="55.5" text="15,20" width="156"/>
+                                </label>
+                                <label width="100" alignment="left" text="Label" textAlignment="center" id="EWY-dr-3G7">
+                                    <color key="textColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <variation key="device=watch42mm" text="Km/h" width="156"/>
+                                </label>
+                            </items>
+                            <variation key="default">
+                                <mask key="items">
+                                    <exclude reference="PFK-mc-JdZ"/>
+                                    <exclude reference="EWY-dr-3G7"/>
+                                </mask>
+                            </variation>
+                            <variation key="device=watch42mm" height="89.5">
+                                <mask key="items">
+                                    <include reference="PFK-mc-JdZ"/>
+                                    <include reference="EWY-dr-3G7"/>
+                                </mask>
+                            </variation>
+                        </group>
+                        <group width="1" height="33" alignment="center" verticalAlignment="bottom" id="jUh-Ij-9YU">
+                            <items>
+                                <label width="64.5" alignment="left" verticalAlignment="bottom" text="50%" id="9ot-ZO-46F">
+                                    <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="19"/>
+                                    <variation key="device=watch42mm" width="59.5"/>
+                                </label>
+                                <label width="64.5" alignment="right" verticalAlignment="bottom" text="15,5 Km" textAlignment="right" minimumScaleFactor="0.90000000000000002" id="jQx-ap-kp3">
+                                    <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="19"/>
+                                    <variation key="device=watch42mm" width="77.5"/>
+                                </label>
+                            </items>
+                            <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="4"/>
+                        </group>
+                    </items>
+                    <variation key="default">
+                        <mask key="items">
+                            <exclude reference="ibe-0W-tFo"/>
+                        </mask>
+                    </variation>
+                    <variation key="device=watch42mm">
+                        <mask key="items">
+                            <include reference="ibe-0W-tFo"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <outlet property="batteryLabel" destination="9ot-ZO-46F" id="zNA-nM-Q6J"/>
+                        <outlet property="distLabel" destination="dl1-9F-z9q" id="UQS-BU-LU2"/>
+                        <outlet property="remainingLabel" destination="jQx-ap-kp3" id="K33-2Q-uYh"/>
+                        <outlet property="speedLabel" destination="PFK-mc-JdZ" id="5uu-uM-q1w"/>
+                        <outlet property="tempsLabel" destination="N6J-Qf-CDc" id="hZe-UF-Ynr"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="406.25641025641028" y="237.56410256410257"/>
+        </scene>
+    </scenes>
+</document>
