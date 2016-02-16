@@ -55,7 +55,7 @@ class  BLENinebot : NSObject{
     static let kSingleRuntime = 58
     static let kTemperature = 62
     static let kVoltage = 71
-    static let kUnknown = 74
+    static let kElectricVoltage12v = 74
     static let kCurrent = 80
     static let kPitchAngle = 97
     static let kRollAngle = 98
@@ -82,7 +82,7 @@ class  BLENinebot : NSObject{
     static var  labels = Array<String>(count:256, repeatedValue:"?")
     
     static var displayableVariables : [Int] = [BLENinebot.kCurrentSpeed, BLENinebot.kTemperature,
-        BLENinebot.kVoltage, BLENinebot.kCurrent, BLENinebot.kPitchAngle, BLENinebot.kRollAngle,
+        BLENinebot.kVoltage, BLENinebot.kCurrent, BLENinebot.kBattery, BLENinebot.kPitchAngle, BLENinebot.kRollAngle,
         BLENinebot.kvSingleMileage, BLENinebot.kAltitude]
     
     var data = [NinebotVariable](count:256, repeatedValue:NinebotVariable())
@@ -216,7 +216,39 @@ class  BLENinebot : NSObject{
         }
     }
     
-    // Creates a log text file and
+    func addValueWithTimeInterval(time: NSTimeInterval, variable : Int, value : Int){
+        
+ 
+        
+        if firstDate == nil {
+            firstDate = NSDate()
+        }
+        
+        if variable >= 0 && variable < 256 {
+            
+            let temps = firstDate?.dateByAddingTimeInterval(time)
+            if let t = temps {
+        
+            if data[variable].value != value {    // If value change put into log
+                
+                
+                
+                let v = LogEntry(time: t, variable: variable, value: value)
+                data[variable].log.append(v)
+                
+            }
+            
+            
+            // Now update values of variables
+            
+            data[variable].value = value
+            data[variable].timeStamp = t
+            }
+        }
+    }
+
+    
+    // MARK : Converting to and from files
     
     func createTextFile() -> NSURL?{
         
@@ -229,8 +261,17 @@ class  BLENinebot : NSObject{
         ldateFormatter.dateFormat = "'9B_'yyyyMMdd'_'HHmmss'.txt'"
         let newName = ldateFormatter.stringFromDate(NSDate())
        
-        let  path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!
+        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         
+        let path : String
+        
+        if let dele = appDelegate {
+            path = (dele.applicationDocumentsDirectory()?.path)!
+        }
+        else
+        {
+            return nil
+        }
         
         let tempFile = (path + "/" ).stringByAppendingString(newName )
         
@@ -288,6 +329,37 @@ class  BLENinebot : NSObject{
         }
         
         return nil
+    }
+    
+    func loadTextFile(url:NSURL){
+        
+        self.clearAll()
+        
+        do{
+        
+            let data = try String(contentsOfURL: url, encoding: NSUTF8StringEncoding)
+            let lines = data.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+            
+            for line in lines {
+                let fields = line.componentsSeparatedByString("\t")
+                
+                if fields.count == 3{   // Good Data
+                    
+                    let time = Double(fields[0].stringByReplacingOccurrencesOfString(" ", withString: ""))
+                    let variable = Int(fields[1])
+                    let value = Int(fields[2])
+                    
+                    if let t = time, i = variable, v = value {
+                         self.addValueWithTimeInterval(t, variable: i, value: v)
+                    }
+                }
+                
+            }
+        
+        }catch {
+            
+        }
+        
     }
     
     // MARK: Query Functions
@@ -493,6 +565,13 @@ class  BLENinebot : NSObject{
         
     }
     
+    func batteryLevel(i : Int) -> Double {
+        let s : Double = Double(data[BLENinebot.kBattery].log[i].value)
+        
+        return s
+    }
+    
+    
     // Speed
     
     func speed() -> Double {
@@ -563,15 +642,18 @@ class  BLENinebot : NSObject{
             return self.current(index)
             
         case 4:
-            return self.pitch(index)
+            return self.batteryLevel(index)
             
         case 5:
-            return self.roll(index)
+            return self.pitch(index)
             
         case 6:
-            return self.singleMileage(index)
+            return self.roll(index)
             
         case 7:
+            return self.singleMileage(index)
+            
+        case 8:
             return self.altitude(index)
             
         default:
