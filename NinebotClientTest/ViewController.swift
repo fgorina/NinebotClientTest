@@ -29,10 +29,6 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     var nFields = 10         // Numero de camps a llegir
     var timerStep = 0.01   // Segons per repetir el enviar
     
-    @IBOutlet weak var timerField   : UITextField!
-    @IBOutlet weak var valuesField   : UITextField!
-    @IBOutlet weak var nValuesField   : UITextField!
-    @IBOutlet weak var tview   : UITextView!
     
     var dashboard : BLENinebotDashboard?
     
@@ -45,7 +41,10 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        let editButton = self.editButtonItem();
+        editButton.target = self
+        editButton.action = "editFiles:"
+        self.navigationItem.leftBarButtonItem = editButton;
         // Lookup files
         let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         
@@ -199,26 +198,8 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         
         self.performSegueWithIdentifier("openFileSegue", sender: self)
     }
-    // MARK : Screen recovery functions
     
-    func getScreenData(){
-        
-        if let v  = Double(self.timerField.text!){
-            self.timerStep = v
-        }
-
-        if let i  = Int(self.valuesField.text!){
-            self.firstField = i
-        }
-
-        
-        if let i  = Int(self.nValuesField.text!){
-            self.nFields = i
-        }
-
-        
-    }
-    
+ 
     // MARK : Navigatiom
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -266,9 +247,13 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     @IBAction func  editFiles(src: AnyObject){
         if self.tableView.editing{
             self.tableView.editing = false
+            self.navigationItem.leftBarButtonItem!.title  = "Edit"
+            self.navigationItem.leftBarButtonItem!.style = UIBarButtonItemStyle.Plain
         }
         else{
             self.tableView.editing = true
+            self.navigationItem.leftBarButtonItem!.title = "Done"
+            self.navigationItem.leftBarButtonItem!.style = UIBarButtonItemStyle.Done
         }
         
     }
