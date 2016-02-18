@@ -169,7 +169,7 @@ class BLENinebotDashboard: UITableViewController {
             return 5
             
         case 1 :
-            return 6
+            return 7
             
         default:
             return 0
@@ -247,27 +247,35 @@ class BLENinebotDashboard: UITableViewController {
                     cell.textLabel!.text = "Distance"
                     cell.detailTextLabel!.text = String(format:"%6.2f Km", nb.singleMileage())
                     
+                    
                 case 1:
+                    
+                    let (h, m, s) = nb.singleRuntimeHMS()
+                    cell.textLabel!.text = "Time"
+                    cell.detailTextLabel!.text = String(format:"%02d:%02d:%02d", h, m, s)
+                    
+                    
+                case 2:
                     cell.textLabel!.text = "Total Distance"
                     cell.detailTextLabel!.text = String(format:"%6.2f Km", nb.totalMileage())
                     
-                case 2:
+                case 3:
                     
                     let (h, m, s) = nb.totalRuntimeHMS()
                     cell.textLabel!.text = "Total Time Running"
                     cell.detailTextLabel!.text = String(format:"%02d:%02d:%02d", h, m, s)
                   
                     
-                case 3:
+                case 4:
                     cell.textLabel!.text = "Remaining Distance"
                     cell.detailTextLabel!.text = String(format:"%6.2f Km", nb.remainingMileage())
                     
-                case 4:
+                case 5:
                     cell.textLabel!.text = "Battery level"
                     cell.detailTextLabel!.text = String(format:"%4.0f %%", nb.batteryLevel())
                     
                     
-                case 5:
+                case 6:
                     cell.textLabel!.text = "Temperature"
                     cell.detailTextLabel!.text = String(format:"%4.1f ºC", nb.temperature())
                   
