@@ -231,8 +231,6 @@ class  BLENinebot : NSObject{
         
             if data[variable].value != value {    // If value change put into log
                 
-                
-                
                 let v = LogEntry(time: t, variable: variable, value: value)
                 data[variable].log.append(v)
                 
@@ -423,13 +421,26 @@ class  BLENinebot : NSObject{
         return t
     }
     
+    func singleRuntimeHMS() -> (Int, Int, Int) {
+        
+        let total  = data[BLENinebot.kSingleRuntime].value
+        
+        let hours =  total / 3600
+        let minutes = (total - (hours * 3600)) / 60
+        let seconds = total - (hours * 3600) - (minutes * 60)
+        
+        return (hours, minutes, seconds)
+ 
+    }
+
+    
     func totalRuntimeHMS() -> (Int, Int, Int) {
         
         let total = data[BLENinebot.kTotalRuntime1].value * 65536 + data[BLENinebot.kTotalRuntime0].value
         
         let hours = total / 3600
         let minutes = (total - (hours * 3600)) / 60
-        let seconds = total - (hours * 3600) - (minutes + 60)
+        let seconds = total - (hours * 3600) - (minutes * 60)
         
         return (hours, minutes, seconds)
         
@@ -618,9 +629,14 @@ class  BLENinebot : NSObject{
     
     func altitude(i : Int) -> Double{
         
-        let s : Double = Double(data[BLENinebot.kAltitude].log[i].value) / 10.0
+        if i < data[BLENinebot.kAltitude].log.count{
         
-        return s
+        return Double(data[BLENinebot.kAltitude].log[i].value) / 10.0
+        }
+        else{
+            return 0.0
+        }
+
     }
    
     
