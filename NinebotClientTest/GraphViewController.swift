@@ -93,7 +93,7 @@ class GraphViewController: UIViewController, TMKGraphViewDataSource {
 
     // Retorna un punt donada l'abcisa. Interpola entre punts
     
-    func value(value : Int, axis: Int,  forX x:CGFloat,  forSerie serie:Int) -> CGPoint{
+    func valueLinearSearch(value : Int, axis: Int,  forX x:CGFloat,  forSerie serie:Int) -> CGPoint{
         
         let v = BLENinebot.displayableVariables[value]
         
@@ -146,7 +146,72 @@ class GraphViewController: UIViewController, TMKGraphViewDataSource {
             return CGPoint(x: x, y: 0.0)
         }
     }
+ 
     
+    // Busqueda binaria
+    
+    func value(value : Int, axis: Int,  forX x:CGFloat,  forSerie serie:Int) -> CGPoint{
+        
+        let v = BLENinebot.displayableVariables[value]
+        
+        
+        if let nb = self.ninebot{
+            
+            if nb.data[v].log.count <= 0{       // No Data
+                return CGPoint(x: x, y: 0.0)
+            }
+            
+            var p0 = 0
+            var p1 = nb.data[v].log.count - 1
+            let xd = Double(x)
+            
+            while p1 - p0 > 1{
+                
+                
+                let p = (p1 + p0 ) / 2
+                
+                let xValue = nb.data[v].log[p].time.timeIntervalSinceDate(nb.firstDate!)
+                
+                if xd < xValue {
+                    p1 = p
+                }
+                else if xd > xValue {
+                    p0 = p
+                }
+                else{
+                    p0 = p
+                    p1 = p
+                }
+            }
+            
+            // If p0 == p1 just return value
+            
+            if p0 == p1 {
+                return self.value(value, axis: axis,  forPoint:p0,  forSerie :serie)
+            }
+            else {      // Intentem interpolar
+                
+                let v0 = self.value(value, axis: axis,  forPoint:p0,  forSerie :serie)
+                let v1 = self.value(value, axis: axis,  forPoint:p1,  forSerie :serie)
+                
+                if v0.x == v0.y {   // One more check not to have div/0
+                    return v0
+                }
+                
+                let deltax = v1.x - v0.x
+                let deltay = v1.y - v0.y
+                
+                let v = (x - v0.x) / deltax * deltay + v0.y
+                
+                return CGPoint(x: x, y:v)
+                
+            }
+            
+        }else {
+            return CGPoint(x: x, y: 0.0)
+        }
+    }
+
 
     func numberOfWaypointsForSerie(serie: Int) -> Int{
             return 0
