@@ -95,28 +95,46 @@ class TMKGraphContentView: UIView {
                     backColor.setFill()
                     backColor.set()
                     
-                    let n = ds.numberOfPointsForSerie(selSerie, value: v.yValue) // abans v.yValue
+                    // Implementació amb unitats naturals. Comentat versio anterior
                     
-                    if n > 0 {
+                    var x = v.xmin
+                    let d = (v.xmax - v.xmin) / self.bounds.width       // At most every pixel
+                    
+                    
+                   // let n = ds.numberOfPointsForSerie(selSerie, value: v.yValue) // abans v.yValue
+                    
+                  //  if n > 0 {
+                    
+                    if x < v.xmax{
                         
                         let bz = UIBezierPath()
                         bz.lineJoinStyle =   CGLineJoin.Round
                         
                         // Move to a point minimum
                         
-                        var pt = ds.value(v.yValue , axis:v.xAxis,  forPoint:0,  forSerie:selSerie) // Abans v.yValue
+                       // var pt = ds.value(v.yValue , axis:v.xAxis,  forPoint:0,  forSerie:selSerie) // Abans v.yValue
+                        
+                        var pt = ds.value(v.yValue, axis: v.xAxis, forX: x, forSerie: selSerie)
                         pt.y = v.yminH
                         
                         pt = v.heightPointFromTrackPoint(pt)
                         bz.moveToPoint(pt)
                         
-                        for i in 0..<n{
-                            pt = ds.value(v.yValue, axis:v.xAxis, forPoint:i, forSerie:selSerie) // Abans v.yValue
+                        x = x + d
+                        
+                        //for i in 0..<n{
+                            
+                        while x < v.xmax{
+                            //pt = ds.value(v.yValue, axis:v.xAxis, forPoint:i, forSerie:selSerie) // Abans v.yValue
+                            
+                            pt = ds.value(v.yValue, axis: v.xAxis, forX: x, forSerie: selSerie)
                             pt = v.heightPointFromTrackPoint(pt)
                             bz.addLineToPoint(pt)
+                            x = x + d
                         }
                         
-                        pt = ds.value(v.yValue, axis:v.xAxis, forPoint:n-1, forSerie:selSerie) // Abans v.yValue
+                        pt = ds.value(v.yValue, axis: v.xAxis, forX: v.xmax, forSerie: selSerie)
+                        //pt = ds.value(v.yValue, axis:v.xAxis, forPoint:n-1, forSerie:selSerie) // Abans v.yValue
                         pt.y = v.yminH
                         pt = v.heightPointFromTrackPoint(pt)
                         bz.addLineToPoint(pt)
@@ -276,9 +294,17 @@ class TMKGraphContentView: UIView {
                     
                     ds.colorForSerie(serie).set()
                     
-                    let n = ds.numberOfPointsForSerie(serie, value:v.yValue)
+                    //let n = ds.numberOfPointsForSerie(serie, value:v.yValue)
                     
-                    if n > 0 {
+                    
+                    // Implementació amb unitats naturals. Comentat versio anterior
+                    
+                    var x = v.xmin
+                    let d = (v.xmax - v.xmin) / self.bounds.width       // At most every pixel
+                 
+                    
+                   // if n > 0 {
+                    if x < v.xmax{
                         
                         let bz = UIBezierPath()
                         bz.lineJoinStyle = CGLineJoin.Round
@@ -287,15 +313,23 @@ class TMKGraphContentView: UIView {
                             bz.lineWidth = 2.0
                         }
                         
-                        var pt = ds.value(v.yValue, axis:v.xAxis, forPoint:0, forSerie:serie)
+                        //var pt = ds.value(v.yValue, axis:v.xAxis, forPoint:0, forSerie:serie)
+                        var pt = ds.value(v.yValue, axis: v.xAxis, forX: x, forSerie: serie)
                         
                         pt = v.viewPointFromTrackPoint(pt)
                         bz.moveToPoint(pt)
                         
-                        for i in 1..<n {
-                            pt = ds.value(v.yValue, axis:v.xAxis, forPoint:i, forSerie:serie)
+                        x = x + d
+                        
+                        //for i in 1..<n {
+                        while x <= v.xmax{
+                            //pt = ds.value(v.yValue, axis:v.xAxis, forPoint:i, forSerie:serie)
+                            pt = ds.value(v.yValue, axis: v.xAxis, forX: x, forSerie: serie)
+                            
                             pt = v.viewPointFromTrackPoint(pt)
                             bz.addLineToPoint(pt)
+                            
+                            x = x + d
                         }
                         
                         bz.stroke()
