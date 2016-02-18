@@ -98,11 +98,11 @@ class BLESimulatedClient: NSObject {
     
     // Connect is the start connection
     //
-    //  First it recovers if it exists a device and calls 
+    //  First it recovers if it exists a device and calls
     func connect(){
         
         // First we recover the last device and try to connect directly
- 
+        
         let store = NSUserDefaults.standardUserDefaults()
         let device = store.stringForKey(BLESimulatedClient.kLast9BDeviceAccessedKey)
         
@@ -160,7 +160,7 @@ class BLESimulatedClient: NSObject {
         }
     }
     
-
+    
     
     //MARK: AppleWatch Support
     
@@ -226,7 +226,7 @@ class BLESimulatedClient: NSObject {
     
     func sendStateToWatch(timer: NSTimer){
         
-         if self.sendToWatch{
+        if self.sendToWatch{
             
             let info = self.getAppState()
             
@@ -255,7 +255,7 @@ class BLESimulatedClient: NSObject {
                 if !self.headersOk {
                     self.headersOk = true
                     BLESimulatedClient.sendNotification(BLESimulatedClient.kHeaderDataReadyNotification, data:nil)
-
+                    
                 }
                 
                 let (op, l) = listaOpFast[contadorOpFast++]
@@ -280,7 +280,7 @@ class BLESimulatedClient: NSObject {
                         self.connection.writeValue(dat)
                     }
                 }
-
+                
                 
             } else {    // Get One time data (S/N, etc.)
                 
@@ -296,13 +296,13 @@ class BLESimulatedClient: NSObject {
     //MARK: Receiving Data
     
     func appendToBuffer(data : NSData){
-
+        
         let count = data.length
         var buf = [UInt8](count: count, repeatedValue: 0)
         data.getBytes(&buf, length:count * sizeof(UInt8))
         
         buffer.appendContentsOf(buf)
-     }
+    }
     
     func procesaBuffer()
     {
@@ -359,12 +359,14 @@ class BLESimulatedClient: NSObject {
                 if let nb = self.datos{
                     
                     for (k, v) in d {
-                        let w = nb.data[k].value
-                        if w != v{
-                            updated = true
+                        if k != 0{
+                            let w = nb.data[k].value
+                            if w != v{
+                                updated = true
+                            }
+                            
+                            nb.addValue(k, value: v)
                         }
-                        
-                        nb.addValue(k, value: v)
                     }
                     
                     if updated{
@@ -372,7 +374,7 @@ class BLESimulatedClient: NSObject {
                         
                         //let state = self.getAppState()
                         
-
+                        
                         
                     }
                 }
@@ -412,7 +414,7 @@ extension BLESimulatedClient : BLENinebotConnectionDelegate{
     func deviceDisconnectedConnected(peripheral : CBPeripheral ){
         self.connected = false
         if let tim = self.sendTimer {
-           tim.invalidate()
+            tim.invalidate()
             self.sendTimer = nil
         }
         
@@ -424,7 +426,7 @@ extension BLESimulatedClient : BLENinebotConnectionDelegate{
         if let altm = self.altimeter{
             altm.stopRelativeAltitudeUpdates()
             self.altimeter = nil
-         }
+        }
     }
     
     func charUpdated(char : CBCharacteristic, data: NSData){
