@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>9BMetrics.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>NinebotClientTest.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>000622811C6CB97C0066DC2A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>00BCC08D1C6102B700202D9F</key>
 		<dict>
 			<key>primary</key>

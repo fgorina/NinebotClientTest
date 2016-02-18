@@ -7,6 +7,51 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000622731C6CA8740066DC2A /* PickerActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000622721C6CA8740066DC2A /* PickerActivity.swift */; };
+		000622741C6CA8740066DC2A /* PickerActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000622721C6CA8740066DC2A /* PickerActivity.swift */; };
+		000622751C6CA8740066DC2A /* PickerActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000622721C6CA8740066DC2A /* PickerActivity.swift */; };
+		000622791C6CA9F60066DC2A /* icon_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 000622771C6CA9F60066DC2A /* icon_ipad@2x.png */; };
+		0006227A1C6CA9F60066DC2A /* icon_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 000622771C6CA9F60066DC2A /* icon_ipad@2x.png */; };
+		0006227B1C6CA9F60066DC2A /* icon_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 000622771C6CA9F60066DC2A /* icon_ipad@2x.png */; };
+		0006227C1C6CA9F60066DC2A /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 000622781C6CA9F60066DC2A /* icon_ipad.png */; };
+		0006227D1C6CA9F60066DC2A /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 000622781C6CA9F60066DC2A /* icon_ipad.png */; };
+		0006227E1C6CA9F60066DC2A /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 000622781C6CA9F60066DC2A /* icon_ipad.png */; };
+		000622861C6CB97D0066DC2A /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 000622841C6CB97D0066DC2A /* Interface.storyboard */; };
+		000622881C6CB97D0066DC2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 000622871C6CB97D0066DC2A /* Assets.xcassets */; };
+		0006228F1C6CB97D0066DC2A /* 9BMetrics Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0006228E1C6CB97D0066DC2A /* 9BMetrics Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		000622941C6CB97D0066DC2A /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000622931C6CB97D0066DC2A /* InterfaceController.swift */; };
+		000622961C6CB97D0066DC2A /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000622951C6CB97D0066DC2A /* ExtensionDelegate.swift */; };
+		000622981C6CB97D0066DC2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 000622971C6CB97D0066DC2A /* Assets.xcassets */; };
+		0006229C1C6CB97D0066DC2A /* 9BMetrics.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 000622821C6CB97C0066DC2A /* 9BMetrics.app */; };
+		003E64E61C6BB73A00907901 /* Ninebot-One-4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 003E64E51C6BB73A00907901 /* Ninebot-One-4.jpg */; };
+		0057113E1C6DF9AB0075DE13 /* BLEConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057113D1C6DF9AB0075DE13 /* BLEConnection.swift */; };
+		0057113F1C6DF9AB0075DE13 /* BLEConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057113D1C6DF9AB0075DE13 /* BLEConnection.swift */; };
+		005711401C6DF9AB0075DE13 /* BLEConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057113D1C6DF9AB0075DE13 /* BLEConnection.swift */; };
+		005711421C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005711411C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift */; };
+		005711431C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005711411C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift */; };
+		005711441C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005711411C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift */; };
+		005711461C6FBCDD0075DE13 /* BLEDeviceSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005711451C6FBCDD0075DE13 /* BLEDeviceSelector.swift */; };
+		005711471C6FBCDD0075DE13 /* BLEDeviceSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005711451C6FBCDD0075DE13 /* BLEDeviceSelector.swift */; };
+		005711481C6FBCDD0075DE13 /* BLEDeviceSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005711451C6FBCDD0075DE13 /* BLEDeviceSelector.swift */; };
+		007B226C1C6A0DAB00ED0ED6 /* TMKGraphViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B22691C6A0DAB00ED0ED6 /* TMKGraphViewDataSource.swift */; };
+		007B226D1C6A0DAB00ED0ED6 /* TMKGraphContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B226A1C6A0DAB00ED0ED6 /* TMKGraphContentView.swift */; };
+		007B226E1C6A0DAB00ED0ED6 /* TMKGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B226B1C6A0DAB00ED0ED6 /* TMKGraphView.swift */; };
+		007B22701C6A114200ED0ED6 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B226F1C6A114200ED0ED6 /* GraphViewController.swift */; };
+		008A4C371C6A35A8009BE7D1 /* TMKGraphViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B22691C6A0DAB00ED0ED6 /* TMKGraphViewDataSource.swift */; };
+		008A4C381C6A35A8009BE7D1 /* TMKGraphContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B226A1C6A0DAB00ED0ED6 /* TMKGraphContentView.swift */; };
+		008A4C391C6A35A9009BE7D1 /* TMKGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B226B1C6A0DAB00ED0ED6 /* TMKGraphView.swift */; };
+		008A4C3A1C6A35A9009BE7D1 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B226F1C6A114200ED0ED6 /* GraphViewController.swift */; };
+		008A4C3B1C6A35A9009BE7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0911C6102B700202D9F /* AppDelegate.swift */; };
+		008A4C3C1C6A35A9009BE7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0931C6102B700202D9F /* ViewController.swift */; };
+		008A4C3D1C6A35A9009BE7D1 /* BLENinebotDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0EC7F1C68BE0A002E4AC0 /* BLENinebotDashboard.swift */; };
+		008A4C3E1C6A35B4009BE7D1 /* TMKGraphViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B22691C6A0DAB00ED0ED6 /* TMKGraphViewDataSource.swift */; };
+		008A4C3F1C6A35B4009BE7D1 /* TMKGraphContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B226A1C6A0DAB00ED0ED6 /* TMKGraphContentView.swift */; };
+		008A4C401C6A35B4009BE7D1 /* TMKGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B226B1C6A0DAB00ED0ED6 /* TMKGraphView.swift */; };
+		008A4C411C6A35B4009BE7D1 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007B226F1C6A114200ED0ED6 /* GraphViewController.swift */; };
+		008A4C421C6A35B4009BE7D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0911C6102B700202D9F /* AppDelegate.swift */; };
+		008A4C431C6A35B4009BE7D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0931C6102B700202D9F /* ViewController.swift */; };
+		008A4C441C6A35B4009BE7D1 /* BLENinebotDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0EC7F1C68BE0A002E4AC0 /* BLENinebotDashboard.swift */; };
+		009261CF1C733EB3008D61E5 /* BLEMim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009261CE1C733EB3008D61E5 /* BLEMim.swift */; };
 		00BCC0921C6102B700202D9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0911C6102B700202D9F /* AppDelegate.swift */; };
 		00BCC0941C6102B700202D9F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0931C6102B700202D9F /* ViewController.swift */; };
 		00BCC0971C6102B700202D9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00BCC0951C6102B700202D9F /* Main.storyboard */; };
@@ -14,9 +59,37 @@
 		00BCC09C1C6102B700202D9F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00BCC09A1C6102B700202D9F /* LaunchScreen.storyboard */; };
 		00BCC0A71C6102B700202D9F /* NinebotClientTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0A61C6102B700202D9F /* NinebotClientTestTests.swift */; };
 		00BCC0B21C6102B700202D9F /* NinebotClientTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0B11C6102B700202D9F /* NinebotClientTestUITests.swift */; };
+		00BCC0C01C61030500202D9F /* BLENinebot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0BF1C61030500202D9F /* BLENinebot.swift */; };
+		00BCC0C11C61030500202D9F /* BLENinebot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0BF1C61030500202D9F /* BLENinebot.swift */; };
+		00BCC0C21C61030500202D9F /* BLENinebot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0BF1C61030500202D9F /* BLENinebot.swift */; };
+		00BCC0C51C611F9700202D9F /* BLESimulatedServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0C41C611F9700202D9F /* BLESimulatedServer.swift */; };
+		00BCC0C61C611F9700202D9F /* BLESimulatedServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0C41C611F9700202D9F /* BLESimulatedServer.swift */; };
+		00BCC0C71C611F9700202D9F /* BLESimulatedServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0C41C611F9700202D9F /* BLESimulatedServer.swift */; };
+		00BCC0C91C6133A000202D9F /* BLESimulatedClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0C81C6133A000202D9F /* BLESimulatedClient.swift */; };
+		00BCC0CA1C6133A000202D9F /* BLESimulatedClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0C81C6133A000202D9F /* BLESimulatedClient.swift */; };
+		00BCC0CB1C6133A000202D9F /* BLESimulatedClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0C81C6133A000202D9F /* BLESimulatedClient.swift */; };
+		00BCC0CE1C634A7000202D9F /* BLENinebotMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0CD1C634A7000202D9F /* BLENinebotMessage.swift */; };
+		00BCC0CF1C634A7000202D9F /* BLENinebotMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0CD1C634A7000202D9F /* BLENinebotMessage.swift */; };
+		00BCC0D01C634A7000202D9F /* BLENinebotMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BCC0CD1C634A7000202D9F /* BLENinebotMessage.swift */; };
+		00D0EC801C68BE0A002E4AC0 /* BLENinebotDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0EC7F1C68BE0A002E4AC0 /* BLENinebotDashboard.swift */; };
+		00D932241C72618800CD26F9 /* BLENinebotServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D932231C72618800CD26F9 /* BLENinebotServerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		000622901C6CB97D0066DC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00BCC0861C6102B700202D9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0006228D1C6CB97D0066DC2A;
+			remoteInfo = "9BMetrics Extension";
+		};
+		0006229A1C6CB97D0066DC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00BCC0861C6102B700202D9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 000622811C6CB97C0066DC2A;
+			remoteInfo = 9BMetrics;
+		};
 		00BCC0A31C6102B700202D9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 00BCC0861C6102B700202D9F /* Project object */;
@@ -33,8 +106,55 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		000622A01C6CB97D0066DC2A /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0006228F1C6CB97D0066DC2A /* 9BMetrics Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		000622A41C6CB97D0066DC2A /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				0006229C1C6CB97D0066DC2A /* 9BMetrics.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		00BCC08E1C6102B700202D9F /* NinebotClientTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NinebotClientTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000622721C6CA8740066DC2A /* PickerActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerActivity.swift; sourceTree = "<group>"; };
+		000622771C6CA9F60066DC2A /* icon_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_ipad@2x.png"; sourceTree = "<group>"; };
+		000622781C6CA9F60066DC2A /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
+		0006227F1C6CAFF20066DC2A /* 9BMetrics.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = 9BMetrics.entitlements; sourceTree = "<group>"; };
+		000622821C6CB97C0066DC2A /* 9BMetrics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 9BMetrics.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000622851C6CB97D0066DC2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		000622871C6CB97D0066DC2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = 9BMetrics/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		000622891C6CB97D0066DC2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0006228E1C6CB97D0066DC2A /* 9BMetrics Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "9BMetrics Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		000622931C6CB97D0066DC2A /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		000622951C6CB97D0066DC2A /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		000622971C6CB97D0066DC2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		000622991C6CB97D0066DC2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		003E64E51C6BB73A00907901 /* Ninebot-One-4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Ninebot-One-4.jpg"; path = "NinebotClientTest/Ninebot-One-4.jpg"; sourceTree = "<group>"; };
+		0057113D1C6DF9AB0075DE13 /* BLEConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEConnection.swift; sourceTree = "<group>"; };
+		005711411C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLENinebotConnectionDelegate.swift; sourceTree = "<group>"; };
+		005711451C6FBCDD0075DE13 /* BLEDeviceSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEDeviceSelector.swift; sourceTree = "<group>"; };
+		007B22691C6A0DAB00ED0ED6 /* TMKGraphViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMKGraphViewDataSource.swift; sourceTree = "<group>"; };
+		007B226A1C6A0DAB00ED0ED6 /* TMKGraphContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMKGraphContentView.swift; sourceTree = "<group>"; };
+		007B226B1C6A0DAB00ED0ED6 /* TMKGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMKGraphView.swift; sourceTree = "<group>"; };
+		007B226F1C6A114200ED0ED6 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		009261CE1C733EB3008D61E5 /* BLEMim.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEMim.swift; sourceTree = "<group>"; };
+		00BCC08E1C6102B700202D9F /* 9BMetrics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 9BMetrics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00BCC0911C6102B700202D9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00BCC0931C6102B700202D9F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		00BCC0961C6102B700202D9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -47,9 +167,22 @@
 		00BCC0AD1C6102B700202D9F /* NinebotClientTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NinebotClientTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00BCC0B11C6102B700202D9F /* NinebotClientTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NinebotClientTestUITests.swift; sourceTree = "<group>"; };
 		00BCC0B31C6102B700202D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00BCC0BF1C61030500202D9F /* BLENinebot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLENinebot.swift; sourceTree = "<group>"; };
+		00BCC0C41C611F9700202D9F /* BLESimulatedServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLESimulatedServer.swift; sourceTree = "<group>"; };
+		00BCC0C81C6133A000202D9F /* BLESimulatedClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLESimulatedClient.swift; sourceTree = "<group>"; };
+		00BCC0CD1C634A7000202D9F /* BLENinebotMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BLENinebotMessage.swift; path = ../BLENinebotMessage.swift; sourceTree = "<group>"; };
+		00D0EC7F1C68BE0A002E4AC0 /* BLENinebotDashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLENinebotDashboard.swift; sourceTree = "<group>"; };
+		00D932231C72618800CD26F9 /* BLENinebotServerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLENinebotServerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0006228B1C6CB97D0066DC2A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00BCC08B1C6102B700202D9F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -74,12 +207,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		000622761C6CA9C60066DC2A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				000622771C6CA9F60066DC2A /* icon_ipad@2x.png */,
+				000622781C6CA9F60066DC2A /* icon_ipad.png */,
+				003E64E51C6BB73A00907901 /* Ninebot-One-4.jpg */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		000622831C6CB97D0066DC2A /* 9BMetrics */ = {
+			isa = PBXGroup;
+			children = (
+				000622841C6CB97D0066DC2A /* Interface.storyboard */,
+				000622871C6CB97D0066DC2A /* Assets.xcassets */,
+				000622891C6CB97D0066DC2A /* Info.plist */,
+			);
+			path = 9BMetrics;
+			sourceTree = "<group>";
+		};
+		000622921C6CB97D0066DC2A /* 9BMetrics Extension */ = {
+			isa = PBXGroup;
+			children = (
+				000622931C6CB97D0066DC2A /* InterfaceController.swift */,
+				000622951C6CB97D0066DC2A /* ExtensionDelegate.swift */,
+				000622971C6CB97D0066DC2A /* Assets.xcassets */,
+				000622991C6CB97D0066DC2A /* Info.plist */,
+			);
+			path = "9BMetrics Extension";
+			sourceTree = "<group>";
+		};
 		00BCC0851C6102B600202D9F = {
 			isa = PBXGroup;
 			children = (
+				000622761C6CA9C60066DC2A /* Resources */,
 				00BCC0901C6102B700202D9F /* NinebotClientTest */,
 				00BCC0A51C6102B700202D9F /* NinebotClientTestTests */,
 				00BCC0B01C6102B700202D9F /* NinebotClientTestUITests */,
+				000622831C6CB97D0066DC2A /* 9BMetrics */,
+				000622921C6CB97D0066DC2A /* 9BMetrics Extension */,
 				00BCC08F1C6102B700202D9F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,9 +254,11 @@
 		00BCC08F1C6102B700202D9F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				00BCC08E1C6102B700202D9F /* NinebotClientTest.app */,
+				00BCC08E1C6102B700202D9F /* 9BMetrics.app */,
 				00BCC0A21C6102B700202D9F /* NinebotClientTestTests.xctest */,
 				00BCC0AD1C6102B700202D9F /* NinebotClientTestUITests.xctest */,
+				000622821C6CB97C0066DC2A /* 9BMetrics.app */,
+				0006228E1C6CB97D0066DC2A /* 9BMetrics Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,11 +266,27 @@
 		00BCC0901C6102B700202D9F /* NinebotClientTest */ = {
 			isa = PBXGroup;
 			children = (
+				0006227F1C6CAFF20066DC2A /* 9BMetrics.entitlements */,
+				007B22691C6A0DAB00ED0ED6 /* TMKGraphViewDataSource.swift */,
+				007B226A1C6A0DAB00ED0ED6 /* TMKGraphContentView.swift */,
+				007B226B1C6A0DAB00ED0ED6 /* TMKGraphView.swift */,
+				007B226F1C6A114200ED0ED6 /* GraphViewController.swift */,
 				00BCC0911C6102B700202D9F /* AppDelegate.swift */,
+				000622721C6CA8740066DC2A /* PickerActivity.swift */,
+				00BCC0BF1C61030500202D9F /* BLENinebot.swift */,
+				00BCC0CD1C634A7000202D9F /* BLENinebotMessage.swift */,
+				005711411C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift */,
+				00D932231C72618800CD26F9 /* BLENinebotServerDelegate.swift */,
+				0057113D1C6DF9AB0075DE13 /* BLEConnection.swift */,
+				00BCC0C81C6133A000202D9F /* BLESimulatedClient.swift */,
+				00BCC0C41C611F9700202D9F /* BLESimulatedServer.swift */,
+				00D0EC7F1C68BE0A002E4AC0 /* BLENinebotDashboard.swift */,
+				005711451C6FBCDD0075DE13 /* BLEDeviceSelector.swift */,
+				009261CE1C733EB3008D61E5 /* BLEMim.swift */,
 				00BCC0931C6102B700202D9F /* ViewController.swift */,
 				00BCC0951C6102B700202D9F /* Main.storyboard */,
-				00BCC0981C6102B700202D9F /* Assets.xcassets */,
 				00BCC09A1C6102B700202D9F /* LaunchScreen.storyboard */,
+				00BCC0981C6102B700202D9F /* Assets.xcassets */,
 				00BCC09D1C6102B700202D9F /* Info.plist */,
 			);
 			path = NinebotClientTest;
@@ -128,6 +313,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		000622811C6CB97C0066DC2A /* 9BMetrics */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000622A11C6CB97D0066DC2A /* Build configuration list for PBXNativeTarget "9BMetrics" */;
+			buildPhases = (
+				000622801C6CB97C0066DC2A /* Resources */,
+				000622A01C6CB97D0066DC2A /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				000622911C6CB97D0066DC2A /* PBXTargetDependency */,
+			);
+			name = 9BMetrics;
+			productName = 9BMetrics;
+			productReference = 000622821C6CB97C0066DC2A /* 9BMetrics.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		0006228D1C6CB97D0066DC2A /* 9BMetrics Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0006229D1C6CB97D0066DC2A /* Build configuration list for PBXNativeTarget "9BMetrics Extension" */;
+			buildPhases = (
+				0006228A1C6CB97D0066DC2A /* Sources */,
+				0006228B1C6CB97D0066DC2A /* Frameworks */,
+				0006228C1C6CB97D0066DC2A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "9BMetrics Extension";
+			productName = "9BMetrics Extension";
+			productReference = 0006228E1C6CB97D0066DC2A /* 9BMetrics Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		00BCC08D1C6102B700202D9F /* NinebotClientTest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00BCC0B61C6102B700202D9F /* Build configuration list for PBXNativeTarget "NinebotClientTest" */;
@@ -135,14 +354,16 @@
 				00BCC08A1C6102B700202D9F /* Sources */,
 				00BCC08B1C6102B700202D9F /* Frameworks */,
 				00BCC08C1C6102B700202D9F /* Resources */,
+				000622A41C6CB97D0066DC2A /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0006229B1C6CB97D0066DC2A /* PBXTargetDependency */,
 			);
 			name = NinebotClientTest;
 			productName = NinebotClientTest;
-			productReference = 00BCC08E1C6102B700202D9F /* NinebotClientTest.app */;
+			productReference = 00BCC08E1C6102B700202D9F /* 9BMetrics.app */;
 			productType = "com.apple.product-type.application";
 		};
 		00BCC0A11C6102B700202D9F /* NinebotClientTestTests */ = {
@@ -191,8 +412,24 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Paco Gorina";
 				TargetAttributes = {
+					000622811C6CB97C0066DC2A = {
+						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = N72U6DTDRE;
+					};
+					0006228D1C6CB97D0066DC2A = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
 					00BCC08D1C6102B700202D9F = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = N72U6DTDRE;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					00BCC0A11C6102B700202D9F = {
 						CreatedOnToolsVersion = 7.2;
@@ -220,18 +457,40 @@
 				00BCC08D1C6102B700202D9F /* NinebotClientTest */,
 				00BCC0A11C6102B700202D9F /* NinebotClientTestTests */,
 				00BCC0AC1C6102B700202D9F /* NinebotClientTestUITests */,
+				000622811C6CB97C0066DC2A /* 9BMetrics */,
+				0006228D1C6CB97D0066DC2A /* 9BMetrics Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		000622801C6CB97C0066DC2A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000622881C6CB97D0066DC2A /* Assets.xcassets in Resources */,
+				000622861C6CB97D0066DC2A /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0006228C1C6CB97D0066DC2A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000622981C6CB97D0066DC2A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00BCC08C1C6102B700202D9F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				000622791C6CA9F60066DC2A /* icon_ipad@2x.png in Resources */,
 				00BCC09C1C6102B700202D9F /* LaunchScreen.storyboard in Resources */,
+				0006227C1C6CA9F60066DC2A /* icon_ipad.png in Resources */,
 				00BCC0991C6102B700202D9F /* Assets.xcassets in Resources */,
 				00BCC0971C6102B700202D9F /* Main.storyboard in Resources */,
+				003E64E61C6BB73A00907901 /* Ninebot-One-4.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +498,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0006227D1C6CA9F60066DC2A /* icon_ipad.png in Resources */,
+				0006227A1C6CA9F60066DC2A /* icon_ipad@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,18 +507,44 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0006227E1C6CA9F60066DC2A /* icon_ipad.png in Resources */,
+				0006227B1C6CA9F60066DC2A /* icon_ipad@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0006228A1C6CB97D0066DC2A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000622961C6CB97D0066DC2A /* ExtensionDelegate.swift in Sources */,
+				000622941C6CB97D0066DC2A /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00BCC08A1C6102B700202D9F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				007B226D1C6A0DAB00ED0ED6 /* TMKGraphContentView.swift in Sources */,
+				00BCC0C91C6133A000202D9F /* BLESimulatedClient.swift in Sources */,
+				00D932241C72618800CD26F9 /* BLENinebotServerDelegate.swift in Sources */,
 				00BCC0941C6102B700202D9F /* ViewController.swift in Sources */,
+				00D0EC801C68BE0A002E4AC0 /* BLENinebotDashboard.swift in Sources */,
+				007B226C1C6A0DAB00ED0ED6 /* TMKGraphViewDataSource.swift in Sources */,
+				00BCC0C51C611F9700202D9F /* BLESimulatedServer.swift in Sources */,
+				007B226E1C6A0DAB00ED0ED6 /* TMKGraphView.swift in Sources */,
+				0057113E1C6DF9AB0075DE13 /* BLEConnection.swift in Sources */,
+				009261CF1C733EB3008D61E5 /* BLEMim.swift in Sources */,
+				005711421C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift in Sources */,
+				00BCC0CE1C634A7000202D9F /* BLENinebotMessage.swift in Sources */,
+				007B22701C6A114200ED0ED6 /* GraphViewController.swift in Sources */,
 				00BCC0921C6102B700202D9F /* AppDelegate.swift in Sources */,
+				000622731C6CA8740066DC2A /* PickerActivity.swift in Sources */,
+				005711461C6FBCDD0075DE13 /* BLEDeviceSelector.swift in Sources */,
+				00BCC0C01C61030500202D9F /* BLENinebot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +552,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				008A4C371C6A35A8009BE7D1 /* TMKGraphViewDataSource.swift in Sources */,
+				008A4C381C6A35A8009BE7D1 /* TMKGraphContentView.swift in Sources */,
+				008A4C391C6A35A9009BE7D1 /* TMKGraphView.swift in Sources */,
+				008A4C3A1C6A35A9009BE7D1 /* GraphViewController.swift in Sources */,
+				000622741C6CA8740066DC2A /* PickerActivity.swift in Sources */,
+				008A4C3B1C6A35A9009BE7D1 /* AppDelegate.swift in Sources */,
+				005711471C6FBCDD0075DE13 /* BLEDeviceSelector.swift in Sources */,
+				008A4C3C1C6A35A9009BE7D1 /* ViewController.swift in Sources */,
+				008A4C3D1C6A35A9009BE7D1 /* BLENinebotDashboard.swift in Sources */,
+				005711431C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift in Sources */,
+				00BCC0C61C611F9700202D9F /* BLESimulatedServer.swift in Sources */,
+				00BCC0CA1C6133A000202D9F /* BLESimulatedClient.swift in Sources */,
 				00BCC0A71C6102B700202D9F /* NinebotClientTestTests.swift in Sources */,
+				00BCC0C11C61030500202D9F /* BLENinebot.swift in Sources */,
+				00BCC0CF1C634A7000202D9F /* BLENinebotMessage.swift in Sources */,
+				0057113F1C6DF9AB0075DE13 /* BLEConnection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,13 +575,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				008A4C3E1C6A35B4009BE7D1 /* TMKGraphViewDataSource.swift in Sources */,
+				008A4C3F1C6A35B4009BE7D1 /* TMKGraphContentView.swift in Sources */,
+				008A4C401C6A35B4009BE7D1 /* TMKGraphView.swift in Sources */,
+				008A4C411C6A35B4009BE7D1 /* GraphViewController.swift in Sources */,
+				000622751C6CA8740066DC2A /* PickerActivity.swift in Sources */,
+				008A4C421C6A35B4009BE7D1 /* AppDelegate.swift in Sources */,
+				005711481C6FBCDD0075DE13 /* BLEDeviceSelector.swift in Sources */,
+				008A4C431C6A35B4009BE7D1 /* ViewController.swift in Sources */,
+				008A4C441C6A35B4009BE7D1 /* BLENinebotDashboard.swift in Sources */,
+				005711441C6E30E10075DE13 /* BLENinebotConnectionDelegate.swift in Sources */,
+				00BCC0C71C611F9700202D9F /* BLESimulatedServer.swift in Sources */,
+				00BCC0CB1C6133A000202D9F /* BLESimulatedClient.swift in Sources */,
 				00BCC0B21C6102B700202D9F /* NinebotClientTestUITests.swift in Sources */,
+				00BCC0C21C61030500202D9F /* BLENinebot.swift in Sources */,
+				00BCC0D01C634A7000202D9F /* BLENinebotMessage.swift in Sources */,
+				005711401C6DF9AB0075DE13 /* BLEConnection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		000622911C6CB97D0066DC2A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0006228D1C6CB97D0066DC2A /* 9BMetrics Extension */;
+			targetProxy = 000622901C6CB97D0066DC2A /* PBXContainerItemProxy */;
+		};
+		0006229B1C6CB97D0066DC2A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 000622811C6CB97C0066DC2A /* 9BMetrics */;
+			targetProxy = 0006229A1C6CB97D0066DC2A /* PBXContainerItemProxy */;
+		};
 		00BCC0A41C6102B700202D9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 00BCC08D1C6102B700202D9F /* NinebotClientTest */;
@@ -293,6 +620,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		000622841C6CB97D0066DC2A /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				000622851C6CB97D0066DC2A /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		00BCC0951C6102B700202D9F /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -312,6 +647,70 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0006229E1C6CB97D0066DC2A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "9BMetrics Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		0006229F1C6CB97D0066DC2A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "9BMetrics Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
+		000622A21C6CB97D0066DC2A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				IBSC_MODULE = _BMetrics_Extension;
+				INFOPLIST_FILE = 9BMetrics/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		000622A31C6CB97D0066DC2A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				IBSC_MODULE = _BMetrics_Extension;
+				INFOPLIST_FILE = 9BMetrics/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
 		00BCC0B41C6102B700202D9F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -399,10 +798,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = NinebotClientTest/9BMetrics.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = NinebotClientTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.NinebotClientTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics;
+				PRODUCT_NAME = 9BMetrics;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -410,10 +813,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = NinebotClientTest/9BMetrics.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = NinebotClientTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.NinebotClientTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics;
+				PRODUCT_NAME = 9BMetrics;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -468,6 +875,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0006229D1C6CB97D0066DC2A /* Build configuration list for PBXNativeTarget "9BMetrics Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0006229E1C6CB97D0066DC2A /* Debug */,
+				0006229F1C6CB97D0066DC2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		000622A11C6CB97D0066DC2A /* Build configuration list for PBXNativeTarget "9BMetrics" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000622A21C6CB97D0066DC2A /* Debug */,
+				000622A31C6CB97D0066DC2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		00BCC0891C6102B700202D9F /* Build configuration list for PBXProject "NinebotClientTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -484,6 +909,7 @@
 				00BCC0B81C6102B700202D9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		00BCC0B91C6102B700202D9F /* Build configuration list for PBXNativeTarget "NinebotClientTestTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +918,7 @@
 				00BCC0BB1C6102B700202D9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		00BCC0BC1C6102B700202D9F /* Build configuration list for PBXNativeTarget "NinebotClientTestUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +927,7 @@
 				00BCC0BE1C6102B700202D9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -14,9 +14,37 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "000622811C6CB97C0066DC2A"
+               BuildableName = "9BMetrics.app"
+               BlueprintName = "9BMetrics"
+               ReferencedContainer = "container:NinebotClientTest.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "00BCC08D1C6102B700202D9F"
                BuildableName = "9BMetrics.app"
                BlueprintName = "NinebotClientTest"
+               ReferencedContainer = "container:NinebotClientTest.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0006228D1C6CB97D0066DC2A"
+               BuildableName = "9BMetrics Extension.appex"
+               BlueprintName = "9BMetrics Extension"
                ReferencedContainer = "container:NinebotClientTest.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,33 +56,13 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00BCC0A11C6102B700202D9F"
-               BuildableName = "NinebotClientTestTests.xctest"
-               BlueprintName = "NinebotClientTestTests"
-               ReferencedContainer = "container:NinebotClientTest.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00BCC0AC1C6102B700202D9F"
-               BuildableName = "NinebotClientTestUITests.xctest"
-               BlueprintName = "NinebotClientTestUITests"
-               ReferencedContainer = "container:NinebotClientTest.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00BCC08D1C6102B700202D9F"
+            BlueprintIdentifier = "000622811C6CB97C0066DC2A"
             BuildableName = "9BMetrics.app"
-            BlueprintName = "NinebotClientTest"
+            BlueprintName = "9BMetrics"
             ReferencedContainer = "container:NinebotClientTest.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -71,16 +79,27 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.carousel"
+         RemotePath = "/9BMetrics">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00BCC08D1C6102B700202D9F"
+            BlueprintIdentifier = "000622811C6CB97C0066DC2A"
             BuildableName = "9BMetrics.app"
-            BlueprintName = "NinebotClientTest"
+            BlueprintName = "9BMetrics"
             ReferencedContainer = "container:NinebotClientTest.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "000622811C6CB97C0066DC2A"
+            BuildableName = "9BMetrics.app"
+            BlueprintName = "9BMetrics"
+            ReferencedContainer = "container:NinebotClientTest.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -90,16 +109,27 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.carousel"
+         RemotePath = "/9BMetrics">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00BCC08D1C6102B700202D9F"
+            BlueprintIdentifier = "000622811C6CB97C0066DC2A"
             BuildableName = "9BMetrics.app"
-            BlueprintName = "NinebotClientTest"
+            BlueprintName = "9BMetrics"
             ReferencedContainer = "container:NinebotClientTest.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "000622811C6CB97C0066DC2A"
+            BuildableName = "9BMetrics.app"
+            BlueprintName = "9BMetrics"
+            ReferencedContainer = "container:NinebotClientTest.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

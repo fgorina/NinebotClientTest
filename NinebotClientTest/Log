@@ -1,0 +1,43 @@
+Feb  3 10:44:09 iPhone-6s UserEventAgent[6955] <Warning>: Tracking com.ninebot.Ninedroid (via activity)
+Feb  3 10:44:09 iPhone-6s Ninebot[7446] <Warning>: 322 322
+Feb  3 10:44:09 iPhone-6s Ninebot[7446] <Error>:  SecTrustEvaluate  [leaf AnchorTrusted]
+Feb  3 10:44:09 iPhone-6s Ninebot[7446] <Warning>: JPushLog: 
+	---------------------Jpush(IOS8Version) log----------------------
+	 --------------------Jpush SDK Version:1.8.8---------------------
+	----------------------------------------------------------------
+	----------------------------------------------------------------
+Feb  3 10:44:09 iPhone-6s Ninebot[7446] <Warning>: load aps evi error, no em provision url
+Feb  3 10:44:09 iPhone-6s Ninebot[7446] <Warning>: The program will be transferred to the front desk!
+Feb  3 10:44:09 iPhone-6s Ninebot[7446] <Warning>: 2.000000
+Feb  3 10:44:09 iPhone-6s Ninebot[7446] <Warning>: Auto Scan Timer Open ..
+Feb  3 10:44:09 iPhone-6s Ninebot[7446] <Warning>: Device Token: <17cd49d2 83fa5ecc 01f952a8 a4906fbc eeaced76 cf6053e1 ba449536 eb810f08>
+Feb  3 10:44:09 iPhone-6s Ninebot[7446] <Warning>: JPushLog: Start Sis resolve
+Feb  3 10:44:10 iPhone-6s Ninebot[7446] <Warning>: JPushLog: Connection Server
+Feb  3 10:44:10 iPhone-6s kernel[0] <Notice>: Sandbox: Ninebot(7446) deny(1) sysctl-read kern.proc.all.0
+Feb  3 10:44:10 iPhone-6s Ninebot[7446] <Warning>: central  >><CBCentralManager: 0x1455e7670>
+	advertisementData >> {
+	    kCBAdvDataIsConnectable = 1;
+	    kCBAdvDataLocalName = NOE002;
+	    kCBAdvDataServiceUUIDs =     (
+	        FFE0
+	    );
+	}
+	peripheral >> <CBPeripheral: 0x1456b81a0, identifier = 21FE8D39-5845-5EA3-95F5-6BD20853110C, name = iPad Air 2 de Paco, state = disconnected>
+	RSSI  >>127
+	Discovered iPad Air 2 de Paco
+Feb  3 10:44:10 iPhone-6s Ninebot[7446] <Error>: [CoreBluetooth] API MISUSE: <CBPeripheral: 0x1456b81a0, identifier = 21FE8D39-5845-5EA3-95F5-6BD20853110C, name = iPad Air 2 de Paco, state = disconnected> can only accept commands while in the connected state
+Feb  3 10:44:10 iPhone-6s Ninebot[7446] <Warning>: rssi===>127
+Feb  3 10:44:10 iPhone-6s Ninebot[7446] <Warning>: -[NBSearchDeviceVC BLEComunicationManager:searchDeviceFinished:], {
+	    adv = NOE002;
+	    peri = "<CBPeripheral: 0x1456b81a0, identifier = 21FE8D39-5845-5EA3-95F5-6BD20853110C, name = iPad Air 2 de Paco, state = disconnected>";
+	    rssi = 127;
+	}
+Feb  3 10:44:11 iPhone-6s Ninebot[7446] <Warning>: Networking Success
+Feb  3 10:44:11 iPhone-6s Ninebot[7446] <Warning>: Authorization successful
+Feb  3 10:44:14 iPhone-6s Ninebot[7446] <Warning>: JPushLog: upload device token success
+Feb  3 10:44:14 iPhone-6s Ninebot[7446] <Warning>: Confirm equipment for One
+Feb  3 10:44:14 iPhone-6s Ninebot[7446] <Warning>: rescode: 0, 
+	tags: {(
+	    Zh
+	)}, 
+	alias: (null)
