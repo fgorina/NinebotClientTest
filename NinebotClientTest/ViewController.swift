@@ -5,6 +5,19 @@
 //  Created by Francisco Gorina Vanrell on 2/2/16.
 //  Copyright © 2016 Paco Gorina. All rights reserved.
 //
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//( at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 import UIKit
 
@@ -38,6 +51,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     var firstField = 185      // Primer camp a llegir
     var nFields = 10         // Numero de camps a llegir
     var timerStep = 0.01   // Segons per repetir el enviar
+    
     
     
     var dashboard : BLENinebotDashboard?
@@ -277,6 +291,69 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         
     }
     
+    
+    @IBAction func openSettings(src : AnyObject){
+    
+     let but = src as? UIButton
+        
+        let alert = UIAlertController(title: "Options", message: "Select an option", preferredStyle: UIAlertControllerStyle.ActionSheet);
+        
+        alert.popoverPresentationController?.sourceView = but
+        
+        var action = UIAlertAction(title: "Close", style: UIAlertActionStyle.Cancel) { (action: UIAlertAction) -> Void in
+            
+            
+        }
+        alert.addAction(action)
+        
+        action = UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: { (action : UIAlertAction) -> Void in
+            self.performSegueWithIdentifier("settingsSegue", sender: self)
+        })
+    
+        alert.addAction(action)
+    
+        
+        action = UIAlertAction(title: "Debug Server", style: UIAlertActionStyle.Default, handler: { (action : UIAlertAction) -> Void in
+            
+            self.performSegueWithIdentifier("mimSegue", sender: self)
+        })
+        
+        alert.addAction(action)
+        
+        action = UIAlertAction(title: "About 9B Metrics", style: UIAlertActionStyle.Default, handler: { (action : UIAlertAction) -> Void in
+            self.performSegueWithIdentifier("docSegue", sender: self)   
+        })
+        
+        alert.addAction(action)
+
+        
+        
+        self.presentViewController(alert, animated: true) { () -> Void in
+            
+            
+        }
+    
+    }
+    
+    
+    @IBAction func saveSettings(segue: UIStoryboardSegue){
+    
+        NSLog("Saving Segue : %@", segue)
+        
+         self.dismissViewControllerAnimated(true) { () -> Void in
+            
+            
+        }
+    }
+    
+    @IBAction func cancelSettings(segue: UIStoryboardSegue){
+        
+        self.dismissViewControllerAnimated(true) { () -> Void in
+            
+            
+        }
+    }
+
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -370,7 +447,22 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
             
             self.currentFile = url
             
-            self.shareData(self.currentFile, src: tableView)
+            var srcView : UIView = tableView
+            
+            let cellView = tableView.cellForRowAtIndexPath(indexPath)
+            
+            if let cv = cellView   {
+                
+                srcView = cv
+                
+                for v in cv.subviews{
+                    if v.isKindOfClass(UIButton){
+                        srcView = v
+                    }
+                }
+            }
+             
+            self.shareData(self.currentFile, src: srcView)
         }
     }
     
@@ -401,6 +493,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         if segue.identifier == "dashboardSegue" {
             if let dash = segue.destinationViewController as? BLENinebotDashboard{
                 dash.delegate = self
+                self.ninebot.clearAll()
                 dash.ninebot = self.ninebot
                 self.dashboard = dash
                 dash.connect()
@@ -472,10 +565,8 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
             
             activityViewController.popoverPresentationController?.sourceView = src as? UIView
             
-            activityViewController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-            
-            
-            
+            activityViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+             
             self.presentViewController(activityViewController,
                 animated: true,
                 completion: nil)
@@ -518,4 +609,5 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     }
     
 }
+
 
