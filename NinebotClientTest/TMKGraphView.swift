@@ -1007,8 +1007,6 @@ class TMKGraphView: UIView {
             if movingLeftSelection{
                 
                 let p = ds.value(self.yValue, axis: self.xAxis, forX: self.selectionLeftUnits, forSerie:0)
-                //let ip = ds.pointForX(Double(self.selectionLeftUnits), value: self.yValue)
-                //let v = ds.value(self.yValue, axis: self.xAxis, forPoint: ip, forSerie: 0)
                 let un = ds.nameOfValue(self.yValue)
                 
                 var s0 = String(format: "%4.2f", p.x)
@@ -1017,8 +1015,7 @@ class TMKGraphView: UIView {
                     let h = Int(floor(p.x/3600.0)) // Hours
                     let m = Int(floor((p.x - CGFloat(h) * 3600.0) / 60.0))      // Minuts
                     let s = Int(p.x -  CGFloat(h) * 3600.0 -  CGFloat(m) * 60.0) // Segons
-                        
-                    
+                     
                     s0 = String(format:"%ld:%ld:%ld", h, m, s)
                     
                 }

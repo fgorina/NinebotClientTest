@@ -133,7 +133,7 @@ class BLEMim: UIViewController {
         }
     }
     @IBAction func doSave(src: AnyObject){
-        let url = self.save()
+        _ = self.save()
     }
     
     func save() -> NSURL?{

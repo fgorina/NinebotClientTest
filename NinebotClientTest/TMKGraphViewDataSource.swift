@@ -40,6 +40,5 @@ protocol TMKGraphViewDataSource {
     func numberOfPins() -> Int
     func valueForPin(point:Int, axis:Int) -> CGPoint
     func isSelectedPin(pin: Int) -> Bool
-    func pointForX(x: Double, value: Int) -> Int
     func minMaxForSerie(serie : Int, value: Int) -> (CGFloat, CGFloat)
 }

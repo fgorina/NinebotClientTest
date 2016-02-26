@@ -340,6 +340,18 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     
         NSLog("Saving Segue : %@", segue)
         
+        let controller = segue.sourceViewController as? SettingsViewController
+        
+        if let co = controller {
+            let text = co.refreshField.text
+            
+            if let t = text {
+                let value = Double(t)
+                if let v = value {
+                    self.timerStep = v
+                }
+            }
+        }
          self.dismissViewControllerAnimated(true) { () -> Void in
             
             

@@ -75,8 +75,13 @@ class GraphViewController: UIViewController, TMKGraphViewDataSource {
     func numberOfPointsForSerie(serie : Int, value: Int) -> Int{
         let v = BLENinebot.displayableVariables[value]
         
+        
         if let nb = self.ninebot{
-            return nb.data[v].log.count
+            if v == BLENinebot.kPower {
+                return nb.data[BLENinebot.kCurrent].log.count
+            }else {
+                return nb.data[v].log.count
+            }
         }
         else{
             return 0
@@ -91,10 +96,20 @@ class GraphViewController: UIViewController, TMKGraphViewDataSource {
     func offsetForSerie(serie : Int) -> CGPoint{
         return CGPoint(x: 0, y: 0)
     }
+    
     func value(value : Int, axis: Int,  forPoint point: Int,  forSerie serie:Int) -> CGPoint{
+        
+        var xv = value
+        
+        if value == 9 {
+            xv = 3
+        }
+        
         if let nb = self.ninebot{
+            
             let v = nb.getLogValue(value, index: point)
-            let t = nb.data[BLENinebot.displayableVariables[value]].log[point].time
+            
+            let t = nb.data[BLENinebot.displayableVariables[xv]].log[point].time
             return CGPoint(x: CGFloat(t.timeIntervalSinceDate(nb.firstDate!)), y:CGFloat(v) )
         }
         else{
@@ -102,128 +117,18 @@ class GraphViewController: UIViewController, TMKGraphViewDataSource {
         }
     
     }
-
-    // Retorna un punt donada l'abcisa. Interpola entre punts
-    
-    func valueLinearSearch(value : Int, axis: Int,  forX x:CGFloat,  forSerie serie:Int) -> CGPoint{
-        
-        let v = BLENinebot.displayableVariables[value]
-        
-        
-        if let nb = self.ninebot{
-            
-            if nb.data[v].log.count <= 0{       // No Data
-                return CGPoint(x: x, y: 0.0)
-            }
-            
-            var p0 = 0  // Index before
-            var p1 = 0  // Index after
-            
-            for (var i = 1; i <  nb.data[v].log.count; i++){
-                
-                let xValue = CGFloat(nb.data[v].log[i].time.timeIntervalSinceDate(nb.firstDate!))
-                
-                p0 = p1
-                p1 = i
-                
-                if xValue >= x {
-                    break
-                }
-            }
-            
-            // If p0 == p1 just return value
-            
-            if p0 == p1 {
-                return self.value(value, axis: axis,  forPoint:p0,  forSerie :serie)
-            }
-            else {      // Intentem interpolar
-                
-                let v0 = self.value(value, axis: axis,  forPoint:p0,  forSerie :serie)
-                let v1 = self.value(value, axis: axis,  forPoint:p1,  forSerie :serie)
-                
-                if v0.x == v0.y {   // One more check not to have div/0
-                    return v0
-                }
-                
-                let deltax = v1.x - v0.x
-                let deltay = v1.y - v0.y
-                
-                let v = (x - v0.x) / deltax * deltay + v0.y
-                
-                return CGPoint(x: x, y:v)
-                
-            }
-            
-        }else {
-            return CGPoint(x: x, y: 0.0)
-        }
-    }
- 
-    
-    // Busqueda binaria
     
     func value(value : Int, axis: Int,  forX x:CGFloat,  forSerie serie:Int) -> CGPoint{
-        
-        let v = BLENinebot.displayableVariables[value]
-        
-        
+ 
         if let nb = self.ninebot{
             
-            if nb.data[v].log.count <= 0{       // No Data
-                return CGPoint(x: x, y: 0.0)
-            }
+            let v = nb.getLogValue(value, time: NSTimeInterval(x))
+            return CGPoint(x: x, y:CGFloat(v))
             
-            var p0 = 0
-            var p1 = nb.data[v].log.count - 1
-            let xd = Double(x)
-            
-            while p1 - p0 > 1{
-                
-                
-                let p = (p1 + p0 ) / 2
-                
-                let xValue = nb.data[v].log[p].time.timeIntervalSinceDate(nb.firstDate!)
-                
-                if xd < xValue {
-                    p1 = p
-                }
-                else if xd > xValue {
-                    p0 = p
-                }
-                else{
-                    p0 = p
-                    p1 = p
-                }
-            }
-            
-            // If p0 == p1 just return value
-            
-            if p0 == p1 {
-                return self.value(value, axis: axis,  forPoint:p0,  forSerie :serie)
-            }
-            else {      // Intentem interpolar
-                
-                let v0 = self.value(value, axis: axis,  forPoint:p0,  forSerie :serie)
-                let v1 = self.value(value, axis: axis,  forPoint:p1,  forSerie :serie)
-                
-                if v0.x == v0.y {   // One more check not to have div/0
-                    return v0
-                }
-                
-                let deltax = v1.x - v0.x
-                let deltay = v1.y - v0.y
-                
-                let v = (x - v0.x) / deltax * deltay + v0.y
-                
-                return CGPoint(x: x, y:v)
-                
-            }
-            
-        }else {
+        }else{
             return CGPoint(x: x, y: 0.0)
         }
-    }
-
+      }
 
     func numberOfWaypointsForSerie(serie: Int) -> Int{
             return 0
@@ -260,23 +165,6 @@ class GraphViewController: UIViewController, TMKGraphViewDataSource {
         return false
     }
     
-    func pointForX(x: Double, value: Int) -> Int{
-        
-        let v = BLENinebot.displayableVariables[value]
-        
-         if let nb = self.ninebot{
-
-            for (var i = 0; i <  nb.data[v].log.count; i++){
-            
-                if nb.data[v].log[i].time.timeIntervalSinceDate(nb.firstDate!) >= x {
-                    return i
-                }
-            }
-        }
-        
-        return 0
-    }
-
     func minMaxForSerie(serie : Int, value: Int) -> (CGFloat, CGFloat){
         
         switch(value){
@@ -307,6 +195,9 @@ class GraphViewController: UIViewController, TMKGraphViewDataSource {
             
         case 8:
             return (-10.0,10.0)   // Altitude
+        
+        case 9:
+            return (-50.0, +50.0) // Power
             
             
         default:

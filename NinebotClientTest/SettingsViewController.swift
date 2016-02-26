@@ -39,6 +39,10 @@ class SettingsViewController: UIViewController {
     
     @IBAction func clearUUID(src : AnyObject){
         
+        let store = NSUserDefaults.standardUserDefaults()
+        store.removeObjectForKey(BLESimulatedClient.kLast9BDeviceAccessedKey)
+        self.uuidLabel.text = ""
+        
     }
     /*
     // MARK: - Navigation
