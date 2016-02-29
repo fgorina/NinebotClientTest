@@ -42,6 +42,12 @@ class  BLENinebot : NSObject{
         var value : Int
     }
     
+    struct DoubleLogEntry {
+        var time : NSDate
+        var variable : Int
+        var value : Double
+    }
+    
     struct NinebotVariable {
         var codi : Int = -1
         var timeStamp : NSDate = NSDate()
@@ -100,7 +106,7 @@ class  BLENinebot : NSObject{
     
     var data = [NinebotVariable](count:256, repeatedValue:NinebotVariable())
     var signed = [Bool](count: 256, repeatedValue: false)
-     
+    
     var headersOk = false
     var firstDate : NSDate?
     
@@ -220,48 +226,27 @@ class  BLENinebot : NSObject{
         
         let t = NSDate()
         
-        if firstDate == nil {
-            firstDate = t
-        }
+        self.addValueWithDate(t, variable: variable, value: value)
         
-        if variable >= 0 && variable < 256 {
-            
-            var sv = value
-            if signed[variable]{
-                if value >= 32768 {
-                    sv = value - 65536
-                }
-            }
-
-            
-            if data[variable].value != sv {    // If value change put into log
-                
-                let v = LogEntry(time: t, variable: variable, value: sv)
-                data[variable].log.append(v)
-            }
-            
-            
-            // Now update values of variables
-            
-            data[variable].value = sv
-            data[variable].timeStamp = t
-        }
     }
     
     func addValueWithTimeInterval(time: NSTimeInterval, variable : Int, value : Int){
         
- 
+        let t = NSDate(timeIntervalSince1970: time)
         
-        if firstDate == nil {
-            firstDate = NSDate()
-        }
+        self.addValueWithDate(t, variable: variable, value: value)
+    }
+    
+    func addValueWithDate(dat: NSDate, variable : Int, value : Int){
         
         if variable >= 0 && variable < 256 {
             
-            let t = NSDate(timeIntervalSince1970: time)
+            if firstDate == nil {
+                firstDate = NSDate()
+            }
             
-            if t.timeIntervalSince1970 < firstDate!.timeIntervalSince1970{
-                firstDate = t
+            if dat.compare(firstDate!) == NSComparisonResult.OrderedAscending{
+                firstDate = dat
             }
             
             var sv = value
@@ -271,48 +256,34 @@ class  BLENinebot : NSObject{
                 }
             }
 
-        
-            if data[variable].value != sv {    // If value change put into log
-                
-                let v = LogEntry(time: t, variable: variable, value: sv)
+            let v = LogEntry(time:dat, variable: variable, value: sv)
+
+            if data[variable].value != sv || data[variable].log.count == 1 {
+
                 data[variable].log.append(v)
                 
+            }else if data[variable].log.count >= 2{
+                
+                let c = data[variable].log.count
+                let e = data[variable].log[c-2]
+                
+                if e.value != sv{   // Append new point
+                    data[variable].log.append(v)
+                }
+                else {  // Update time of new point
+                    data[variable].log[c-1] = v
+                    
+                }
+                
             }
-            
             
             // Now update values of variables
             
             data[variable].value = sv
-            data[variable].timeStamp = t
-            
+            data[variable].timeStamp = dat
         }
     }
-
-    func addValueWithDate(dat: NSDate, variable : Int, value : Int){
-        
-        if variable >= 0 && variable < 256 {
-            var sv = value
-            if signed[variable]{
-                if value >= 32768 {
-                    sv = value - 65536
-                }
-            }
-            
-                if data[variable].value != sv {    // If value change put into log
-                    
-                    let v = LogEntry(time:dat, variable: variable, value: sv)
-                    data[variable].log.append(v)
-                    
-                }
-                
-                
-                // Now update values of variables
-                
-                data[variable].value = sv
-                data[variable].timeStamp = dat
-        }
-    }
-
+    
     
     // MARK : Converting to and from files
     
@@ -326,7 +297,7 @@ class  BLENinebot : NSObject{
         ldateFormatter.locale = enUSPOSIXLocale
         ldateFormatter.dateFormat = "'9B_'yyyyMMdd'_'HHmmss'.txt'"
         let newName = ldateFormatter.stringFromDate(NSDate())
-       
+        
         let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         
         let path : String
@@ -379,7 +350,7 @@ class  BLENinebot : NSObject{
                         
                         let s = String(format: "%20.3f\t%d\t%d\n", t, item.variable, item.value)
                         if let vn = s.dataUsingEncoding(NSUTF8StringEncoding){
-                             hdl.writeData(vn)
+                            hdl.writeData(vn)
                         }
                     }
                 }
@@ -402,7 +373,7 @@ class  BLENinebot : NSObject{
         self.clearAll()
         
         do{
-        
+            
             let data = try String(contentsOfURL: url, encoding: NSUTF8StringEncoding)
             let lines = data.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
             
@@ -416,12 +387,12 @@ class  BLENinebot : NSObject{
                     let value = Int(fields[2])
                     
                     if let t = time, i = variable, v = value {
-                         self.addValueWithTimeInterval(t, variable: i, value: v)
+                        self.addValueWithTimeInterval(t, variable: i, value: v)
                     }
                 }
                 
             }
-        
+            
         }catch {
             
         }
@@ -498,9 +469,9 @@ class  BLENinebot : NSObject{
         let seconds = total - (hours * 3600) - (minutes * 60)
         
         return (hours, minutes, seconds)
- 
+        
     }
-
+    
     
     func totalRuntimeHMS() -> (Int, Int, Int) {
         
@@ -527,7 +498,7 @@ class  BLENinebot : NSObject{
         
         return t
     }
-
+    
     func temperature(time t: NSTimeInterval) -> Double{
         
         let entry = self.value(BLENinebot.kTemperature, forTime: t)
@@ -606,7 +577,7 @@ class  BLENinebot : NSObject{
         
         let c =  data[BLENinebot.kCurrent].log[i]
         
-        // Ok now we need the value 
+        // Ok now we need the value
         
         let voltage = self.value(BLENinebot.kVoltage, forTime: c.time.timeIntervalSinceDate(self.firstDate!))
         
@@ -626,7 +597,7 @@ class  BLENinebot : NSObject{
         
     }
     
-     // pitch Angle
+    // pitch Angle
     
     func pitch() -> Double {
         let v = data[BLENinebot.kPitchAngle].value
@@ -652,7 +623,7 @@ class  BLENinebot : NSObject{
             return 0.0
         }
     }
-  
+    
     
     
     
@@ -755,7 +726,7 @@ class  BLENinebot : NSObject{
         
     }
     
-
+    
     func speed(time t: NSTimeInterval) -> Double{
         
         let entry = self.value(BLENinebot.kCurrentSpeed, forTime: t)
@@ -816,15 +787,15 @@ class  BLENinebot : NSObject{
     func altitude(i : Int) -> Double{
         
         if i < data[BLENinebot.kAltitude].log.count{
-        
-        return Double(data[BLENinebot.kAltitude].log[i].value) / 10.0
+            
+            return Double(data[BLENinebot.kAltitude].log[i].value) / 10.0
         }
         else{
             return 0.0
         }
-
+        
     }
-   
+    
     func altitude(time t: NSTimeInterval) -> Double{
         
         let entry = self.value(BLENinebot.kAltitude, forTime: t)
@@ -839,60 +810,62 @@ class  BLENinebot : NSObject{
     
     // t is time from firstDate
     
-    func value(variable : Int,  forTime t:NSTimeInterval) -> LogEntry?{
+    func value(variable : Int,  forTime t:NSTimeInterval) -> DoubleLogEntry?{
         
         let v = variable
         let x = t
         
         
-            if self.data[v].log.count <= 0{       // No Data
-                return nil
+        if self.data[v].log.count <= 0{       // No Data
+            return nil
+        }
+        
+        var p0 = 0
+        var p1 = self.data[v].log.count - 1
+        let xd = Double(x)
+        
+        while p1 - p0 > 1{
+            
+            let p = (p1 + p0 ) / 2
+            
+            let xValue = self.data[v].log[p].time.timeIntervalSinceDate(self.firstDate!)
+            
+            if xd < xValue {
+                p1 = p
+            }
+            else if xd > xValue {
+                p0 = p
+            }
+            else{
+                p0 = p
+                p1 = p
+            }
+        }
+        
+        // If p0 == p1 just return value
+        
+        if p0 == p1 {
+            let e = self.data[v].log[p0]
+            return DoubleLogEntry(time: e.time, variable: e.variable, value: Double(e.value))
+            
+        }
+        else {      // Intentem interpolar
+            
+            let v0 = self.data[v].log[p0]
+            let v1 = self.data[v].log[p1]
+            
+            if v0.time.compare( v1.time) == NSComparisonResult.OrderedSame{   // One more check not to have div/0
+                return DoubleLogEntry(time: v0.time, variable: v0.variable, value: Double(v0.value))
             }
             
-            var p0 = 0
-            var p1 = self.data[v].log.count - 1
-            let xd = Double(x)
+            let deltax = v1.time.timeIntervalSinceDate(v0.time)
             
-            while p1 - p0 > 1{
- 
-                let p = (p1 + p0 ) / 2
-                
-                let xValue = self.data[v].log[p].time.timeIntervalSinceDate(self.firstDate!)
-                
-                if xd < xValue {
-                    p1 = p
-                }
-                else if xd > xValue {
-                    p0 = p
-                }
-                else{
-                    p0 = p
-                    p1 = p
-                }
-            }
+            let deltay = Double(v1.value) - Double(v0.value)
             
-            // If p0 == p1 just return value
+            let v = (x - v0.time.timeIntervalSinceDate(self.firstDate!)) / deltax * deltay + Double(v0.value)
             
-            if p0 == p1 {
-                return self.data[v].log[p0]
-            }
-            else {      // Intentem interpolar
-                
-                let v0 = self.data[v].log[p0]
-                let v1 = self.data[v].log[p1]
-                
-                if v0.time.compare( v1.time) == NSComparisonResult.OrderedSame{   // One more check not to have div/0
-                    return v0
-                }
-                
-                let deltax = v1.time.timeIntervalSinceDate(v0.time)
-
-                let deltay = Double(v1.value) - Double(v0.value)
-                
-                let v = (x - v0.time.timeIntervalSinceDate(self.firstDate!)) / deltax * deltay + Double(v0.value)
-                
-                return LogEntry(time: NSDate(timeInterval: x, sinceDate: self.firstDate!), variable: variable, value: Int(floor(v)))
-            }
+            return DoubleLogEntry(time: NSDate(timeInterval: x, sinceDate: self.firstDate!), variable: variable, value: v)
+        }
     }
     
     func getLogValue(variable : Int, time : NSTimeInterval) -> Double{
@@ -924,10 +897,10 @@ class  BLENinebot : NSObject{
             
         case 8:
             return self.altitude(time: time)
-
+            
         case 9:
             return self.power(time: time)
-           
+            
         default:
             return 0.0
             
