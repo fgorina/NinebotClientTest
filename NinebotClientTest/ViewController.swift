@@ -336,36 +336,6 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     }
     
     
-    @IBAction func saveSettings(segue: UIStoryboardSegue){
-    
-        NSLog("Saving Segue : %@", segue)
-        
-        let controller = segue.sourceViewController as? SettingsViewController
-        
-        if let co = controller {
-            let text = co.refreshField.text
-            
-            if let t = text {
-                let value = Double(t)
-                if let v = value {
-                    self.timerStep = v
-                }
-            }
-        }
-         self.dismissViewControllerAnimated(true) { () -> Void in
-            
-            
-        }
-    }
-    
-    @IBAction func cancelSettings(segue: UIStoryboardSegue){
-        
-        self.dismissViewControllerAnimated(true) { () -> Void in
-            
-            
-        }
-    }
-
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -432,18 +402,26 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if editingStyle == .Delete {
-            let url = self.files[indexPath.row]
+            
+            let url = self.sections[indexPath.section].files[indexPath.row]
             
             let mgr = NSFileManager.defaultManager()
             do {
                 try mgr.removeItemAtURL(url)
-                self.files.removeAtIndex(indexPath.row)
-                //tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-            }catch{
+                
+                self.sections[indexPath.section].files.removeAtIndex(indexPath.row)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                
+                if self.sections[indexPath.section].files.count == 0{
+                    self.sections.removeAtIndex(indexPath.section)
+                    tableView.deleteSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Automatic)
+                }
+           }catch{
                 NSLog("Error removing %@", url)
             }
             // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            
+            
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
@@ -520,6 +498,14 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
                 //self.startClient() // Tan sols en algun cas potser depenent del sender?
                 
             }
+        }else if segue.identifier == "settingsSegue"{
+        
+            if let settings = segue.destinationViewController as? SettingsViewController{
+                
+                settings.delegate = self
+            }
+        
+        
         }
     }
     
