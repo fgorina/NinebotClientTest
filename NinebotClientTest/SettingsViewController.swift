@@ -23,14 +23,73 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
-    @IBOutlet weak var refreshField: UITextField!
+    @IBOutlet weak var refreshField: UISlider!
     @IBOutlet weak var uuidLabel: UILabel!
+    
+    weak var delegate : ViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let dele = delegate {
+            
+            refreshField.value = Float(dele.timerStep)
+            let store = NSUserDefaults.standardUserDefaults()
+            if let uuid = store.objectForKey(BLESimulatedClient.kLast9BDeviceAccessedKey) as? String{
+                uuidLabel.text = uuid 
+            }
+            
+        }
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+       // setupNotifications()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+     //   removeNotifications()
+        super.viewWillDisappear(animated)
+    }
+    
+//    func setupNotifications(){
+//        
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+//
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillChange:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+//
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidChange:", name: UIKeyboardDidChangeFrameNotification, object: nil)
+//
+//    }
+//    
+//    func removeNotifications(){
+//        NSNotificationCenter.defaultCenter().removeObserver(self)
+//    }
+//    
+//    func keyboardWillHide(notification : NSNotification){
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+//            let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+//            var frame = self.view.frame
+//            frame.size.height = frame.size.height - keyboardSize.height
+//            self.view.frame = frame
+//        }
+//    }
+//    func keyboardWillShow(notification : NSNotification){
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+//            let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+//            var frame = self.view.frame
+//            frame.size.height = frame.size.height + keyboardSize.height
+//            self.view.frame = frame
+//       }
+//     }
+//    func keyboardWillChange(not : NSNotification){
+//        
+//    }
+//    func keyboardDidChange(not : NSNotification){
+//        
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -44,14 +103,15 @@ class SettingsViewController: UIViewController {
         self.uuidLabel.text = ""
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func sliderValueChanged(src : AnyObject){
+        
+        let f = self.refreshField.value
+        
+        if let dele = delegate {
+            dele.timerStep = Double(f)
+        }
     }
-    */
-
+    
+ 
 }
