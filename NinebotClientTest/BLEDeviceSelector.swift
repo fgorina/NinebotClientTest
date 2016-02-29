@@ -22,7 +22,9 @@
 import UIKit
 import CoreBluetooth
 
-class BLEDeviceSelector: UITableViewController {
+class BLEDeviceSelector: UIViewController {
+    
+    @IBOutlet weak var tableView : UITableView?
     
     var devices : [CBPeripheral] = [CBPeripheral] ()
     weak var delegate : BLENinebotDashboard?
@@ -34,7 +36,10 @@ class BLEDeviceSelector: UITableViewController {
     
     func addDevices(devices : [CBPeripheral]){
         self.devices.appendContentsOf(devices)
-        self.tableView.reloadData()
+        
+        if let table = self.tableView{
+            table.reloadData()
+        }
     }
     
     func deviceSelected(peripheral:CBPeripheral){
@@ -44,22 +49,27 @@ class BLEDeviceSelector: UITableViewController {
         }
          
     }
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+}
+
+extension BLEDeviceSelector : UITableViewDataSource{
+    
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return devices.count
+            return self.devices.count
         }else{
             return 0
         }
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("peripheralCellIdentifier", forIndexPath: indexPath)
         
-        let name = devices[indexPath.row].name
+        let name = self.devices[indexPath.row].name
     
         if let nam = name {
             cell.textLabel!.text = nam 
@@ -67,12 +77,14 @@ class BLEDeviceSelector: UITableViewController {
         
         return cell
     }
+}
+
+extension BLEDeviceSelector : UITableViewDelegate{
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     
         let peripheral = self.devices[indexPath.row]
         self.deviceSelected(peripheral)
     }
-    
-    
+
 }
