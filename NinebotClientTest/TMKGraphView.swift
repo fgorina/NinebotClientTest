@@ -1202,7 +1202,7 @@ class TMKGraphView: UIView {
         movingRightSelection = false
         movingLeftSelection = false
         
-        NSLog("Cancelling Touches")
+        
         self.updateSelection()
         self.infoSelField.text = self.selectionInfo()
         self.setNeedsDisplay()

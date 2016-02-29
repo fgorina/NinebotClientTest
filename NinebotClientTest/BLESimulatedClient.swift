@@ -245,7 +245,6 @@ class BLESimulatedClient: NSObject {
             
             if !self.checkState(info, state_2: self.oldState){
                 if let session = wcsession, inf = info {
-                    NSLog("Sending data to Watch")
                     do {
                         try session.updateApplicationContext(inf)
                         self.oldState = info
