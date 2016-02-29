@@ -116,8 +116,7 @@ class BLENinebotDashboard: UITableViewController {
         if let devs = devices {
         
             if !self.searching{
-                
-                
+ 
                 self.devList.removeAll()    // Remove old ones
                 self.devList.appendContentsOf(devs)
                 
@@ -138,6 +137,9 @@ class BLENinebotDashboard: UITableViewController {
         
         if let cli = self.client{
             cli.datos = self.ninebot
+            if let dele = delegate {
+                cli.timerStep = dele.timerStep
+            }
         }
     }
     
