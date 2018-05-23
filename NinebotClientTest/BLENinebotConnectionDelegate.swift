@@ -24,8 +24,8 @@ import CoreBluetooth
 
 @objc protocol BLENinebotConnectionDelegate {
 
-    func deviceConnected(peripheral : CBPeripheral )
-    func deviceDisconnectedConnected(peripheral : CBPeripheral )
-    func charUpdated(char : CBCharacteristic, data: NSData)
+    func deviceConnected(_ peripheral : CBPeripheral )
+    func deviceDisconnectedConnected(_ peripheral : CBPeripheral )
+    func charUpdated(_ char : CBCharacteristic, data: Data)
 
 }

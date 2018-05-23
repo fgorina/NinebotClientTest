@@ -25,6 +25,13 @@ import WatchConnectivity
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
+    /** Called when the session has completed activation. If session state is WCSessionActivationStateNotActivated there will be an error with more details. */
+    @available(watchOS 2.2, *)
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        print("session activated")
+    }
+
+    
     
     @IBOutlet weak  var distLabel : WKInterfaceLabel!
     @IBOutlet weak  var tempsLabel : WKInterfaceLabel!
@@ -47,15 +54,15 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     var oldColorLevel : Int = 0
     var stateChanged = false
     
-    var wcsession : WCSession? = WCSession.defaultSession()
+    var wcsession : WCSession? = WCSession.default()
     
     
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
         
         if let session = wcsession{
             session.delegate = self
-            session.activateSession()
+            session.activate()
             
         }
     }
@@ -71,7 +78,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         super.didDeactivate()
     }
     
-    func updateData(applicationContext: [String : Double]){
+    func updateData(_ applicationContext: [String : Double]){
         
         self.distancia = applicationContext["distancia"]!
         self.temps = applicationContext["temps"]!
@@ -88,21 +95,21 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             switch (ci) {
                 
             case 1 :
-                self.color = UIColor.orangeColor()
+                self.color = UIColor.orange
                 
             case 2 :
-                self.color = UIColor.redColor()
+                self.color = UIColor.red
                 
             default :
                 self.color = skyColor
             }
             
             if ci > self.colorLevel {
-                WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.DirectionUp)
+                WKInterfaceDevice.current().play(WKHapticType.directionUp)
                 self.colorLevel = ci
             }
             else if ci < self.colorLevel {
-                WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.DirectionDown)
+                WKInterfaceDevice.current().play(WKHapticType.directionDown)
                 self.colorLevel = ci
             }
         }
@@ -120,7 +127,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func updateFields(){
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async(execute: { () -> Void in
             
             if self.distancia < 1.0 {
                 
@@ -149,11 +156,11 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             self.remainingLabel.setText(String(format: "%5.2f %@", self.remaining, "Km"))
             
             if self.battery < 30.0{
-                self.batteryLabel.setTextColor(UIColor.redColor())
-                self.remainingLabel.setTextColor(UIColor.redColor())
+                self.batteryLabel.setTextColor(UIColor.red)
+                self.remainingLabel.setTextColor(UIColor.red)
             }else{
-                self.batteryLabel.setTextColor(UIColor.greenColor())
-                self.remainingLabel.setTextColor(UIColor.greenColor())
+                self.batteryLabel.setTextColor(UIColor.green)
+                self.remainingLabel.setTextColor(UIColor.green)
             }
             
             if self.oldColorLevel != self.colorLevel {
@@ -167,12 +174,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         })
     }
     
-    func sessionWatchStateDidChange(session: WCSession) {
-        
-        NSLog("WCSessionState changed. Reachable %@", session.reachable)
-    }
-    
-    func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]){
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]){
         
         if let v = applicationContext as? [String : Double]{
             

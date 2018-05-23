@@ -39,7 +39,7 @@ class BLENinebotSettingsViewController: UIViewController {
     }
     
 
-    @IBAction func clearNinebotUUID(src : AnyObject){
+    @IBAction func clearNinebotUUID(_ src : AnyObject){
         
         
         

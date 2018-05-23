@@ -43,7 +43,7 @@ class BLESimulatedClient: NSObject {
     
     var datos : BLENinebot?
     var headersOk = false
-    var sendTimer : NSTimer?    // Timer per enviar les dades periodicament
+    var sendTimer : Timer?    // Timer per enviar les dades periodicament
     var timerStep = 0.01        // Get data every step
     var contadorOp = 0          // Normal data updated every second
     var contadorOpFast = 0      // Special data updated every 1/10th of second
@@ -56,7 +56,7 @@ class BLESimulatedClient: NSObject {
     // Altimeter data
     
     var altimeter : CMAltimeter?
-    var altQueue : NSOperationQueue?
+    var altQueue : OperationQueue?
     
     // General State
     
@@ -66,7 +66,7 @@ class BLESimulatedClient: NSObject {
     
     // Watch control
     
-    var timer : NSTimer?
+    var timer : Timer?
     var wcsession : WCSession?
     var sendToWatch = false
     var oldState : Dictionary<String, Double>?
@@ -81,13 +81,13 @@ class BLESimulatedClient: NSObject {
         
         if WCSession.isSupported(){
             
-            let session = WCSession.defaultSession()
+            let session = WCSession.default()
             session.delegate = self
-            session.activateSession()
+            session.activate()
             self.wcsession = session
             
-            let paired = session.paired
-            let installed = session.watchAppInstalled
+            let paired = session.isPaired
+            let installed = session.isWatchAppInstalled
             
             if paired {
                 NSLog("Session Paired")
@@ -98,7 +98,7 @@ class BLESimulatedClient: NSObject {
                 NSLog("Session Installed" )
             }
             
-            if session.paired && session.watchAppInstalled{
+            if session.isPaired && session.isWatchAppInstalled{
                 self.sendToWatch = true
             }
         }
@@ -106,7 +106,7 @@ class BLESimulatedClient: NSObject {
     
     func initNotifications()
     {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTitle:", name: BLESimulatedClient.kHeaderDataReadyNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: "updateTitle:", name: NSNotification.Name(rawValue: BLESimulatedClient.kHeaderDataReadyNotification), object: nil)
     }
     
     // Connect is the start connection
@@ -116,8 +116,8 @@ class BLESimulatedClient: NSObject {
         
         // First we recover the last device and try to connect directly
         
-        let store = NSUserDefaults.standardUserDefaults()
-        let device = store.stringForKey(BLESimulatedClient.kLast9BDeviceAccessedKey)
+        let store = UserDefaults.standard
+        let device = store.string(forKey: BLESimulatedClient.kLast9BDeviceAccessedKey)
         
         if let dev = device {
             self.connection.connectToDeviceWithUUID(dev)
@@ -140,10 +140,10 @@ class BLESimulatedClient: NSObject {
     //MARK: Auxiliary functions
     
     
-    class func sendNotification(notification: String, data:[NSObject : AnyObject]? ){
+    class func sendNotification(_ notification: String, data:[AnyHashable: Any]? ){
         
-        let notification = NSNotification(name:notification, object:self, userInfo: data)
-        NSNotificationCenter.defaultCenter().postNotification(notification)
+        let notification = Notification(name:Notification.Name(rawValue: notification), object:self, userInfo: data)
+        NotificationCenter.default.post(notification)
         
     }
     
@@ -155,20 +155,20 @@ class BLESimulatedClient: NSObject {
                 self.altimeter = CMAltimeter()
             }
             if self.altQueue == nil{
-                self.altQueue = NSOperationQueue()
+                self.altQueue = OperationQueue()
                 self.altQueue!.maxConcurrentOperationCount = 1
             }
             
             
-            if let altm = self.altimeter, queue = self.altQueue{
+            if let altm = self.altimeter, let queue = self.altQueue{
                 
-                altm.startRelativeAltitudeUpdatesToQueue(queue,
+                altm.startRelativeAltitudeUpdates(to: queue,
                     withHandler: { (alts : CMAltitudeData?, error : NSError?) -> Void in
                         
-                        if let alt = alts, nb = self.datos {
+                        if let alt = alts, let nb = self.datos {
                             nb.addValue(0, value: Int(floor(alt.relativeAltitude.doubleValue * 10.0)))
                         }
-                })
+                } as! CMAltitudeHandler)
             }
         }
     }
@@ -203,14 +203,14 @@ class BLESimulatedClient: NSObject {
         return dict
     }
     
-    func checkState(state_1 :[String : Double]?, state_2:[String : Double]?) -> Bool{
+    func checkState(_ state_1 :[String : Double]?, state_2:[String : Double]?) -> Bool{
         
         if state_1 == nil || state_2 == nil{
             return false
         }
         
         
-        if let st1 = state_1, st2 = state_2 {
+        if let st1 = state_1, let st2 = state_2 {
             
             if st1.count != st2.count {
                 return false
@@ -237,14 +237,14 @@ class BLESimulatedClient: NSObject {
         return false
     }
     
-    func sendStateToWatch(timer: NSTimer){
+    func sendStateToWatch(_ timer: Timer){
         
         if self.sendToWatch{
             
             let info = self.getAppState()
             
             if !self.checkState(info, state_2: self.oldState){
-                if let session = wcsession, inf = info {
+                if let session = wcsession, let inf = info {
                     do {
                         try session.updateApplicationContext(inf)
                         self.oldState = info
@@ -258,7 +258,7 @@ class BLESimulatedClient: NSObject {
         }
     }
     
-    func sendData(timer:NSTimer){
+    func sendData(_ timer:Timer){
         
         if let nb = self.datos {
             
@@ -269,8 +269,8 @@ class BLESimulatedClient: NSObject {
                     BLESimulatedClient.sendNotification(BLESimulatedClient.kHeaderDataReadyNotification, data:nil)
                     
                 }
-                
-                let (op, l) = listaOpFast[contadorOpFast++]
+                contadorOpFast += 1
+                let (op, l) = listaOpFast[contadorOpFast]
                 let message = BLENinebotMessage(com: op, dat:[ l * 2] )
                 if let dat = message?.toNSData(){
                     self.connection.writeValue(dat)
@@ -279,7 +279,8 @@ class BLESimulatedClient: NSObject {
                 
                 if contadorOpFast >= listaOpFast.count{
                     contadorOpFast = 0
-                    let (op, l) = listaOp[contadorOp++]
+                    contadorOp+=1
+                    let (op, l) = listaOp[contadorOp]
                     
                     if contadorOp >= listaOp.count{
                         contadorOp = 0
@@ -307,13 +308,13 @@ class BLESimulatedClient: NSObject {
     
     //MARK: Receiving Data
     
-    func appendToBuffer(data : NSData){
+    func appendToBuffer(_ data : Data){
         
-        let count = data.length
-        var buf = [UInt8](count: count, repeatedValue: 0)
-        data.getBytes(&buf, length:count * sizeof(UInt8))
+        let count = data.count
+        var buf = [UInt8](repeating: 0, count: count)
+        (data as NSData).getBytes(&buf, length:count * MemoryLayout<UInt8>.size)
         
-        buffer.appendContentsOf(buf)
+        buffer.append(contentsOf: buf)
     }
     
     func procesaBuffer()
@@ -402,7 +403,7 @@ class BLESimulatedClient: NSObject {
 
 extension BLESimulatedClient : BLENinebotConnectionDelegate{
     
-    func deviceConnected(peripheral : CBPeripheral ){
+    func deviceConnected(_ peripheral : CBPeripheral ){
         
 
             self.startAltimeter()
@@ -410,17 +411,17 @@ extension BLESimulatedClient : BLENinebotConnectionDelegate{
             self.headersOk = false
             self.connected = true
             
-            self.sendTimer = NSTimer.scheduledTimerWithTimeInterval(self.timerStep, target: self, selector: "sendData:", userInfo: nil, repeats: true)
+            self.sendTimer = Timer.scheduledTimer(timeInterval: self.timerStep, target: self, selector: #selector(BLESimulatedClient.sendData(_:)), userInfo: nil, repeats: true)
             
             
             // Start timer for sending info to watch
             
             if self.sendToWatch {
-                self.timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector:"sendStateToWatch:", userInfo: nil, repeats: true)
+                self.timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector:#selector(BLESimulatedClient.sendStateToWatch(_:)), userInfo: nil, repeats: true)
             }
     }
     
-    func deviceDisconnectedConnected(peripheral : CBPeripheral ){
+    func deviceDisconnectedConnected(_ peripheral : CBPeripheral ){
         self.connected = false
         if let tim = self.sendTimer {
             tim.invalidate()
@@ -438,7 +439,7 @@ extension BLESimulatedClient : BLENinebotConnectionDelegate{
         }
     }
     
-    func charUpdated(char : CBCharacteristic, data: NSData){
+    func charUpdated(_ char : CBCharacteristic, data: Data){
         
         self.appendToBuffer(data)
         self.procesaBuffer()
@@ -450,11 +451,24 @@ extension BLESimulatedClient : BLENinebotConnectionDelegate{
 
 extension BLESimulatedClient :  WCSessionDelegate{
     
-    func sessionWatchStateDidChange(session: WCSession) {
+    @available(iOS 9.3, *)
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        sessionWatchStateDidChange(session)
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        sessionWatchStateDidChange(session)
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        sessionWatchStateDidChange(session)
+    }
+    
+    func sessionWatchStateDidChange(_ session: WCSession) {
         
-        if session.paired && session.watchAppInstalled{
+        if session.isPaired && session.isWatchAppInstalled{
             self.sendToWatch = true
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector:"sendStateToWatch:", userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector:#selector(BLESimulatedClient.sendStateToWatch(_:)), userInfo: nil, repeats: true)
             
         }
         else{
@@ -466,13 +480,13 @@ extension BLESimulatedClient :  WCSessionDelegate{
         }
     }
     
-    func session(session: WCSession, didReceiveMessageData messageData: NSData) {
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
         
         
         // For the moment the watch just listens
     }
     
-    func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         
         // Fot the moment the watch just listens
         

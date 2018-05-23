@@ -44,11 +44,11 @@ class BLEMim: UIViewController {
     let client : BLEConnection = BLEConnection()
     let server : BLESimulatedServer = BLESimulatedServer()
     
-    var startDate : NSDate?
+    var startDate : Date?
     
     var log = [Exchange]()
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         self.setup()
@@ -63,8 +63,8 @@ class BLEMim: UIViewController {
     }
     
     override func viewDidLoad() {
-        self.iPhoneButton.enabled = false
-        self.ninebotButton.enabled = false
+        self.iPhoneButton.isEnabled = false
+        self.ninebotButton.isEnabled = false
     }
     func setup(){
         
@@ -91,8 +91,8 @@ class BLEMim: UIViewController {
         
         // First we recover the last device and try to connect directly
         
-        let store = NSUserDefaults.standardUserDefaults()
-        let device = store.stringForKey(BLESimulatedClient.kLast9BDeviceAccessedKey)
+        let store = UserDefaults.standard
+        let device = store.string(forKey: BLESimulatedClient.kLast9BDeviceAccessedKey)
         
         if let dev = device {
             self.client.connectToDeviceWithUUID(dev)
@@ -123,7 +123,7 @@ class BLEMim: UIViewController {
     
     }
     
-    @IBAction func flip(src: AnyObject){
+    @IBAction func flip(_ src: AnyObject){
         
         if isConnected() {
             stop()
@@ -132,24 +132,24 @@ class BLEMim: UIViewController {
             start()
         }
     }
-    @IBAction func doSave(src: AnyObject){
+    @IBAction func doSave(_ src: AnyObject){
         _ = self.save()
     }
     
-    func save() -> NSURL?{
+    func save() -> URL?{
         
         if startDate == nil {
-            startDate = NSDate()
+            startDate = Date()
         }
        
-        let ldateFormatter = NSDateFormatter()
-        let enUSPOSIXLocale = NSLocale(localeIdentifier: "en_US_POSIX")
+        let ldateFormatter = DateFormatter()
+        let enUSPOSIXLocale = Locale(identifier: "en_US_POSIX")
         
         ldateFormatter.locale = enUSPOSIXLocale
         ldateFormatter.dateFormat = "'9B_'yyyyMMdd'_'HHmmss'.log'"
-        let newName = ldateFormatter.stringFromDate(startDate!)
+        let newName = ldateFormatter.string(from: startDate!)
         
-        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
         
         let path : String
         
@@ -161,24 +161,24 @@ class BLEMim: UIViewController {
             return nil
         }
         
-        let tempFile = (path + "/" ).stringByAppendingString(newName )
+        let tempFile = (path + "/" ) + newName
         
         
-        let mgr = NSFileManager.defaultManager()
+        let mgr = FileManager.default
         
-        mgr.createFileAtPath(tempFile, contents: nil, attributes: nil)
-        let file = NSURL.fileURLWithPath(tempFile)
+        mgr.createFile(atPath: tempFile, contents: nil, attributes: nil)
+        let file = URL(fileURLWithPath: tempFile)
         
         
         
         do{
-            let hdl = try NSFileHandle(forWritingToURL: file)
+            let hdl = try FileHandle(forWritingTo: file)
             // Get time of first item
             
             ldateFormatter.dateFormat = "yyyy MM dd'_'HH:mm:ss"
            
-            let s = ldateFormatter.stringFromDate(startDate!) + "\n"
-            hdl.writeData(s.dataUsingEncoding(NSUTF8StringEncoding)!)
+            let s = ldateFormatter.string(from: startDate!) + "\n"
+            hdl.write(s.data(using: String.Encoding.utf8)!)
             
             
             for v in self.log {
@@ -193,8 +193,8 @@ class BLEMim: UIViewController {
                     s = String(format:"> %@\n", v.data)
                 }
                 
-                if let vn = s!.dataUsingEncoding(NSUTF8StringEncoding){
-                    hdl.writeData(vn)
+                if let vn = s!.data(using: String.Encoding.utf8){
+                    hdl.write(vn)
                 }
                 
              }
@@ -211,18 +211,18 @@ class BLEMim: UIViewController {
         return nil
     }
     
-    func nsdata2HexString(data : NSData) -> String{
+    func nsdata2HexString(_ data : Data) -> String{
         
         
-        let count = data.length
-        var buffer = [UInt8](count: count, repeatedValue: 0)
-        data.getBytes(&buffer, length:count * sizeof(UInt8))
+        let count = data.count
+        var buffer = [UInt8](repeating: 0, count: count)
+        (data as NSData).getBytes(&buffer, length:count * MemoryLayout<UInt8>.size)
 
         var out = ""
         
         for i in 0..<count {
             let str = String(format: "%02x", buffer[i])
-            out.appendContentsOf(str)
+            out.append(str)
         }
         
         return out
@@ -233,21 +233,21 @@ class BLEMim: UIViewController {
 
 extension BLEMim : BLENinebotConnectionDelegate{
 
-    func deviceConnected(peripheral : CBPeripheral ){
+    func deviceConnected(_ peripheral : CBPeripheral ){
         if let s = peripheral.name{
             NSLog("Device %@ connected", s)
-            self.ninebotButton.enabled = true
-            self.startDate = NSDate()
+            self.ninebotButton.isEnabled = true
+            self.startDate = Date()
         }
     }
-    func deviceDisconnectedConnected(peripheral : CBPeripheral ){
+    func deviceDisconnectedConnected(_ peripheral : CBPeripheral ){
         if let s = peripheral.name{
             NSLog("Device %@ disconnected", s)
-            self.ninebotButton.enabled = false
+            self.ninebotButton.isEnabled = false
             
         }
     }
-    func charUpdated(char : CBCharacteristic, data: NSData){
+    func charUpdated(_ char : CBCharacteristic, data: Data){
         self.server.updateValue(data)
         let hexdat = self.nsdata2HexString(data)
         
@@ -261,7 +261,7 @@ extension BLEMim : BLENinebotConnectionDelegate{
 }
 extension BLEMim : BLENinebotServerDelegate {
     
-    func writeReceived(char : CBCharacteristic, data: NSData){
+    func writeReceived(_ char : CBCharacteristic, data: Data){
         self.client.writeValue(data)
 
         let hexdat = self.nsdata2HexString(data)
@@ -271,31 +271,31 @@ extension BLEMim : BLENinebotServerDelegate {
         self.tableView.reloadData()
         
     }
-    func remoteDeviceSubscribedToCharacteristic(characteristic : CBCharacteristic, central : CBCentral){
+    func remoteDeviceSubscribedToCharacteristic(_ characteristic : CBCharacteristic, central : CBCentral){
         NSLog("Device subscribed %@", central)
-        self.iPhoneButton.enabled = true
+        self.iPhoneButton.isEnabled = true
     }
-    func remoteDeviceUnsubscribedToCharacteristic(characteristic : CBCharacteristic, central : CBCentral){
+    func remoteDeviceUnsubscribedToCharacteristic(_ characteristic : CBCharacteristic, central : CBCentral){
         NSLog("Device unsubscribed %@", central)
-        self.iPhoneButton.enabled = false
+        self.iPhoneButton.isEnabled = false
     }
 
 }
 
 extension BLEMim : UITableViewDataSource{
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.log.count
     }
     
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("logEntryCellIdentifier", forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "logEntryCellIdentifier", for: indexPath)
         
         let entry = log[indexPath.row]
         

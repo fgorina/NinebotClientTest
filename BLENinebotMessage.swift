@@ -76,7 +76,7 @@ class BLENinebotMessage: NSObject {
         
         // OK build a buffer, compute checks and store
 
-        var buff = [UInt8](count: 6, repeatedValue: 0)
+        var buff = [UInt8](repeating: 0, count: 6)
         buff[0] = h0
         buff[1] = h1
         buff[2] = len
@@ -84,7 +84,7 @@ class BLENinebotMessage: NSObject {
         buff[4] = fixed2
         buff[5] = command
         
-        buff.appendContentsOf(dat)
+        buff.append(contentsOf: dat)
         
         let (check0, check1) = self.check(buff, len: buff.count-2)
         
@@ -104,12 +104,12 @@ class BLENinebotMessage: NSObject {
         
     }
     
-    init?(data : NSData){
+    init?(data : Data){
         
         super.init()
-        let count = data.length
-        var buffer = [UInt8](count: count, repeatedValue: 0)
-        data.getBytes(&buffer, length:count * sizeof(UInt8))
+        let count = data.count
+        var buffer = [UInt8](repeating: 0, count: count)
+        (data as NSData).getBytes(&buffer, length:count * MemoryLayout<UInt8>.size)
         if !self.parseBuffer(buffer) {
             return nil
         }
@@ -127,16 +127,16 @@ class BLENinebotMessage: NSObject {
         
         let ni = n / 2
         
-        var buffer = [UInt8](count: ni, repeatedValue: 0)
+        var buffer = [UInt8](repeating: 0, count: ni)
         var index = string.startIndex
         var i2 = string.startIndex
         
         
-        for (var i = 0; i < ni; i++){
+        for i in 0..<ni {
             index = i2
-            i2 = index.advancedBy(2)
+            i2 = index.advanced(by: 2)
             
-            let s = string.substringWithRange(index..<i2)
+            let s = string.substring(with: index..<i2)
             
             let us = UInt8(s, radix:16)
             if let u = us {
@@ -156,7 +156,7 @@ class BLENinebotMessage: NSObject {
     // parseBuffer omple les dades a partir del buffer. Fa check dels ck i header.
     // Retorna true si tot es correcte, false si es erroni
     
-    func parseBuffer(buffer : [UInt8]) -> Bool{
+    func parseBuffer(_ buffer : [UInt8]) -> Bool{
         
         if buffer.count < 8 {   //  Minimum buffer sze
             return false
@@ -206,7 +206,7 @@ class BLENinebotMessage: NSObject {
     
     func toArray() -> [UInt8]{
         
-        var buff = [UInt8](count: 6, repeatedValue: 0)
+        var buff = [UInt8](repeating: 0, count: 6)
         
         buff[0] = h0
         buff[1] = h1
@@ -215,7 +215,7 @@ class BLENinebotMessage: NSObject {
         buff[4] = fixed2
         buff[5] = command
         
-        buff.appendContentsOf(data)
+        buff.append(contentsOf: data)
         
         buff.append(ck0)
         buff.append(ck1)
@@ -223,10 +223,10 @@ class BLENinebotMessage: NSObject {
         return buff
     }
     
-    func toNSData() -> NSData?{
+    func toNSData() -> Data?{
         
         let buff = toArray();
-        let data = NSData(bytes: buff, length: buff.count)
+        let data = Data(bytes: UnsafePointer<UInt8>(buff), count: buff.count)
         
         return data
      }
@@ -234,10 +234,10 @@ class BLENinebotMessage: NSObject {
     
     // Computes checksum from byte [2] for len bytes.
     
-    func check(bArr : [UInt8], len : Int) -> (UInt8, UInt8) {			//Comença a i2 = 2 per c bytes
+    func check(_ bArr : [UInt8], len : Int) -> (UInt8, UInt8) {			//Comença a i2 = 2 per c bytes
         var i : UInt16 = 0;
         
-        for (var i2 = 2; i2 < len + 2; i2++) {
+        for i2 in 2..<(len + 2) {
             i =  (i + UInt16(bArr[i2]))
         }
         let v : UInt16 =   (i ^ 0xFFFF) & self.CUSTOMER_ACTION_MASK
@@ -251,7 +251,7 @@ class BLENinebotMessage: NSObject {
         var s = String(format: "BLEMessage : c = %02x p = ", self.command)
         
         for b in self.data{
-            s.appendContentsOf(String(format:" %02x", b))
+            s.append(String(format:" %02x", b))
         }
         
         return s
@@ -270,14 +270,17 @@ class BLENinebotMessage: NSObject {
             let l = Int(self.len-2)
             var k = Int(self.command)
             
-            for var i = 0; i < l; i=i+2{
-                
+            
+            var i = 0
+            
+            while i < l {
                 let value = Int(data[i+1]) * 256 + Int(data[i])
                 
                 dict[k] = value
-                k++
-                
+                k += 1
+                i += 2
             }
+
         }
         
         return dict

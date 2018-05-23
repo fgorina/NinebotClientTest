@@ -24,8 +24,8 @@ import CoreBluetooth
 
 @objc protocol BLENinebotServerDelegate {
     
-    func remoteDeviceSubscribedToCharacteristic(characteristic : CBCharacteristic, central : CBCentral)
-    func remoteDeviceUnsubscribedToCharacteristic(characteristic : CBCharacteristic, central : CBCentral)
-    func writeReceived(char : CBCharacteristic, data: NSData)
+    func remoteDeviceSubscribedToCharacteristic(_ characteristic : CBCharacteristic, central : CBCentral)
+    func remoteDeviceUnsubscribedToCharacteristic(_ characteristic : CBCharacteristic, central : CBCentral)
+    func writeReceived(_ char : CBCharacteristic, data: Data)
     
 }
