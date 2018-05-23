@@ -34,15 +34,15 @@ class BLEDeviceSelector: UIViewController {
         self.devices.removeAll()
     }
     
-    func addDevices(devices : [CBPeripheral]){
-        self.devices.appendContentsOf(devices)
+    func addDevices(_ devices : [CBPeripheral]){
+        self.devices.append(contentsOf: devices)
         
         if let table = self.tableView{
             table.reloadData()
         }
     }
     
-    func deviceSelected(peripheral:CBPeripheral){
+    func deviceSelected(_ peripheral:CBPeripheral){
         
         if let dele = self.delegate {
             dele.connectToPeripheral(peripheral)
@@ -54,7 +54,7 @@ class BLEDeviceSelector: UIViewController {
 extension BLEDeviceSelector : UITableViewDataSource{
     
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return self.devices.count
         }else{
@@ -62,12 +62,12 @@ extension BLEDeviceSelector : UITableViewDataSource{
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("peripheralCellIdentifier", forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "peripheralCellIdentifier", for: indexPath)
         
         let name = self.devices[indexPath.row].name
     
@@ -81,7 +81,7 @@ extension BLEDeviceSelector : UITableViewDataSource{
 
 extension BLEDeviceSelector : UITableViewDelegate{
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
         let peripheral = self.devices[indexPath.row]
         self.deviceSelected(peripheral)

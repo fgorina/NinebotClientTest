@@ -49,11 +49,11 @@ class BLESimulatedServer: NSObject, CBPeripheralManagerDelegate {
     
     // MARK: PeripheralManagerDelegate
     
-    func peripheralManagerDidUpdateState(peripheral : CBPeripheralManager){
+    func peripheralManagerDidUpdateState(_ peripheral : CBPeripheralManager){
     
         switch(peripheral.state){
             
-        case .PoweredOn: // Configurem el servei
+        case .poweredOn: // Configurem el servei
             self.buildService()
             self.startTransmiting()
             
@@ -65,7 +65,7 @@ class BLESimulatedServer: NSObject, CBPeripheralManagerDelegate {
         
     }
     
-    func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
         
         if let del = self.delegate {
             
@@ -84,7 +84,7 @@ class BLESimulatedServer: NSObject, CBPeripheralManagerDelegate {
     
     }
     
-    func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFromCharacteristic characteristic: CBCharacteristic) {
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
         
         if let del = self.delegate {
             
@@ -95,14 +95,14 @@ class BLESimulatedServer: NSObject, CBPeripheralManagerDelegate {
     }
     
     
-    func peripheralManager(peripheral: CBPeripheralManager, didReceiveReadRequest request: CBATTRequest){
+    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest){
         
-        peripheral.respondToRequest(request, withResult: CBATTError.Success)
+        peripheral.respond(to: request, withResult: CBATTError.Code.success)
         
     }
 
     
-    func peripheralManager(peripheral: CBPeripheralManager, didReceiveWriteRequests requests: [CBATTRequest]) {
+    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
 
         for request in requests {
             let value = request.value
@@ -114,7 +114,7 @@ class BLESimulatedServer: NSObject, CBPeripheralManagerDelegate {
                     
                 }
              }
-            peripheral.respondToRequest(request, withResult: CBATTError.Success)
+            peripheral.respond(to: request, withResult: CBATTError.Code.success)
         }
     }
     
@@ -123,11 +123,11 @@ class BLESimulatedServer: NSObject, CBPeripheralManagerDelegate {
     
     //MARK: Auxiliar
     
-    func updateValue(data : NSData){
+    func updateValue(_ data : Data){
         
         if let car = self.caracteristica{
         
-            self.manager.updateValue(data, forCharacteristic: car, onSubscribedCentrals: nil);
+            self.manager.updateValue(data, for: car, onSubscribedCentrals: nil);
         }
         
     }
@@ -136,7 +136,7 @@ class BLESimulatedServer: NSObject, CBPeripheralManagerDelegate {
         
         let  userDesc = CBMutableDescriptor(type: CBUUID(string:CBUUIDCharacteristicUserDescriptionString), value: "HMSoft")
         
-        self.caracteristica = CBMutableCharacteristic(type: CBUUID(string: charId), properties:[CBCharacteristicProperties.Notify,CBCharacteristicProperties.Read,CBCharacteristicProperties.WriteWithoutResponse], value: nil, permissions: [CBAttributePermissions.Readable,CBAttributePermissions.Writeable])
+        self.caracteristica = CBMutableCharacteristic(type: CBUUID(string: charId), properties:[CBCharacteristicProperties.notify,CBCharacteristicProperties.read,CBCharacteristicProperties.writeWithoutResponse], value: nil, permissions: [CBAttributePermissions.readable,CBAttributePermissions.writeable])
         
         self.caracteristica?.descriptors = [userDesc]
         
@@ -145,7 +145,7 @@ class BLESimulatedServer: NSObject, CBPeripheralManagerDelegate {
         
             if let serv = self.servei {
                 serv.characteristics = [car]
-                self.manager.addService(serv)
+                self.manager.add(serv)
                
              }
         }
@@ -154,7 +154,7 @@ class BLESimulatedServer: NSObject, CBPeripheralManagerDelegate {
     func startTransmiting(){
         
         let dict : Dictionary = [CBAdvertisementDataServiceUUIDsKey : [CBUUID(string: self.serviceId)],
-            CBAdvertisementDataLocalNameKey : "NOE002"]
+            CBAdvertisementDataLocalNameKey : "NOE002"] as [String : Any]
         
         self.manager.startAdvertising(dict)
         self.transmiting = true

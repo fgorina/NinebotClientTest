@@ -76,17 +76,17 @@ class TMKGraphView: UIView {
     
     var origYPos = 0.0
     var origSize = 0.0
-    var firstClick : CGPoint = CGPointZero
-    var oldY : CGPoint = CGPointZero
+    var firstClick : CGPoint = CGPoint.zero
+    var oldY : CGPoint = CGPoint.zero
     
     //MARK: Init
     
     func setup()
     {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.multipleTouchEnabled = true
-        self.contentMode = UIViewContentMode.Redraw
-        self.opaque = false
+        self.isMultipleTouchEnabled = true
+        self.contentMode = UIViewContentMode.redraw
+        self.isOpaque = false
         self.activeColor = UIColor(red: 0.4, green: 0.8, blue: 0.8, alpha: 1.0)
         self.highlightColor = UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
@@ -97,12 +97,12 @@ class TMKGraphView: UIView {
         self.addInfoField()
         //self.addSlider()
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeLeft:")
-        swipeLeft.direction = .Left
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(TMKGraphView.swipeLeft(_:)))
+        swipeLeft.direction = .left
         swipeLeft.numberOfTouchesRequired = 2
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeRight:")
-        swipeRight.direction = .Right
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(TMKGraphView.swipeRight(_:)))
+        swipeRight.direction = .right
         swipeRight.numberOfTouchesRequired = 2
         
         self.addGestureRecognizer(swipeLeft)
@@ -131,17 +131,17 @@ class TMKGraphView: UIView {
     //MARK: Recognizers
     
     func setupGestureRecognizers(){
-        let tapG = UITapGestureRecognizer(target: self, action: "clamp:")
+        let tapG = UITapGestureRecognizer(target: self, action: #selector(TMKGraphView.clamp(_:)))
         tapG.numberOfTapsRequired = 2
         self.addGestureRecognizer(tapG)
     }
     
     
     
-    @IBAction func clamp(src: UITapGestureRecognizer)
+    @IBAction func clamp(_ src: UITapGestureRecognizer)
     {
         
-        let myPt = src.locationInView(self)
+        let myPt = src.location(in: self)
         
         if myPt.x > self.selectionLeft && myPt.x < self.selectionRight && myPt.y > ( self.topMargin) && myPt.y < (self.bounds.size.height - self.bottomMargin)
         {
@@ -250,7 +250,7 @@ class TMKGraphView: UIView {
         
     }
     
-    func exactNumber(x : CGFloat) -> CGFloat{
+    func exactNumber(_ x : CGFloat) -> CGFloat{
         
         if x < 0.0 {
             return 0 - self.exactNumberPositive(-x)
@@ -260,7 +260,7 @@ class TMKGraphView: UIView {
         }
     }
     
-    func exactNumberPositive(x : CGFloat) -> CGFloat
+    func exactNumberPositive(_ x : CGFloat) -> CGFloat
     {
         
         
@@ -330,7 +330,7 @@ class TMKGraphView: UIView {
     }
     
     
-    func oldTrackPointFromViewPoint(p:CGPoint) -> CGPoint {
+    func oldTrackPointFromViewPoint(_ p:CGPoint) -> CGPoint {
         
         var myPt : CGPoint = CGPoint(x:p.x-self.leftMargin, y: p.y-self.bottomMargin)
         
@@ -343,7 +343,7 @@ class TMKGraphView: UIView {
     }
     
     
-    func trackPointFromViewPoint(pt:CGPoint) -> CGPoint   {
+    func trackPointFromViewPoint(_ pt:CGPoint) -> CGPoint   {
         var myPt = CGPoint(x:0, y:0)
         let height = self.bounds.size.height
         
@@ -379,7 +379,7 @@ class TMKGraphView: UIView {
         return myPt
     }
     
-    func heightPointFromTrackPoint(pt : CGPoint) -> CGPoint
+    func heightPointFromTrackPoint(_ pt : CGPoint) -> CGPoint
     {
         var myPt = CGPoint(x:0,y:0)
         let height = self.bounds.size.height
@@ -414,11 +414,11 @@ class TMKGraphView: UIView {
                 y: height - ((pt.y - self.yminH ) * sy) - self.bottomMargin);
         }
         
-        if(isnan(myPt.x)){
+        if myPt.x.isNaN {
             myPt.x = 0.0
         }
         
-        if(isnan(myPt.y)){
+        if myPt.y.isNaN {
             myPt.y = 0.0
         }
         
@@ -427,7 +427,7 @@ class TMKGraphView: UIView {
     }
     
     
-    func viewPointFromTrackPoint(pt:CGPoint) -> CGPoint
+    func viewPointFromTrackPoint(_ pt:CGPoint) -> CGPoint
     {
         var  myPt = CGPoint(x:0, y:0)
         let height = self.bounds.size.height
@@ -445,7 +445,7 @@ class TMKGraphView: UIView {
         if(pt.x < self.selectionLeftUnits){
             let scx : CGFloat = (self.selectionLeft - self.leftMargin) / (self.selectionLeftUnits - self.xmin)
             
-            myPt = CGPoint(x: (x: pt.x - self.xmin ) * scx + self.leftMargin,
+            myPt = CGPoint(x: (pt.x - self.xmin) * scx + self.leftMargin,
                 y: height - ((pt.y - self.ymin ) * self.sy) - self.bottomMargin)
         }
         else if pt.x >= self.selectionLeftUnits && pt.x <= self.selectionRightUnits{
@@ -461,11 +461,11 @@ class TMKGraphView: UIView {
                 y: height - ((pt.y - self.ymin ) * self.sy) - self.bottomMargin);
         }
         
-        if(isnan(myPt.x)){
+        if(myPt.x.isNaN){
             myPt.x = 0.0
         }
         
-        if(isnan(myPt.y)){
+        if(myPt.y.isNaN){
             myPt.y = 0.0
         }
         
@@ -483,19 +483,19 @@ class TMKGraphView: UIView {
         
         
         self.addSubview(gcv)
-        var sCons : NSLayoutConstraint = NSLayoutConstraint(item:gcv, attribute:NSLayoutAttribute.Top, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Top, multiplier:CGFloat(1.0), constant:self.topMargin)
+        var sCons : NSLayoutConstraint = NSLayoutConstraint(item:gcv, attribute:NSLayoutAttribute.top, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.top, multiplier:CGFloat(1.0), constant:self.topMargin)
         
         self.addConstraint(sCons)
         
-        sCons  = NSLayoutConstraint(item:gcv, attribute:NSLayoutAttribute.Left, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Left, multiplier:CGFloat(1.0), constant:self.leftMargin)
+        sCons  = NSLayoutConstraint(item:gcv, attribute:NSLayoutAttribute.left, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.left, multiplier:CGFloat(1.0), constant:self.leftMargin)
         
         self.addConstraint(sCons)
         
-        sCons  = NSLayoutConstraint(item:gcv, attribute:NSLayoutAttribute.Right, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Right, multiplier:CGFloat(1.0), constant:-self.rightMargin)
+        sCons  = NSLayoutConstraint(item:gcv, attribute:NSLayoutAttribute.right, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.right, multiplier:CGFloat(1.0), constant:-self.rightMargin)
         
         self.addConstraint(sCons)
         
-        sCons  = NSLayoutConstraint(item:gcv, attribute:NSLayoutAttribute.Bottom, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Bottom, multiplier:CGFloat(1.0), constant:-self.bottomMargin)
+        sCons  = NSLayoutConstraint(item:gcv, attribute:NSLayoutAttribute.bottom, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.bottom, multiplier:CGFloat(1.0), constant:-self.bottomMargin)
         
         self.addConstraint(sCons)
         
@@ -511,7 +511,7 @@ class TMKGraphView: UIView {
         sl.minimumValue = 1.0
         sl.maximumValue = 10.0
         sl.value = 1.0
-        sl.continuous = true
+        sl.isContinuous = true
         
         
         let leftImage = UIImage(named:"rough_32")
@@ -521,24 +521,24 @@ class TMKGraphView: UIView {
         sl.maximumValueImage = rightImage
         
         sl.translatesAutoresizingMaskIntoConstraints = false
-        sl.addTarget(self, action:"sliderMoved:", forControlEvents:UIControlEvents.ValueChanged)
+        sl.addTarget(self, action:#selector(TMKGraphView.sliderMoved(_:)), for:UIControlEvents.valueChanged)
         
         self.addSubview(sl)
         
-        var sCons  = NSLayoutConstraint(item:sl, attribute:NSLayoutAttribute.Left, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Left, multiplier:1.0, constant:self.leftMargin)
+        var sCons  = NSLayoutConstraint(item:sl, attribute:NSLayoutAttribute.left, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.left, multiplier:1.0, constant:self.leftMargin)
         
         self.addConstraint(sCons)
         
-        sCons  = NSLayoutConstraint(item:sl, attribute:NSLayoutAttribute.Right, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Right, multiplier:1.0, constant:-self.rightMargin)
+        sCons  = NSLayoutConstraint(item:sl, attribute:NSLayoutAttribute.right, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.right, multiplier:1.0, constant:-self.rightMargin)
         
         self.addConstraint(sCons)
         
-        sCons  = NSLayoutConstraint(item:sl, attribute:NSLayoutAttribute.Height,  relatedBy:NSLayoutRelation.Equal, toItem:nil, attribute:NSLayoutAttribute.NotAnAttribute, multiplier:1.0, constant:32.0)
+        sCons  = NSLayoutConstraint(item:sl, attribute:NSLayoutAttribute.height,  relatedBy:NSLayoutRelation.equal, toItem:nil, attribute:NSLayoutAttribute.notAnAttribute, multiplier:1.0, constant:32.0)
         
         
         self.addConstraint(sCons)
         
-        sCons  = NSLayoutConstraint(item:sl, attribute:NSLayoutAttribute.Bottom ,relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Bottom, multiplier:1.0, constant:-10.0)
+        sCons  = NSLayoutConstraint(item:sl, attribute:NSLayoutAttribute.bottom ,relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.bottom, multiplier:1.0, constant:-10.0)
         
         self.addConstraint(sCons)
         
@@ -548,27 +548,27 @@ class TMKGraphView: UIView {
     
     func addGearButton()
     {
-        let but = UIButton(type: UIButtonType.Custom)
+        let but = UIButton(type: UIButtonType.custom)
         but.translatesAutoresizingMaskIntoConstraints = false
         
         let clearImage = UIImage(named:"nakedGear_32")
-        but.setImage(clearImage, forState:UIControlState.Normal)
+        but.setImage(clearImage, for:UIControlState())
         
         
         //    [but addTarget:self action:@selector(switchyValue:) forControlEvents:UIControlEventTouchUpInside];
         
         self.addSubview(but)
         
-        but.addTarget(self, action:"openGear:", forControlEvents:UIControlEvents.TouchUpInside)
+        but.addTarget(self, action:"openGear:", for:UIControlEvents.touchUpInside)
         
         
         
-        var sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.Top, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Top, multiplier:1.0, constant:5)
+        var sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.top, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.top, multiplier:1.0, constant:5)
         
         self.addConstraint(sCons)
         
         
-        sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.Right, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Right, multiplier:1.0, constant:0.0)
+        sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.right, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.right, multiplier:1.0, constant:0.0)
         
         self.addConstraint(sCons)
         
@@ -581,34 +581,34 @@ class TMKGraphView: UIView {
             let iax = self.xAxis
             let lab = ds.nameOfXAxis(iax)
             
-            let but = UIButton(type:UIButtonType.RoundedRect)
+            let but = UIButton(type:UIButtonType.roundedRect)
             but.translatesAutoresizingMaskIntoConstraints = false
             
-            but.setTitle(lab, forState:UIControlState.Normal)
+            but.setTitle(lab, for:UIControlState())
             if let titLab = but.titleLabel{
-                titLab.font = UIFont.boldSystemFontOfSize(15)
+                titLab.font = UIFont.boldSystemFont(ofSize: 15)
             }
-            but.setTitleColor(self.activeColor, forState:UIControlState.Normal)
-            but.setTitleColor(self.highlightColor, forState:UIControlState.Highlighted)
+            but.setTitleColor(self.activeColor, for:UIControlState())
+            but.setTitleColor(self.highlightColor, for:UIControlState.highlighted)
             
-            but.addTarget(self, action:"switchHorizontalAxe:", forControlEvents:UIControlEvents.TouchUpInside)
+            but.addTarget(self, action:#selector(TMKGraphView.switchHorizontalAxe(_:)), for:UIControlEvents.touchUpInside)
             
             self.addSubview(but)
             
-            var sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.Height, relatedBy:NSLayoutRelation.Equal, toItem:nil, attribute:NSLayoutAttribute.NotAnAttribute, multiplier:1.0, constant:21)
+            var sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.height, relatedBy:NSLayoutRelation.equal, toItem:nil, attribute:NSLayoutAttribute.notAnAttribute, multiplier:1.0, constant:21)
             
             
             but.addConstraint(sCons)
             
-            sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.Left, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Right, multiplier:1.0, constant:-self.rightMargin+2.0)
+            sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.left, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.right, multiplier:1.0, constant:-self.rightMargin+2.0)
             
             self.addConstraint(sCons)
             
-            sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.Right, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Right, multiplier:1.0, constant:-1.0)
+            sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.right, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.right, multiplier:1.0, constant:-1.0)
             
             self.addConstraint(sCons)
             
-            sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.CenterY, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Bottom, multiplier:1.0 ,constant:-self.bottomMargin)
+            sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.centerY, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.bottom, multiplier:1.0 ,constant:-self.bottomMargin)
             
             self.addConstraint(sCons)
             
@@ -623,33 +623,33 @@ class TMKGraphView: UIView {
             let lab = ds.nameOfValue(iax)
             
             
-            let but = UIButton(type:UIButtonType.RoundedRect)
+            let but = UIButton(type:UIButtonType.roundedRect)
             but.translatesAutoresizingMaskIntoConstraints = false
             
-            but.setTitle(lab, forState:UIControlState.Normal)
+            but.setTitle(lab, for:UIControlState())
             if let lb = but.titleLabel{
-                lb.font = UIFont.boldSystemFontOfSize(15)
+                lb.font = UIFont.boldSystemFont(ofSize: 15)
             }
-            but.setTitleColor(self.activeColor, forState:UIControlState.Normal)
-            but.setTitleColor(self.highlightColor,  forState:UIControlState.Highlighted)
+            but.setTitleColor(self.activeColor, for:UIControlState())
+            but.setTitleColor(self.highlightColor,  for:UIControlState.highlighted)
             //[but setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5]];
             
-            but.addTarget(self, action:"switchyValue:", forControlEvents:UIControlEvents.TouchUpInside)
+            but.addTarget(self, action:#selector(TMKGraphView.switchyValue(_:)), for:UIControlEvents.touchUpInside)
             
             self.addSubview(but)
             
             
             
-            var sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.Height, relatedBy:NSLayoutRelation.Equal, toItem:nil, attribute:NSLayoutAttribute.NotAnAttribute, multiplier:1.0, constant:21)
+            var sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.height, relatedBy:NSLayoutRelation.equal, toItem:nil, attribute:NSLayoutAttribute.notAnAttribute, multiplier:1.0, constant:21)
             
             but.addConstraint(sCons)
             
-            sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.CenterX, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Left, multiplier:1.0, constant:self.leftMargin)
+            sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.centerX, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.left, multiplier:1.0, constant:self.leftMargin)
             
             self.addConstraint(sCons)
             
             
-            sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.Bottom, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Top, multiplier:1.0, constant:self.topMargin-1.0)
+            sCons = NSLayoutConstraint(item:but, attribute:NSLayoutAttribute.bottom, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.top, multiplier:1.0, constant:self.topMargin-1.0)
             
             self.addConstraint(sCons)
             
@@ -663,31 +663,31 @@ class TMKGraphView: UIView {
         
         var tf = UILabel()
         
-        tf.textColor = UIColor.whiteColor()
-        tf.backgroundColor = UIColor.clearColor()
+        tf.textColor = UIColor.white
+        tf.backgroundColor = UIColor.clear
         tf.translatesAutoresizingMaskIntoConstraints = false
         
         //NSFont *theFont = [[NSFont fontWithName:@"Helvetica Neue Ultra Light" size:12] screenFontWithRenderingMode:NSFontIntegerAdvancementsRenderingMode];
         
-        tf.font = UIFont.systemFontOfSize(12)
+        tf.font = UIFont.systemFont(ofSize: 12)
         tf.adjustsFontSizeToFitWidth = true
         
         self.addSubview(tf)
         
-        var sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.Height, relatedBy:NSLayoutRelation.Equal, toItem:nil, attribute:NSLayoutAttribute.NotAnAttribute, multiplier:1.0 ,constant:17)
+        var sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.height, relatedBy:NSLayoutRelation.equal, toItem:nil, attribute:NSLayoutAttribute.notAnAttribute, multiplier:1.0 ,constant:17)
         
         tf.addConstraint(sCons)
         
-        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.Left, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Left, multiplier:1.0, constant:self.leftMargin + 50.0)
+        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.left, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.left, multiplier:1.0, constant:self.leftMargin + 50.0)
         
         self.addConstraint(sCons)
         
         
-        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.Right, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.CenterX, multiplier:1.0, constant:-10.0)
+        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.right, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.centerX, multiplier:1.0, constant:-10.0)
         
         self.addConstraint(sCons)
         
-        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.Top, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Top, multiplier:1.0, constant:7.0)
+        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.top, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.top, multiplier:1.0, constant:7.0)
         
         self.addConstraint(sCons)
         
@@ -696,13 +696,13 @@ class TMKGraphView: UIView {
         
         tf = UILabel()
         
-        tf.textColor = UIColor.whiteColor()
-        tf.backgroundColor = UIColor.clearColor()
+        tf.textColor = UIColor.white
+        tf.backgroundColor = UIColor.clear
         tf.translatesAutoresizingMaskIntoConstraints = false
         
         
-        tf.font = UIFont.systemFontOfSize(12)
-        tf.textAlignment = NSTextAlignment.Right
+        tf.font = UIFont.systemFont(ofSize: 12)
+        tf.textAlignment = NSTextAlignment.right
         
         //[tf setFont:[NSFont systemFontOfSize:10]];
         
@@ -710,23 +710,23 @@ class TMKGraphView: UIView {
         
         self.addSubview(tf)
         
-        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.Height, relatedBy:NSLayoutRelation.Equal, toItem:nil, attribute:NSLayoutAttribute.NotAnAttribute, multiplier:1.0, constant:17)
+        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.height, relatedBy:NSLayoutRelation.equal, toItem:nil, attribute:NSLayoutAttribute.notAnAttribute, multiplier:1.0, constant:17)
         
         tf.addConstraint(sCons)
         
         //   sCons = [NSLayoutConstraint constraintWithItem:tf attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:10.0];
         
-        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.Left, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Left, multiplier:1.0, constant:self.leftMargin + 50.0)
+        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.left, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.left, multiplier:1.0, constant:self.leftMargin + 50.0)
         
         
         self.addConstraint(sCons)
         
         
-        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.Right, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Right, multiplier:1.0, constant: -self.rightMargin)
+        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.right, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.right, multiplier:1.0, constant: -self.rightMargin)
         
         self.addConstraint(sCons)
         
-        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.Top, relatedBy:NSLayoutRelation.Equal, toItem:self, attribute:NSLayoutAttribute.Top, multiplier:1.0, constant:7.0)
+        sCons = NSLayoutConstraint(item:tf, attribute:NSLayoutAttribute.top, relatedBy:NSLayoutRelation.equal, toItem:self, attribute:NSLayoutAttribute.top, multiplier:1.0, constant:7.0)
         
         self.addConstraint(sCons)
         
@@ -736,7 +736,7 @@ class TMKGraphView: UIView {
     }
     
     
-    override func drawRect(dirtyRect : CGRect){
+    override func draw(_ dirtyRect : CGRect){
         // Get the Context
         
         self.recomputeSelectionUnits()
@@ -744,11 +744,11 @@ class TMKGraphView: UIView {
         let aContext = UIGraphicsGetCurrentContext()
         
         let font = UIFont(name: "Helvetica", size:10.0)
-        let fmt = NSNumberFormatter()
-        fmt.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let fmt = NumberFormatter()
+        fmt.numberStyle = NumberFormatter.Style.decimal
         fmt.maximumFractionDigits = 0
         
-        CGContextSaveGState(aContext)
+        aContext?.saveGState()
         
         let backColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 0.6)
         backColor.setFill()
@@ -778,25 +778,25 @@ class TMKGraphView: UIView {
         //    }
         
         
-        CGContextRestoreGState(aContext)
+        aContext?.restoreGState()
         
         
-        CGContextSaveGState(aContext)
+        aContext?.saveGState()
         
         
         // Draw Rect
         
-        let borderRect = CGRectMake(self.leftMargin,
-            self.topMargin,
-            self.bounds.size.width - self.leftMargin - self.rightMargin,
-            self.bounds.size.height - self.bottomMargin - self.topMargin)
+        let borderRect = CGRect(x: self.leftMargin,
+            y: self.topMargin,
+            width: self.bounds.size.width - self.leftMargin - self.rightMargin,
+            height: self.bounds.size.height - self.bottomMargin - self.topMargin)
         
         bbox = UIBezierPath(rect: borderRect)
-        UIColor.whiteColor().set()
+        UIColor.white.set()
         bbox.lineWidth = 1.0
         
         bbox.stroke()
-        CGContextRestoreGState(aContext)
+        aContext?.restoreGState()
         
         
         self.computeDataForSeries()
@@ -812,15 +812,15 @@ class TMKGraphView: UIView {
         
         // Draw coordinate horizontal lines
         
-        CGContextSaveGState(aContext)
+        aContext?.saveGState()
         
-        UIColor.whiteColor().set()
+        UIColor.white.set()
         
         var j : Int  = Int(floor(self.ymin / step))
         
         var firstLine = true
-        
-        for var y : CGFloat = step0; y < self.ymax; y = y + step {
+        var y : CGFloat = step0
+        while y < self.ymax {
             
             if y > self.ymin{
                 let s1  = Int(y*10.0)
@@ -829,8 +829,8 @@ class TMKGraphView: UIView {
                 if(s1 % ss) == 0 || firstLine || y+step > self.ymax{
                     let bz = UIBezierPath()
                     
-                    bz.moveToPoint(CGPointMake(self.leftMargin-5.0, height - ((y - self.ymin)*self.sy)-self.bottomMargin))
-                    bz.addLineToPoint(CGPointMake(self.leftMargin, height - ((y - self.ymin)*self.sy)-self.bottomMargin))
+                    bz.move(to: CGPoint(x: self.leftMargin-5.0, y: height - ((y - self.ymin)*self.sy)-self.bottomMargin))
+                    bz.addLine(to: CGPoint(x: self.leftMargin, y: height - ((y - self.ymin)*self.sy)-self.bottomMargin))
                     bz.lineWidth = 1.0
                     bz.stroke()
                     
@@ -841,17 +841,17 @@ class TMKGraphView: UIView {
                     else{
                         fmt.maximumFractionDigits = 0
                     }
-                    let lab = fmt.stringFromNumber(y)!
+                    let lab = fmt.string(from: NSNumber(value: Float(y)))!
                     
-                    let attr : [String : AnyObject] = NSDictionary(objects: NSArray(objects:font!, UIColor.whiteColor()) as [AnyObject],
+                    let attr : [String : AnyObject] = NSDictionary(objects: NSArray(objects:font!, UIColor.white) as [AnyObject],
                         forKeys: NSArray(objects:NSFontAttributeName, NSForegroundColorAttributeName) as! [NSCopying]) as! [String : AnyObject]
                     
                     
-                    let w = lab.sizeWithAttributes(attr)
+                    let w = lab.size(attributes: attr)
                     
                     //[lab sizeWithFont:font];
                     
-                    lab.drawAtPoint(CGPointMake(self.leftMargin-8.0-w.width, height-5.0 - ((y - self.ymin)*self.sy)-self.bottomMargin), withAttributes:attr)
+                    lab.draw(at: CGPoint(x: self.leftMargin-8.0-w.width, y: height-5.0 - ((y - self.ymin)*self.sy)-self.bottomMargin), withAttributes:attr)
                     //  [lab drawAtPoint:CGPointMake(self.leftMargin-8.0-w.width, height-5.0 - ((y - self.ymin)*self.sy)-self.bottomMargin) withFont:font];
                     
                     firstLine = false
@@ -861,15 +861,16 @@ class TMKGraphView: UIView {
                 {
                     let bz = UIBezierPath()
                     
-                    bz.moveToPoint(CGPointMake(self.leftMargin, height - ((y - self.ymin)*self.sy)-self.bottomMargin))
-                    bz.addLineToPoint(CGPointMake(self.leftMargin, height - ((y - self.ymin)*self.sy)-self.bottomMargin))
+                    bz.move(to: CGPoint(x: self.leftMargin, y: height - ((y - self.ymin)*self.sy)-self.bottomMargin))
+                    bz.addLine(to: CGPoint(x: self.leftMargin, y: height - ((y - self.ymin)*self.sy)-self.bottomMargin))
                     bz.lineWidth = 0.5
                     bz.stroke()
                 }
                 
             }
             
-            j++
+            j += 1
+            y += step
         }
         
         // Ara hem de fer l'eix de les x. 2 Posibilitats
@@ -905,31 +906,32 @@ class TMKGraphView: UIView {
             else{
                 step = 50.0
             }
-            
-            for var x : CGFloat = CGFloat(km); x < self.xmax; x = x + step {
+            var x : CGFloat = CGFloat(km)
+            while x < self.xmax {
                 if x >= self.xmin{
                     
-                    let ptLoc = CGPointMake(x, 0.0)
+                    let ptLoc = CGPoint(x: x, y: 0.0)
                     
                     var ptView =  self.viewPointFromTrackPoint(ptLoc)
                     
-                    ptView = CGPointMake(ptView.x+self.leftMargin, ptView.y)
+                    ptView = CGPoint(x: ptView.x+self.leftMargin, y: ptView.y)
                     
-                    let lab = fmt.stringFromNumber(x)
+                    let lab = fmt.string(from: NSNumber(value: Float(x)))
                     
-                    let attr : [String : AnyObject] = NSDictionary(objects: NSArray(objects:font!, UIColor.whiteColor()) as [AnyObject],
+                    let attr : [String : AnyObject] = NSDictionary(objects: NSArray(objects:font!, UIColor.white) as [AnyObject],
                         forKeys: NSArray(objects:NSFontAttributeName, NSForegroundColorAttributeName) as! [NSCopying]) as! [String : AnyObject]
                     
                     
-                    let w = lab!.sizeWithAttributes(attr)
+                    let w = lab!.size(attributes: attr)
                     
                     ptView.y =  self.bounds.size.height - self.bottomMargin + 9.0
                     ptView.x = ptView.x - w.width/2.0
                     
                     
-                    lab!.drawAtPoint(ptView, withAttributes:attr)
+                    lab!.draw(at: ptView, withAttributes:attr)
                     
                 }
+                x = x + step
             }
             
         }
@@ -963,14 +965,15 @@ class TMKGraphView: UIView {
                 step = 50.0
             }
             
-            for var x  = CGFloat(minuts); x < self.xmax; x = x + step {
+            var x  = CGFloat(minuts)
+            while x < self.xmax {
                 
                 if x >= self.xmin{
                     
-                    let ptLoc = CGPointMake(x, 0.0)
+                    let ptLoc = CGPoint(x: x, y: 0.0)
                     
                     var ptView =  self.viewPointFromTrackPoint(ptLoc)
-                    ptView = CGPointMake(ptView.x+self.leftMargin, ptView.y)
+                    ptView = CGPoint(x: ptView.x+self.leftMargin, y: ptView.y)
                     
                     // Calculem el format hh:mm
                     
@@ -979,23 +982,24 @@ class TMKGraphView: UIView {
                     
                     let lab = String(format:"%ld:%ld", h, m)
                     
-                    let attr : [String : AnyObject] = NSDictionary(objects: NSArray(objects:font!, UIColor.whiteColor()) as [AnyObject],
+                    let attr : [String : AnyObject] = NSDictionary(objects: NSArray(objects:font!, UIColor.white) as [AnyObject],
                         forKeys: NSArray(objects:NSFontAttributeName, NSForegroundColorAttributeName) as! [NSCopying]) as! [String : AnyObject]
-                    let w = lab.sizeWithAttributes(attr)
+                    let w = lab.size(attributes: attr)
                     
                     ptView.y =  self.bounds.size.height - self.bottomMargin + 9.0
                     ptView.x = ptView.x - w.width / 2.0
                     
                     
-                    lab.drawAtPoint(ptView, withAttributes:attr)
+                    lab.draw(at: ptView, withAttributes:attr)
                 }
+                x = x + step
             }
         }
         
         
         
         
-        CGContextRestoreGState(aContext)
+        aContext?.restoreGState()
         
     }
     
@@ -1051,7 +1055,7 @@ class TMKGraphView: UIView {
     
     //MARK:  - Interaction, Touches, Taps
     
-    override func touchesBegan(touches: Set<UITouch>,  withEvent event:UIEvent?)
+    override func touchesBegan(_ touches: Set<UITouch>,  with event:UIEvent?)
     {
         
         if touches.count != 1{
@@ -1062,7 +1066,7 @@ class TMKGraphView: UIView {
         
         let to : UITouch = touches.first!
         
-        let myPt = to.locationInView(self)
+        let myPt = to.location(in: self)
         
         if myPt.y > self.topMargin && myPt.y < (self.bounds.size.height - self.bottomMargin){
             
@@ -1096,7 +1100,7 @@ class TMKGraphView: UIView {
     }
     
     
-    override func touchesMoved(touches: Set<UITouch>,  withEvent event:UIEvent?)
+    override func touchesMoved(_ touches: Set<UITouch>,  with event:UIEvent?)
     {
         if touches.count != 1{
             // Recover Selections
@@ -1121,7 +1125,7 @@ class TMKGraphView: UIView {
         }
         
         let to = touches.first!
-        let myPt = to.locationInView(self)
+        let myPt = to.location(in: self)
         
         if movingLeftSelection{
             var newVal  = CGFloat(self.oldSelectionLeft + myPt.x - firstClick.x)
@@ -1169,7 +1173,7 @@ class TMKGraphView: UIView {
     }
     
     
-    override func touchesEnded(touches: Set<UITouch>,  withEvent event:UIEvent?){
+    override func touchesEnded(_ touches: Set<UITouch>,  with event:UIEvent?){
         
         if(touches.count != 1){  // Cancel
             
@@ -1197,7 +1201,7 @@ class TMKGraphView: UIView {
         
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?,  withEvent event:UIEvent?){
+    override func touchesCancelled(_ touches: Set<UITouch>,  with event:UIEvent?){
         
         movingRightSelection = false
         movingLeftSelection = false
@@ -1209,7 +1213,7 @@ class TMKGraphView: UIView {
     }
     
     
-    @IBAction func switchHorizontalAxe(src: AnyObject?)
+    @IBAction func switchHorizontalAxe(_ src: AnyObject?)
     {
         
         // Estem intentat visualitzar coses que no son tracks
@@ -1238,7 +1242,7 @@ class TMKGraphView: UIView {
             
             let label = ds.nameOfXAxis(axe)
             self.xAxis = axe
-            self.xAxisButton.setTitle(label, forState: UIControlState.Normal)
+            self.xAxisButton.setTitle(label, for: UIControlState())
             
             //             if self.xAxis == 0{ // Km
             //
@@ -1260,7 +1264,7 @@ class TMKGraphView: UIView {
         
     }
     
-    @IBAction func switchyValue(src : AnyObject?)
+    @IBAction func switchyValue(_ src : AnyObject?)
     {
         if let ds = self.dataSource{
             
@@ -1275,7 +1279,7 @@ class TMKGraphView: UIView {
     }
     
     
-    func swipeLeft(gesture: UIGestureRecognizer){
+    func swipeLeft(_ gesture: UIGestureRecognizer){
         if let ds = self.dataSource{
             
             var axe = self.yValue
@@ -1289,15 +1293,15 @@ class TMKGraphView: UIView {
             self.setanYValue(axe)
         }
     }
-    func swipeRight(gesture: UIGestureRecognizer){
+    func swipeRight(_ gesture: UIGestureRecognizer){
         self.switchyValue(nil)
     }
     
-    func setanYValue(axe:Int){
+    func setanYValue(_ axe:Int){
         if let ds = self.dataSource{
             let label = ds.nameOfValue(axe)
             self.yValue = axe
-            self.yValueButton.setTitle(label, forState:UIControlState.Normal)
+            self.yValueButton.setTitle(label, for:UIControlState())
             
             //            TGLTrack *tr = self.document.selectedTrack;
             //
@@ -1362,7 +1366,7 @@ class TMKGraphView: UIView {
     }
     */
     
-    @IBAction func sliderMoved(src : AnyObject?){
+    @IBAction func sliderMoved(_ src : AnyObject?){
         
         //    let v = floor(self.filterSlider.value)
         //

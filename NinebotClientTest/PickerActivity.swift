@@ -23,7 +23,7 @@ import UIKit
 class PickerActivity: UIActivity, UIDocumentPickerDelegate {
 
     var name : String?
-    var originalURL : NSURL?
+    var originalURL : URL?
     var picker : UIDocumentPickerViewController?
     
     override init(){
@@ -31,51 +31,50 @@ class PickerActivity: UIActivity, UIDocumentPickerDelegate {
     }
  
     
-    override class func activityCategory() -> UIActivityCategory{
-        return UIActivityCategory.Share
+    override class var activityCategory : UIActivityCategory{
+        return UIActivityCategory.share
     }
     
-    
-    override func activityType() -> String? {
-        return "es.gorina.exportFile"
+    override var activityType: UIActivityType? {
+        return UIActivityType("es.gorina.exportFile")
     }
     
-    override func activityTitle() -> String? {
+    override var activityTitle : String? {
         return "Export"
     }
     
-    override func activityImage() -> UIImage? {
+    override var activityImage : UIImage? {
         return UIImage(named: "icon_ipad")
     }
     
-    override func canPerformWithActivityItems(activityItems: [AnyObject]) -> Bool {
+    override func canPerform(withActivityItems activityItems: [Any]) -> Bool {
         
         if activityItems.count != 2{
             return false
         }
         for obj in activityItems{
-            if obj.isKindOfClass(NSURL){
+            if obj is URL {
                 return true
             }
         }
         return false
     }
 
-    override func prepareWithActivityItems(activityItems: [AnyObject]) {
+    override func prepare(withActivityItems activityItems: [Any]) {
         for obj in activityItems{
-            if obj.isKindOfClass(NSURL){
-                self.originalURL = obj as? NSURL
-            }else if obj.isKindOfClass(NSString){
+            if obj is URL {
+                self.originalURL = obj as? URL
+            }else if obj is String {
                 self.name = obj as? String
             }
         }
         
     }
     
-    override func activityViewController() -> UIViewController? {
+    override var activityViewController : UIViewController? {
         
         if let url = self.originalURL{
-            let controller = UIDocumentPickerViewController(URL: url, inMode: UIDocumentPickerMode.ExportToService)
+            let controller = UIDocumentPickerViewController(url: url, in: UIDocumentPickerMode.exportToService)
             
             controller.delegate = self
             
@@ -85,7 +84,7 @@ class PickerActivity: UIActivity, UIDocumentPickerDelegate {
         return nil
     }
     
-    override func activityDidFinish(completed: Bool) {
+    override func activityDidFinish(_ completed: Bool) {
         
         super.activityDidFinish(completed)
         self.picker = nil
@@ -93,14 +92,14 @@ class PickerActivity: UIActivity, UIDocumentPickerDelegate {
     
     //MARK: UIDocumentPickerDelegate
     
-    func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             self.activityDidFinish(true)
         }
     }
     
-    func documentPickerWasCancelled(controller: UIDocumentPickerViewController) {
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         
         self.picker = nil
     }

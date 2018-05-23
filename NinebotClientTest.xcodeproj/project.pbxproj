@@ -328,14 +328,15 @@
 				TargetAttributes = {
 					000622811C6CB97C0066DC2A = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = N72U6DTDRE;
+						DevelopmentTeam = 556725SUAK;
 					};
 					0006228D1C6CB97D0066DC2A = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 556725SUAK;
 					};
 					00BCC08D1C6102B700202D9F = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = N72U6DTDRE;
+						DevelopmentTeam = 556725SUAK;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -486,12 +487,14 @@
 		0006229E1C6CB97D0066DC2A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 556725SUAK;
 				INFOPLIST_FILE = "9BMetrics Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = us.bryanvandyke.freebird.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.1;
 			};
@@ -500,12 +503,14 @@
 		0006229F1C6CB97D0066DC2A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 556725SUAK;
 				INFOPLIST_FILE = "9BMetrics Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = us.bryanvandyke.freebird.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.1;
 			};
@@ -517,10 +522,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 556725SUAK;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = _BMetrics_Extension;
 				INFOPLIST_FILE = 9BMetrics/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = us.bryanvandyke.freebird.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -535,10 +541,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 556725SUAK;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = _BMetrics_Extension;
 				INFOPLIST_FILE = 9BMetrics/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = us.bryanvandyke.freebird.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -637,11 +644,13 @@
 				CODE_SIGN_ENTITLEMENTS = NinebotClientTest/9BMetrics.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 556725SUAK;
 				INFOPLIST_FILE = NinebotClientTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics;
+				PRODUCT_BUNDLE_IDENTIFIER = us.bryanvandyke.freebird;
 				PRODUCT_NAME = 9BMetrics;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -652,11 +661,13 @@
 				CODE_SIGN_ENTITLEMENTS = NinebotClientTest/9BMetrics.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 556725SUAK;
 				INFOPLIST_FILE = NinebotClientTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = es.gorina.9BMetrics;
+				PRODUCT_BUNDLE_IDENTIFIER = us.bryanvandyke.freebird;
 				PRODUCT_NAME = 9BMetrics;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

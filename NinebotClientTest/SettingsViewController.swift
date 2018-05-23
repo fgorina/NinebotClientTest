@@ -34,8 +34,8 @@ class SettingsViewController: UIViewController {
         if let dele = delegate {
             
             refreshField.value = Float(dele.timerStep)
-            let store = NSUserDefaults.standardUserDefaults()
-            if let uuid = store.objectForKey(BLESimulatedClient.kLast9BDeviceAccessedKey) as? String{
+            let store = UserDefaults.standard
+            if let uuid = store.object(forKey: BLESimulatedClient.kLast9BDeviceAccessedKey) as? String{
                 uuidLabel.text = uuid 
             }
             
@@ -43,12 +43,12 @@ class SettingsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
        // setupNotifications()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
      //   removeNotifications()
         super.viewWillDisappear(animated)
     }
@@ -96,15 +96,15 @@ class SettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func clearUUID(src : AnyObject){
+    @IBAction func clearUUID(_ src : AnyObject){
         
-        let store = NSUserDefaults.standardUserDefaults()
-        store.removeObjectForKey(BLESimulatedClient.kLast9BDeviceAccessedKey)
+        let store = UserDefaults.standard
+        store.removeObject(forKey: BLESimulatedClient.kLast9BDeviceAccessedKey)
         self.uuidLabel.text = ""
         
     }
     
-    @IBAction func sliderValueChanged(src : AnyObject){
+    @IBAction func sliderValueChanged(_ src : AnyObject){
         
         let f = self.refreshField.value
         

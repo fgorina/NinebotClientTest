@@ -27,10 +27,10 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     
     
     enum stateValues {
-        case Waiting
-        case MiM
-        case Client
-        case Server
+        case waiting
+        case miM
+        case client
+        case server
         
     }
     
@@ -38,7 +38,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         
         var section : Int
         var description : String
-        var files : [NSURL]
+        var files : [URL]
     }
     
     
@@ -46,7 +46,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     var server : BLESimulatedServer?
     var client : BLESimulatedClient?
     
-    var state : stateValues = .Waiting
+    var state : stateValues = .waiting
     
     var firstField = 185      // Primer camp a llegir
     var nFields = 10         // Numero de camps a llegir
@@ -56,28 +56,28 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     
     var dashboard : BLENinebotDashboard?
     
-    var files = [NSURL]()
+    var files = [URL]()
     var sections = [fileSection]()
-    var actualDir : NSURL?
-    var currentFile : NSURL?
+    var actualDir : URL?
+    var currentFile : URL?
     
     @IBOutlet weak var tableView : UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let editButton = self.editButtonItem();
+        let editButton = self.editButtonItem;
         editButton.target = self
-        editButton.action = "editFiles:"
+        editButton.action = #selector(ViewController.editFiles(_:))
         self.navigationItem.leftBarButtonItem = editButton;
         // Lookup files
-        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
         
         let docsUrl = appDelegate?.applicationDocumentsDirectory()
         
         if let docs = docsUrl{
             
-            loadLocalDirectoryData(docs)
+            loadLocalDirectoryData(docs as URL)
         }
     }
     
@@ -86,28 +86,28 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         // Dispose of any resources that can be recreated.
     }
     
-    func creationDate(url : NSURL) -> NSDate?{
+    func creationDate(_ url : URL) -> Date?{
         var rsrc : AnyObject? = nil
         
         do{
-            try url.getResourceValue(&rsrc, forKey: NSURLCreationDateKey)
+            try (url as NSURL).getResourceValue(&rsrc, forKey: URLResourceKey.creationDateKey)
         }
         catch{
-            NSLog("Error reading creation date of file %", url)
+            print("Error reading creation date of file %", url)
         }
         
-        let date = rsrc as? NSDate
+        let date = rsrc as? Date
         
         return date
         
     }
     
     
-    func dateToSection(dat : NSDate) -> Int{
+    func dateToSection(_ dat : Date) -> Int{
         
-        let today = NSDate()
+        let today = Date()
         
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = Calendar.current
         
         if calendar.isDateInToday(dat){
             return 0
@@ -117,10 +117,10 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
             return 1
         }
             
-        else if calendar.isDate(today, equalToDate: dat, toUnitGranularity: NSCalendarUnit.WeekOfYear){
+        else if (calendar as NSCalendar).isDate(today, equalTo: dat, toUnitGranularity: NSCalendar.Unit.weekOfYear){
             return 2
         }
-        else if calendar.isDate(today, equalToDate: dat, toUnitGranularity: NSCalendarUnit.Month){
+        else if (calendar as NSCalendar).isDate(today, equalTo: dat, toUnitGranularity: NSCalendar.Unit.month){
             return 3
         }
         
@@ -128,27 +128,27 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         // month of the year
         
         
-        let todayComponents = calendar.components(NSCalendarUnit.Day, fromDate: today)
+        let todayComponents = (calendar as NSCalendar).components(NSCalendar.Unit.day, from: today)
         
-        let dateComponents = calendar.components(NSCalendarUnit.Day, fromDate: today)
+        let dateComponents = (calendar as NSCalendar).components(NSCalendar.Unit.day, from: today)
         
         if dateComponents.year == todayComponents.year {
-            return 3 + todayComponents.month - dateComponents.month
+            return 3 + todayComponents.month! - dateComponents.month!
         }
         
         // OK now we return just the difference in years. January of this year was
         
-        return 2 + todayComponents.month + todayComponents.year - dateComponents.year
+        return 2 + todayComponents.month! + todayComponents.year! - dateComponents.year!
         
         
         
     }
     
-    func sectionLabel(section : Int) -> String{
+    func sectionLabel(_ section : Int) -> String{
         
-        let today = NSDate()
+        let today = Date()
         
-        let todayComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.Day, fromDate: today)
+        let todayComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit.day, from: today)
         
         
         switch section {
@@ -164,21 +164,21 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         case 3:
             return "This Month"
             
-        case 4..<(3 + todayComponents.month) :
+        case 4..<(3 + todayComponents.month!) :
             
-            let month =  todayComponents.month + 2 - section // Indexed at 0
-            let df = NSDateFormatter()
+            let month =  todayComponents.month! + 2 - section // Indexed at 0
+            let df = DateFormatter()
             return df.standaloneMonthSymbols[month]
             
         default :
-            return String(todayComponents.year - (section - 2 - todayComponents.month))
+            return String(todayComponents.year! - (section - 2 - todayComponents.month!))
             
             
         }
         
     }
     
-    func sortFilesIntoSections(files:[NSURL]){
+    func sortFilesIntoSections(_ files:[URL]){
         
         
         self.sections.removeAll()   // Clear all section
@@ -195,7 +195,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
                 while self.sections.count - 1 < s{
                     
                     let newSection = self.sections.count
-                    self.sections.append(fileSection(section: newSection, description: self.sectionLabel(newSection), files: [NSURL]()))
+                    self.sections.append(fileSection(section: newSection, description: self.sectionLabel(newSection), files: [URL]()))
                     
                 }
                 
@@ -208,24 +208,23 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         while i < self.sections.count {
             
             if self.sections[i].files.count == 0{
-                self.sections.removeAtIndex(i)
+                self.sections.remove(at: i)
             }else{
-                i++
+                i += 1
             }
         }
     }
     
-    func loadLocalDirectoryData(dir : NSURL){
+    func loadLocalDirectoryData(_ dir : URL){
         
         self.actualDir = dir
         
         files.removeAll()
         
-        let mgr = NSFileManager()
+        let mgr = FileManager()
         
-        
-        let enumerator = mgr.enumeratorAtURL(dir, includingPropertiesForKeys: nil, options: [NSDirectoryEnumerationOptions.SkipsHiddenFiles, NSDirectoryEnumerationOptions.SkipsSubdirectoryDescendants]) { (url:NSURL, err:NSError) -> Bool in
-            NSLog("Error enumerating files %@", err)
+        let enumerator = mgr.enumerator(at: dir, includingPropertiesForKeys: nil, options: [FileManager.DirectoryEnumerationOptions.skipsHiddenFiles, FileManager.DirectoryEnumerationOptions.skipsSubdirectoryDescendants]) { (url:URL, err:Error) -> Bool in
+            print("Error enumerating files %@", err)
             return true
         }
         
@@ -233,19 +232,19 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
             
             for url in arch {
                 
-                files.append(url as! NSURL)
+                files.append(url as! URL)
                 
             }
         }
         
         // OK ara hauriem de ordenar els documents
         
-        files.sortInPlace { (url1: NSURL, url2: NSURL) -> Bool in
+        files.sort { (url1: URL, url2: URL) -> Bool in
             
             let date1 = self.creationDate(url1)
             let date2 = self.creationDate(url2)
             
-            if let dat1 = date1, dat2 = date2 {
+            if let dat1 = date1, let dat2 = date2 {
                 return dat1.timeIntervalSince1970 > dat2.timeIntervalSince1970
             }
             else{
@@ -259,7 +258,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         
     }
     
-    func urlForIndexPath(indexPath: NSIndexPath) -> NSURL?{
+    func urlForIndexPath(_ indexPath: IndexPath) -> URL?{
         
         if indexPath.section < self.sections.count {
             let section = self.sections[indexPath.section]
@@ -292,43 +291,43 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     }
     
     
-    @IBAction func openSettings(src : AnyObject){
+    @IBAction func openSettings(_ src : AnyObject){
     
      let but = src as? UIButton
         
-        let alert = UIAlertController(title: "Options", message: "Select an option", preferredStyle: UIAlertControllerStyle.ActionSheet);
+        let alert = UIAlertController(title: "Options", message: "Select an option", preferredStyle: UIAlertControllerStyle.actionSheet);
         
         alert.popoverPresentationController?.sourceView = but
         
-        var action = UIAlertAction(title: "Close", style: UIAlertActionStyle.Cancel) { (action: UIAlertAction) -> Void in
+        var action = UIAlertAction(title: "Close", style: UIAlertActionStyle.cancel) { (action: UIAlertAction) -> Void in
             
             
         }
         alert.addAction(action)
         
-        action = UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: { (action : UIAlertAction) -> Void in
-            self.performSegueWithIdentifier("settingsSegue", sender: self)
+        action = UIAlertAction(title: "Settings", style: UIAlertActionStyle.default, handler: { (action : UIAlertAction) -> Void in
+            self.performSegue(withIdentifier: "settingsSegue", sender: self)
         })
     
         alert.addAction(action)
     
         
-        action = UIAlertAction(title: "Debug Server", style: UIAlertActionStyle.Default, handler: { (action : UIAlertAction) -> Void in
+        action = UIAlertAction(title: "Debug Server", style: UIAlertActionStyle.default, handler: { (action : UIAlertAction) -> Void in
             
-            self.performSegueWithIdentifier("mimSegue", sender: self)
+            self.performSegue(withIdentifier: "mimSegue", sender: self)
         })
         
         alert.addAction(action)
         
-        action = UIAlertAction(title: "About 9B Metrics", style: UIAlertActionStyle.Default, handler: { (action : UIAlertAction) -> Void in
-            self.performSegueWithIdentifier("docSegue", sender: self)   
+        action = UIAlertAction(title: "About 9B Metrics", style: UIAlertActionStyle.default, handler: { (action : UIAlertAction) -> Void in
+            self.performSegue(withIdentifier: "docSegue", sender: self)   
         })
         
         alert.addAction(action)
 
         
         
-        self.presentViewController(alert, animated: true) { () -> Void in
+        self.present(alert, animated: true) { () -> Void in
             
             
         }
@@ -338,12 +337,12 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     
     // MARK: UITableViewDataSource
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         return self.sections.count
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?{
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?{
         if section < self.sections.count{
             return self.sections[section].description
         }else{
@@ -351,7 +350,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section < self.sections.count{
             return self.sections[section].files.count
@@ -361,25 +360,25 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     }
     
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("fileCellIdentifier", forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "fileCellIdentifier", for: indexPath)
         
         let urls = urlForIndexPath(indexPath)
         
         if let url = urls {
             
-            let name = NSFileManager.defaultManager().displayNameAtPath(url.path!)
+            let name = FileManager.default.displayName(atPath: url.path)
             let date = self.creationDate(url)
             
             cell.textLabel!.text = name
             
             if let dat = date {
                 
-                let fmt = NSDateFormatter()
-                fmt.dateStyle = NSDateFormatterStyle.ShortStyle
-                fmt.timeStyle = NSDateFormatterStyle.ShortStyle
+                let fmt = DateFormatter()
+                fmt.dateStyle = DateFormatter.Style.short
+                fmt.timeStyle = DateFormatter.Style.short
                 
-                let s = fmt.stringFromDate(dat)
+                let s = fmt.string(from: dat)
                 
                 cell.detailTextLabel!.text = s
             }
@@ -389,47 +388,47 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     }
     
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 28
     }
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 1
     }
     // MARK: UITableViewDelegate
     
     
     // Override to support editing the table view.
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        if editingStyle == .Delete {
+        if editingStyle == .delete {
             
             let url = self.sections[indexPath.section].files[indexPath.row]
             
-            let mgr = NSFileManager.defaultManager()
+            let mgr = FileManager.default
             do {
-                try mgr.removeItemAtURL(url)
+                try mgr.removeItem(at: url)
                 
-                self.sections[indexPath.section].files.removeAtIndex(indexPath.row)
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                self.sections[indexPath.section].files.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
                 
                 if self.sections[indexPath.section].files.count == 0{
-                    self.sections.removeAtIndex(indexPath.section)
-                    tableView.deleteSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Automatic)
+                    self.sections.remove(at: indexPath.section)
+                    tableView.deleteSections(IndexSet(integer: indexPath.section), with: UITableViewRowAnimation.automatic)
                 }
            }catch{
-                NSLog("Error removing %@", url)
+                print("Error removing %@", url)
             }
             // Delete the row from the data source
             
             
-        } else if editingStyle == .Insert {
+        } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
     
     
     
-    func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         
         let urls = urlForIndexPath(indexPath)
         
@@ -439,14 +438,14 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
             
             var srcView : UIView = tableView
             
-            let cellView = tableView.cellForRowAtIndexPath(indexPath)
+            let cellView = tableView.cellForRow(at: indexPath)
             
             if let cv = cellView   {
                 
                 srcView = cv
                 
                 for v in cv.subviews{
-                    if v.isKindOfClass(UIButton){
+                    if v.isKind(of: UIButton.self){
                         srcView = v
                     }
                 }
@@ -457,9 +456,9 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        self.tableView.deselectRow(at: indexPath, animated: true)
         
         let urls = urlForIndexPath(indexPath)
         
@@ -472,16 +471,16 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
             }
             
             
-            self.performSegueWithIdentifier("openFileSegue", sender: self)
+            self.performSegue(withIdentifier: "openFileSegue", sender: self)
         }
     }
     
     
     // MARK : Navigatiom
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "dashboardSegue" {
-            if let dash = segue.destinationViewController as? BLENinebotDashboard{
+            if let dash = segue.destination as? BLENinebotDashboard{
                 dash.delegate = self
                 self.ninebot.clearAll()
                 dash.ninebot = self.ninebot
@@ -490,7 +489,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
                 
             }
         }else if segue.identifier == "openFileSegue"{
-            if let dash = segue.destinationViewController as? BLENinebotDashboard{
+            if let dash = segue.destination as? BLENinebotDashboard{
                 dash.delegate = self
                 dash.ninebot = self.ninebot
                 self.dashboard = dash
@@ -500,7 +499,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
             }
         }else if segue.identifier == "settingsSegue"{
         
-            if let settings = segue.destinationViewController as? SettingsViewController{
+            if let settings = segue.destination as? SettingsViewController{
                 
                 settings.delegate = self
             }
@@ -526,46 +525,47 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     func clientStopped(){
         
         let aFile = self.ninebot.createTextFile()
-        self.shareData(aFile, src: self.tableView)
+        self.shareData(aFile as! URL, src: self.tableView)
         
     }
     
-    @IBAction func  editFiles(src: AnyObject){
-        if self.tableView.editing{
-            self.tableView.editing = false
+    @IBAction func  editFiles(_ src: AnyObject){
+        if self.tableView.isEditing{
+            self.tableView.isEditing = false
             self.navigationItem.leftBarButtonItem!.title  = "Edit"
-            self.navigationItem.leftBarButtonItem!.style = UIBarButtonItemStyle.Plain
+            self.navigationItem.leftBarButtonItem!.style = UIBarButtonItemStyle.plain
         }
         else{
-            self.tableView.editing = true
+            self.tableView.isEditing = true
             self.navigationItem.leftBarButtonItem!.title = "Done"
-            self.navigationItem.leftBarButtonItem!.style = UIBarButtonItemStyle.Done
+            self.navigationItem.leftBarButtonItem!.style = UIBarButtonItemStyle.done
         }
         
     }
     
     // Create a file with actual data and share it
     
-    func shareData(file: NSURL?, src:AnyObject){
+    func shareData(_ file: URL?, src:AnyObject){
         
         
         if let aFile = file {
             
             
             let activityViewController = UIActivityViewController(
-                activityItems: [aFile.lastPathComponent!,   aFile],
+                activityItems: [aFile.lastPathComponent,   aFile],
                 applicationActivities: [PickerActivity()])
             
             
-            activityViewController.completionWithItemsHandler = {(a : String?, completed:Bool, objects:[AnyObject]?, error:NSError?) in
+            activityViewController.completionWithItemsHandler = {
+                (a : UIActivityType?, completed:Bool, objects:[Any]?, error:Error?) in
                 
             }
             
             activityViewController.popoverPresentationController?.sourceView = src as? UIView
             
-            activityViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+            activityViewController.modalPresentationStyle = UIModalPresentationStyle.popover
              
-            self.presentViewController(activityViewController,
+            self.present(activityViewController,
                 animated: true,
                 completion: nil)
             
@@ -576,7 +576,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     
     // MARK: Other functions
     
-    func appendToLog(s : String){
+    func appendToLog(_ s : String){
         //
         //self.tview.text = self.tview.text + "\n" + s
     }
@@ -586,7 +586,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     
     //MARK: View management
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         if let dash = self.dashboard{
             if dash.client != nil{
@@ -595,13 +595,13 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
             self.dashboard = nil // Released dashboard
         }
         // Now reload all data foir
-        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
         
         let docsUrl = appDelegate?.applicationDocumentsDirectory()
         
         if let docs = docsUrl{
             
-            loadLocalDirectoryData(docs)
+            loadLocalDirectoryData(docs as URL)
             self.tableView.reloadData()
         }
     }

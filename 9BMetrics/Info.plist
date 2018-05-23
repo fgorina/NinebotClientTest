@@ -28,7 +28,7 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>es.gorina.9BMetrics</string>
+	<string>us.bryanvandyke.freebird</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>

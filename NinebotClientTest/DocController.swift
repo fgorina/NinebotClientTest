@@ -28,11 +28,11 @@ class DocController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let bundle = NSBundle.mainBundle()
-        let url = bundle.URLForResource("about", withExtension: "html")
+        let bundle = Bundle.main
+        let url = bundle.url(forResource: "about", withExtension: "html")
         
         if let u = url {
-            let request = NSURLRequest(URL: u)
+            let request = URLRequest(url: u)
             self.webView.loadRequest(request)
         }
         // Do any additional setup after loading the view.
